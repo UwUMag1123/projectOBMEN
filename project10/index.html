@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Обмен Навыками — учи тому, что умеешь</title>
+<meta name="description" content="Платформа для обмена навыками. Учи тому, что умеешь — учись тому, что хочешь. Без денег.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --primary:#0F172A;
+  --secondary:#1E293B;
+  --accent:#3B82F6;
+  --accent-hover:#2563EB;
+  --success:#10B981;
+  --warning:#F59E0B;
+  --danger:#EF4444;
+  --bg:#FFFFFF;
+  --bg-secondary:#F8FAFC;
+  --border:#E2E8F0;
+  --text:#0F172A;
+  --text-secondary:#64748B;
+  --radius:12px;
+  --shadow:0 1px 3px rgba(0,0,0,.1),0 1px 2px rgba(0,0,0,.06);
+  --shadow-lg:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -2px rgba(0,0,0,.05);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--text);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+input,textarea,select{font-family:inherit}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;color:var(--primary)}
+.logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--accent),#8B5CF6);border-radius:8px;display:grid;place-items:center;color:#fff;font-size:16px;font-weight:900}
+.nav-links{display:flex;gap:32px;align-items:center}
+.nav-links a{font-size:14px;font-weight:500;color:var(--text-secondary);transition:.2s}
+.nav-links a:hover{color:var(--primary)}
+.nav-actions{display:flex;gap:8px;align-items:center}
+.btn{padding:10px 20px;border-radius:8px;font-weight:600;font-size:14px;transition:all .2s;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-hover);transform:translateY(-1px);box-shadow:var(--shadow-lg)}
+.btn-secondary{background:var(--bg-secondary);color:var(--primary);border:1px solid var(--border)}
+.btn-secondary:hover{background:#F1F5F9;border-color:#CBD5E1}
+.btn-ghost{color:var(--text-secondary)}
+.btn-ghost:hover{color:var(--primary);background:var(--bg-secondary)}
+.bell{position:relative;width:40px;height:40px;border-radius:8px;display:grid;place-items:center;font-size:18px;background:var(--bg-secondary);transition:.2s}
+.bell:hover{background:#F1F5F9}
+.bell-count{position:absolute;top:-4px;right:-4px;background:var(--danger);color:#fff;font-size:10px;font-weight:700;border-radius:10px;padding:2px 6px;min-width:18px;text-align:center;display:none}
+.bell-count.show{display:block;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.user-menu{display:flex;align-items:center;gap:8px;padding:6px 12px 6px 6px;background:var(--bg-secondary);border-radius:8px;cursor:pointer;transition:.2s}
+.user-menu:hover{background:#F1F5F9}
+.avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#8B5CF6);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700}
+.user-name{font-size:14px;font-weight:600}
+
+.hero{padding:80px 0 100px;background:linear-gradient(135deg,#F0F9FF 0%,#E0F2FE 50%,#F5F3FF 100%);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;right:-20%;width:80%;height:200%;background:radial-gradient(circle,rgba(59,130,246,.08) 0%,transparent 70%);pointer-events:none}
+.hero-content{max-width:720px;position:relative;z-index:1}
+.hero h1{font-size:56px;font-weight:900;line-height:1.1;letter-spacing:-.02em;color:var(--primary);margin-bottom:20px}
+.hero h1 span{background:linear-gradient(135deg,var(--accent),#8B5CF6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{font-size:20px;color:var(--text-secondary);margin-bottom:32px;max-width:560px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+.hero-stats{display:flex;gap:40px;margin-top:48px}
+.stat-num{font-size:32px;font-weight:800;color:var(--primary)}
+.stat-lbl{font-size:14px;color:var(--text-secondary)}
+
+section{padding:80px 0}
+.sec-head{text-align:center;margin-bottom:56px;max-width:640px;margin-left:auto;margin-right:auto}
+.sec-tag{display:inline-block;padding:6px 14px;background:#EFF6FF;color:var(--accent);border-radius:20px;font-size:13px;font-weight:600;margin-bottom:12px}
+.sec-head h2{font-size:40px;font-weight:800;color:var(--primary);margin-bottom:12px;letter-spacing:-.01em}
+.sec-head p{font-size:18px;color:var(--text-secondary)}
+
+.problems{background:var(--bg-secondary)}
+.p-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.p-card{background:#fff;padding:28px;border-radius:var(--radius);border:1px solid var(--border);transition:.3s}
+.p-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:transparent}
+.p-ic{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;font-size:24px;margin-bottom:16px;background:#FEF3C7}
+.p-card h4{font-size:17px;font-weight:700;margin-bottom:8px;color:var(--primary)}
+.p-card p{font-size:14px;color:var(--text-secondary);line-height:1.5}
+
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.step{background:#fff;padding:24px;border-radius:var(--radius);border:1px solid var(--border);position:relative;transition:.3s}
+.step:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.step-num{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#8B5CF6);color:#fff;display:grid;place-items:center;font-weight:800;font-size:15px;margin-bottom:14px}
+.step h4{font-size:15px;font-weight:700;margin-bottom:6px;color:var(--primary)}
+.step p{font-size:13px;color:var(--text-secondary);line-height:1.5}
+
+.audience{background:var(--bg-secondary)}
+.a-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.a-card{background:#fff;padding:32px;border-radius:var(--radius);border:1px solid var(--border);transition:.3s}
+.a-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.a-ic{font-size:40px;margin-bottom:14px}
+.a-card h4{font-size:20px;font-weight:700;margin-bottom:8px;color:var(--primary)}
+.a-card p{font-size:15px;color:var(--text-secondary);line-height:1.5}
+
+.f-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.f-card{padding:28px;border-radius:var(--radius);background:#fff;border:1px solid var(--border);transition:.3s}
+.f-card:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.f-ic{width:44px;height:44px;border-radius:12px;background:#EFF6FF;color:var(--accent);display:grid;place-items:center;font-size:20px;margin-bottom:14px}
+.f-card h4{font-size:17px;font-weight:700;margin-bottom:6px;color:var(--primary)}
+.f-card p{font-size:14px;color:var(--text-secondary);line-height:1.5}
+
+.cta{background:linear-gradient(135deg,var(--primary) 0%,#1E293B 100%);color:#fff;text-align:center}
+.cta h2{font-size:40px;font-weight:800;margin-bottom:12px}
+.cta p{font-size:18px;color:rgba(255,255,255,.8);margin-bottom:32px;max-width:560px;margin-left:auto;margin-right:auto}
+
+footer{background:var(--primary);color:rgba(255,255,255,.7);padding:48px 0 24px}
+.f-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px;margin-bottom:32px}
+.f-top h5{color:#fff;font-size:15px;margin-bottom:12px;font-weight:700}
+.f-top a,.f-top p{font-size:14px;display:block;margin-bottom:8px;transition:.2s}
+.f-top a:hover{color:#fff}
+.f-bot{border-top:1px solid rgba(255,255,255,.1);padding-top:20px;text-align:center;font-size:13px;color:rgba(255,255,255,.5)}
+.f-socials{display:flex;gap:10px;margin-top:12px}
+.f-socials a{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.1);display:grid;place-items:center;font-size:14px;transition:.2s}
+.f-socials a:hover{background:var(--accent)}
+
+.modal-bg{position:fixed;inset:0;background:rgba(15,23,42,.6);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-bg.show{display:flex;animation:fadeIn .2s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{background:#fff;border-radius:16px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;padding:32px;position:relative;animation:slideUp .3s}
+.modal.wide{max-width:800px}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:8px;background:var(--bg-secondary);display:grid;place-items:center;font-size:16px;color:var(--text-secondary);transition:.2s}
+.modal-close:hover{background:#FEE2E2;color:var(--danger)}
+.modal h3{font-size:24px;font-weight:800;color:var(--primary);margin-bottom:8px}
+.modal .sub{color:var(--text-secondary);font-size:15px;margin-bottom:24px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:14px;font-weight:600;margin-bottom:6px;color:var(--primary)}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:8px;font-size:15px;transition:.2s;background:#fff}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{outline:none;border-color:var(--accent)}
+.form-group textarea{resize:vertical;min-height:100px}
+.form-switch{text-align:center;margin-top:16px;font-size:14px;color:var(--text-secondary)}
+.form-switch a{color:var(--accent);font-weight:600;cursor:pointer}
+.err{background:#FEE2E2;color:var(--danger);padding:12px 16px;border-radius:8px;font-size:14px;margin-bottom:16px;display:none}
+.err.show{display:block}
+
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--border);margin-bottom:24px;overflow-x:auto}
+.tab{padding:12px 18px;font-size:14px;font-weight:600;color:var(--text-secondary);border-bottom:2px solid transparent;transition:.2s;white-space:nowrap}
+.tab:hover{color:var(--primary)}
+.tab.active{color:var(--accent);border-color:var(--accent)}
+.ads-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.ad-card{background:#fff;padding:20px;border-radius:var(--radius);border:1px solid var(--border);cursor:pointer;transition:.3s;position:relative}
+.ad-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--accent)}
+.ad-tag{display:inline-block;padding:4px 12px;background:#EFF6FF;color:var(--accent);border-radius:20px;font-size:12px;font-weight:600;margin-bottom:10px}
+.ad-card h4{font-size:16px;font-weight:700;color:var(--primary);margin-bottom:8px;line-height:1.3}
+.ad-card p{font-size:13px;color:var(--text-secondary);margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ad-meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-secondary)}
+.ad-author{display:flex;align-items:center;gap:6px;font-weight:600;color:var(--primary)}
+.ad-mine{position:absolute;top:12px;right:12px;font-size:11px;background:var(--accent);color:#fff;padding:3px 10px;border-radius:12px;font-weight:700}
+
+.notif{display:flex;gap:14px;padding:16px;background:var(--bg-secondary);border-radius:12px;margin-bottom:12px;align-items:flex-start}
+.notif-ic{width:40px;height:40px;border-radius:10px;background:#EFF6FF;color:var(--accent);display:grid;place-items:center;font-size:18px;flex-shrink:0}
+.notif-body{flex:1;min-width:0}
+.notif-text{font-size:14px;color:var(--primary);margin-bottom:8px;line-height:1.5}
+.notif-actions{display:flex;gap:8px}
+.btn-sm{padding:8px 14px;font-size:13px;border-radius:8px;font-weight:600}
+.notif-time{font-size:12px;color:var(--text-secondary);margin-top:6px}
+
+.chat-list{display:flex;flex-direction:column;gap:10px;max-height:500px;overflow-y:auto}
+.chat-item{display:flex;gap:12px;padding:14px;background:var(--bg-secondary);border-radius:12px;cursor:pointer;transition:.2s;align-items:center}
+.chat-item:hover{background:#EFF6FF}
+.chat-item.active{background:#DBEAFE}
+.chat-info{flex:1;min-width:0}
+.chat-name{font-size:15px;font-weight:700;color:var(--primary)}
+.chat-last{font-size:13px;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-window{display:flex;flex-direction:column;height:500px;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.chat-head{padding:14px 18px;background:var(--bg-secondary);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.chat-head h4{font-size:16px;font-weight:700;color:var(--primary)}
+.chat-msgs{flex:1;overflow-y:auto;padding:18px;background:#fff;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:75%;padding:10px 14px;border-radius:14px;font-size:14px;word-wrap:break-word;line-height:1.4}
+.msg.me{background:var(--accent);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.msg.other{background:var(--bg-secondary);color:var(--primary);align-self:flex-start;border-bottom-left-radius:4px}
+.msg.censored{background:#FEF3C7;color:#92400E;font-style:italic}
+.chat-input{display:flex;gap:10px;padding:14px;border-top:1px solid var(--border);background:#fff}
+.chat-input input{flex:1;padding:12px 16px;border:1.5px solid var(--border);border-radius:8px;font-size:14px}
+.chat-input input:focus{outline:none;border-color:var(--accent)}
+.empty{text-align:center;padding:48px 24px;color:var(--text-secondary);font-size:15px}
+.empty-ic{font-size:48px;margin-bottom:12px;opacity:.5}
+
+.ex-card{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:20px;margin-bottom:14px}
+.ex-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;gap:12px;flex-wrap:wrap}
+.ex-title{font-size:16px;font-weight:700;color:var(--primary)}
+.ex-partner{font-size:14px;color:var(--text-secondary);margin-top:2px}
+.ex-status{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700}
+.ex-status.pending{background:#FEF3C7;color:var(--warning)}
+.ex-status.ready{background:#DBEAFE;color:var(--accent)}
+.ex-status.done{background:#D1FAE5;color:var(--success)}
+.ex-upload{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.up-box{padding:16px;border:1.5px dashed var(--border);border-radius:10px;text-align:center;cursor:pointer;transition:.2s;background:var(--bg-secondary)}
+.up-box:hover{border-color:var(--accent);background:#EFF6FF}
+.up-box.uploaded{border-style:solid;border-color:var(--success);background:#D1FAE5}
+.up-box .ic{font-size:24px;margin-bottom:6px}
+.up-box .lbl{font-size:13px;font-weight:600;color:var(--primary)}
+.up-box .sub{font-size:12px;color:var(--text-secondary)}
+
+.coins-box{background:linear-gradient(135deg,var(--accent),#8B5CF6);color:#fff;padding:24px;border-radius:16px;text-align:center;margin-bottom:20px}
+.coins-num{font-size:48px;font-weight:900;line-height:1}
+.coins-lbl{font-size:14px;opacity:.9;margin-top:6px}
+
+.toast{position:fixed;bottom:24px;right:24px;background:var(--primary);color:#fff;padding:14px 20px;border-radius:12px;font-size:14px;font-weight:600;z-index:300;transform:translateY(100px);opacity:0;transition:.3s;max-width:360px;box-shadow:var(--shadow-lg)}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{background:var(--success)}
+.toast.error{background:var(--danger)}
+
+.badge{display:inline-block;padding:3px 10px;border-radius:8px;font-size:12px;font-weight:700}
+.badge-blue{background:#DBEAFE;color:var(--accent)}
+.badge-orange{background:#FEF3C7;color:var(--warning)}
+.badge-green{background:#D1FAE5;color:var(--success)}
+
+.storage-info{background:#EFF6FF;border:1px solid #BFDBFE;border-radius:12px;padding:16px;margin-bottom:20px;font-size:13px;color:var(--accent)}
+.storage-info strong{display:block;margin-bottom:4px;font-size:14px}
+
+@media(max-width:1024px){
+  .hero h1{font-size:44px}
+  .p-grid,.steps,.f-grid{grid-template-columns:repeat(2,1fr)}
+  .a-grid{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hero{padding:60px 0 80px}
+  .hero h1{font-size:36px}
+  .hero p{font-size:17px}
+  .sec-head h2{font-size:32px}
+  .p-grid,.steps,.f-grid,.ads-grid{grid-template-columns:1fr}
+  .hero-stats{flex-wrap:wrap;gap:24px}
+  .f-top{grid-template-columns:1fr}
+  .ex-upload{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="#" class="logo">
+      <div class="logo-icon">О</div>
+      Обмен Навыками
+    </a>
+    <nav class="nav-links">
+      <a href="#problems">Проблема</a>
+      <a href="#how">Как работает</a>
+      <a href="#audience">Для кого</a>
+      <a href="#features">Преимущества</a>
+    </nav>
+    <div class="nav-actions" id="navActions"></div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero-content">
+    <h1>Твои знания — <span>твоя валюта</span></h1>
+    <p>Учи тому, что умеешь. Учись тому, что хочешь. Без денег — только обмен навыками между людьми.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary" onclick="openAuth('register')">Начать учить →</button>
+      <a href="#how" class="btn btn-secondary">Как это работает</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num" id="statUsers">0</div><div class="stat-lbl">пользователей</div></div>
+      <div><div class="stat-num" id="statAds">0</div><div class="stat-lbl">объявлений</div></div>
+      <div><div class="stat-num">0 ₽</div><div class="stat-lbl">за обмен</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="problems" id="problems">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-tag">Проблема</div>
+      <h2>Почему учиться сложно</h2>
+      <p>Четыре причины, из-за которых люди бросают курсы и репетиторов</p>
+    </div>
+    <div class="p-grid">
+      <div class="p-card"><div class="p-ic">💸</div><h4>Дорого</h4><p>Репетиторы и курсы стоят как крыло от самолёта.</p></div>
+      <div class="p-card"><div class="p-ic">📺</div><h4>Без практики</h4><p>Смотришь видео — но руки не запоминают.</p></div>
+      <div class="p-card"><div class="p-ic">🤝</div><h4>Не с кем говорить</h4><p>Разговорный английский не выучить в одиночку.</p></div>
+      <div class="p-card"><div class="p-ic">🧠</div><h4>Навыки простаивают</h4><p>Ты умеешь монтировать видео — но это никому не нужно.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-tag">Как это работает</div>
+      <h2>Пять шагов до обмена</h2>
+      <p>От регистрации до получения Тайм-коинов — просто и прозрачно</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><h4>Регистрация</h4><p>Укажи, что умеешь и чему хочешь учиться.</p></div>
+      <div class="step"><div class="step-num">2</div><h4>Поиск</h4><p>Смотри объявления или создай своё.</p></div>
+      <div class="step"><div class="step-num">3</div><h4>Договор</h4><p>Нажми «Хочу обменяться» и договоритесь в чате.</p></div>
+      <div class="step"><div class="step-num">4</div><h4>Урок</h4><p>Оба загружают видео-урок — обмен защищён.</p></div>
+      <div class="step"><div class="step-num">5</div><h4>Коины</h4><p>Подтверждаете — получаете Тайм-коины.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="audience" id="audience">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-tag">Для кого</div>
+      <h2>Платформа для всех</h2>
+      <p>Школьники, студенты и взрослые — каждый найдёт полезный обмен</p>
+    </div>
+    <div class="a-grid">
+      <div class="a-card"><div class="a-ic">🎒</div><h4>Школьники</h4><p>Подтяни учёбу бесплатно. Помоги другим с тем, что знаешь хорошо.</p></div>
+      <div class="a-card"><div class="a-ic">🎓</div><h4>Студенты</h4><p>Прокачай навыки для карьеры. Делись тем, что уже умеешь.</p></div>
+      <div class="a-card"><div class="a-ic">💼</div><h4>Взрослые</h4><p>Выучи язык или хобби. Поделись профессиональным опытом.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-tag">Преимущества</div>
+      <h2>Почему Обмен Навыками</h2>
+      <p>Шесть причин выбрать нас вместо курсов и репетиторов</p>
+    </div>
+    <div class="f-grid">
+      <div class="f-card"><div class="f-ic">💎</div><h4>Бесплатно</h4><p>Вместо денег — обмен знаниями.</p></div>
+      <div class="f-card"><div class="f-ic">🎯</div><h4>Практика</h4><p>Не видео, а живое общение.</p></div>
+      <div class="f-card"><div class="f-ic">🛡️</div><h4>Проверенные</h4><p>Рейтинги, отзывы, верификация.</p></div>
+      <div class="f-card"><div class="f-ic">🔄</div><h4>Гибкий обмен</h4><p>Напрямую или через Тайм-коины.</p></div>
+      <div class="f-card"><div class="f-ic">👥</div><h4>Сообщество</h4><p>Не уроки, а комьюнити.</p></div>
+      <div class="f-card"><div class="f-ic">🔒</div><h4>Безопасно</h4><p>Видео депонируются до подтверждения.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="container">
+    <h2>Готов обменяться навыками?</h2>
+    <p>Присоединяйся к платформе и начни учить тому, что знаешь</p>
+    <button class="btn btn-primary" style="padding:16px 32px;font-size:16px" onclick="openAuth('register')">Начать сейчас →</button>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="f-top">
+      <div>
+        <div class="logo" style="color:#fff;margin-bottom:12px"><div class="logo-icon">О</div>Обмен Навыками</div>
+        <p>Платформа обмена навыками. Учи — учись — меняйся.</p>
+        <div class="f-socials">
+          <a href="#" title="ВКонтакте">ВК</a>
+          <a href="#" title="Одноклассники">ОК</a>
+          <a href="#" title="Почта">✉</a>
+        </div>
+      </div>
+      <div>
+        <h5>Разделы</h5>
+        <a href="#problems">Проблема</a>
+        <a href="#how">Как работает</a>
+        <a href="#audience">Для кого</a>
+        <a href="#features">Преимущества</a>
+      </div>
+      <div>
+        <h5>Контакты</h5>
+        <a href="mailto:hello@obmennavykami.ru">hello@obmennavykami.ru</a>
+        <p>Россия</p>
+        <p>© 2026 Обмен Навыками</p>
+      </div>
+    </div>
+    <div class="f-bot">Сделано с ❤ для обмена знаниями</div>
+  </div>
+</footer>
+
+<div class="modal-bg" id="storageModal">
+  <div class="modal">
+    <h3>Выбери папку для хранения данных</h3>
+    <p class="sub">Все данные будут сохраняться в два файла: users.txt и data.txt</p>
+    <div class="storage-info">
+      <strong>📁 Как это работает:</strong>
+      Сайт создаст рядом с index.html два файла:<br>
+      • <b>users.txt</b> — регистрация и вход<br>
+      • <b>data.txt</b> — объявления, чаты, обмены<br>
+      Выбери папку, где лежит index.html
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:14px" onclick="chooseStorageFolder()">Выбрать папку</button>
+    <div class="form-switch" style="margin-top:12px">
+      <a onclick="useLocalStorage()">Использовать localStorage (резервный вариант)</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="authModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('authModal')">✕</button>
+    <div id="authContent"></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="cabinetModal">
+  <div class="modal wide">
+    <button class="modal-close" onclick="closeModal('cabinetModal')">✕</button>
+    <div id="cabinetContent"></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="adModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('adModal')">✕</button>
+    <div id="adContent"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const USERS_FILE = 'users.txt';
+const DATA_FILE = 'data.txt';
+let dirHandle = null;
+let usersData = {users:[]};
+let appData = {ads:[],requests:[],chats:[],exchanges:[],notifications:[]};
+
+async function initStorage(){
+  const savedUsers = localStorage.getItem('onn_users');
+  const savedData = localStorage.getItem('onn_data');
+  if(savedUsers) try{usersData = JSON.parse(savedUsers)}catch(e){}
+  if(savedData) try{appData = JSON.parse(savedData)}catch(e){}
+  
+  const dirSelected = localStorage.getItem('onn_dir_selected');
+  if(dirSelected && 'showDirectoryPicker' in window){
+    try{
+      dirHandle = await window.showDirectoryPicker({mode:'readwrite'});
+      await loadFromFiles();
+      loadSession();
+      updateStats();
+      return;
+    }catch(e){
+      console.log('File API not available');
+    }
+  }
+  
+  if(!dirSelected){
+    openModal('storageModal');
+  }
+  loadSession();
+  updateStats();
+}
+
+async function loadFromFiles(){
+  if(!dirHandle) return;
+  try{
+    const usersFile = await dirHandle.getFileHandle(USERS_FILE);
+    const dataFile = await dirHandle.getFileHandle(DATA_FILE);
+    const usersText = await (await usersFile.getFile()).text();
+    const dataText = await (await dataFile.getFile()).text();
+    if(usersText) usersData = JSON.parse(usersText);
+    if(dataText) appData = JSON.parse(dataText);
+  }catch(e){
+    console.log('Files not found, creating new ones');
+    await saveToFiles();
+  }
+}
+
+async function saveToFiles(){
+  localStorage.setItem('onn_users', JSON.stringify(usersData));
+  localStorage.setItem('onn_data', JSON.stringify(appData));
+  
+  if(dirHandle){
+    try{
+      const usersFile = await dirHandle.getFileHandle(USERS_FILE,{create:true});
+      const dataFile = await dirHandle.getFileHandle(DATA_FILE,{create:true});
+      const usersWriter = await usersFile.createWritable();
+      await usersWriter.write(JSON.stringify(usersData,null,2));
+      await usersWriter.close();
+      const dataWriter = await dataFile.createWritable();
+      await dataWriter.write(JSON.stringify(appData,null,2));
+      await dataWriter.close();
+    }catch(e){console.error('Save error:',e)}
+  }
+}
+
+async function chooseStorageFolder(){
+  if(!('showDirectoryPicker' in window)){
+    toast('Твой браузер не поддерживает файловую систему','error');
+    return;
+  }
+  try{
+    dirHandle = await window.showDirectoryPicker({mode:'readwrite'});
+    localStorage.setItem('onn_dir_selected','true');
+    await loadFromFiles();
+    closeModal('storageModal');
+    toast('Папка выбрана! Данные в users.txt и data.txt','success');
+    loadSession();
+    updateStats();
+  }catch(e){
+    if(e.name!=='AbortError') toast('Ошибка выбора папки','error');
+  }
+}
+
+function useLocalStorage(){
+  localStorage.setItem('onn_dir_selected','false');
+  closeModal('storageModal');
+  toast('Данные хранятся в localStorage','success');
+}
+
+const $ = s => document.querySelector(s);
+const uid = () => Math.random().toString(36).slice(2,10) + Date.now().toString(36);
+const now = () => Date.now();
+const fmtTime = t => {
+  const d = new Date(t);
+  return d.toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+};
+function toast(msg, type=''){
+  const t = $('#toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  setTimeout(()=>t.className='toast',3000);
+}
+function openModal(id){ $('#'+id).classList.add('show'); }
+function closeModal(id){ $('#'+id).classList.remove('show'); }
+function escapeHtml(s){ return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+const BAD_WORDS = ['блять','бля','сука','хуй','хуя','пизд','ебан','ёбан','ебать','мудак','долбоёб','долбоеб','нахуй','пошёл','пидор','гандон','дерьм','жопа','залупа'];
+function censorText(text){
+  let out = text.toLowerCase();
+  BAD_WORDS.forEach(w=>{
+    const re = new RegExp(w,'gi');
+    out = out.replace(re, '*'.repeat(w.length));
+  });
+  let result = '', i = 0;
+  for(const ch of text){
+    if(out[i] === '*') result += '*';
+    else result += ch;
+    i++;
+  }
+  return result;
+}
+function isCensored(text){
+  const low = text.toLowerCase();
+  return BAD_WORDS.some(w => low.includes(w));
+}
+
+let currentUser = null;
+const SESSION_KEY = 'onn_session';
+
+function loadSession(){
+  const id = localStorage.getItem(SESSION_KEY);
+  if(id){ currentUser = usersData.users.find(u=>u.id===id) || null; }
+  renderNav();
+}
+
+function renderNav(){
+  const box = $('#navActions');
+  if(currentUser){
+    const unread = appData.notifications.filter(n=>n.userId===currentUser.id && !n.read).length;
+    const initial = currentUser.name[0].toUpperCase();
+    box.innerHTML = `
+      <button class="bell" onclick="openCabinet('notifications')" title="Уведомления">
+        🔔
+        <span class="bell-count ${unread?'show':''}">${unread}</span>
+      </button>
+      <button class="user-menu" onclick="openCabinet('ads')">
+        <div class="avatar">${initial}</div>
+        <span class="user-name">${currentUser.name}</span>
+      </button>
+      <button class="btn btn-ghost" onclick="logout()">Выйти</button>
+    `;
+  } else {
+    box.innerHTML = `
+      <button class="btn btn-ghost" onclick="openAuth('login')">Войти</button>
+      <button class="btn btn-primary" onclick="openAuth('register')">Регистрация</button>
+    `;
+  }
+}
+
+function openAuth(mode){
+  const box = $('#authContent');
+  if(mode==='register'){
+    box.innerHTML = `
+      <h3>Создать аккаунт</h3>
+      <p class="sub">Присоединяйся к обмену навыками</p>
+      <div class="err" id="authErr"></div>
+      <div class="form-group"><label>Имя</label><input id="rName" placeholder="Как тебя зовут"></div>
+      <div class="form-group"><label>Почта</label><input id="rEmail" type="email" placeholder="example@mail.ru"></div>
+      <div class="form-group"><label>Пароль</label><input id="rPass" type="password" placeholder="Минимум 4 символа"></div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="doRegister()">Зарегистрироваться</button>
+      <div class="form-switch">Уже есть аккаунт? <a onclick="openAuth('login')">Войти</a></div>
+    `;
+  } else {
+    box.innerHTML = `
+      <h3>Вход</h3>
+      <p class="sub">Рады видеть снова</p>
+      <div class="err" id="authErr"></div>
+      <div class="form-group"><label>Почта</label><input id="lEmail" type="email" placeholder="example@mail.ru"></div>
+      <div class="form-group"><label>Пароль</label><input id="lPass" type="password" placeholder="Твой пароль"></div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="doLogin()">Войти</button>
+      <div class="form-switch">Нет аккаунта? <a onclick="openAuth('register')">Создать</a></div>
+    `;
+  }
+  openModal('authModal');
+}
+
+async function doRegister(){
+  const name = $('#rName').value.trim();
+  const email = $('#rEmail').value.trim().toLowerCase();
+  const pass = $('#rPass').value;
+  const err = $('#authErr');
+  if(!name || !email || !pass){ err.textContent='Заполни все поля'; err.classList.add('show'); return; }
+  if(pass.length<4){ err.textContent='Пароль минимум 4 символа'; err.classList.add('show'); return; }
+  if(usersData.users.some(u=>u.email===email)){ err.textContent='Почта уже занята'; err.classList.add('show'); return; }
+  const user = {id:uid(),name,email,password:pass,coins:0,createdAt:now()};
+  usersData.users.push(user);
+  await saveToFiles();
+  currentUser = user;
+  localStorage.setItem(SESSION_KEY, user.id);
+  closeModal('authModal');
+  renderNav();
+  updateStats();
+  toast('Добро пожаловать, '+name+'!','success');
+}
+
+async function doLogin(){
+  const email = $('#lEmail').value.trim().toLowerCase();
+  const pass = $('#lPass').value;
+  const err = $('#authErr');
+  const user = usersData.users.find(u=>u.email===email && u.password===pass);
+  if(!user){ err.textContent='Неверная почта или пароль'; err.classList.add('show'); return; }
+  currentUser = user;
+  localStorage.setItem(SESSION_KEY, user.id);
+  closeModal('authModal');
+  renderNav();
+  toast('С возвращением, '+user.name+'!','success');
+}
+
+function logout(){
+  currentUser = null;
+  localStorage.removeItem(SESSION_KEY);
+  renderNav();
+  toast('Ты вышел из аккаунта');
+}
+
+let cabinetTab = 'ads';
+function openCabinet(tab='ads'){
+  if(!currentUser){ openAuth('login'); return; }
+  cabinetTab = tab;
+  renderCabinet();
+  openModal('cabinetModal');
+}
+
+function renderCabinet(){
+  const unread = appData.notifications.filter(n=>n.userId===currentUser.id && !n.read).length;
+  const myAds = appData.ads.filter(a=>a.authorId===currentUser.id).length;
+  const myChats = appData.chats.filter(c=>c.userA===currentUser.id||c.userB===currentUser.id).length;
+  const myEx = appData.exchanges.filter(e=>{
+    const ch = appData.chats.find(c=>c.id===e.chatId);
+    return ch && (ch.userA===currentUser.id||ch.userB===currentUser.id);
+  }).length;
+
+  $('#cabinetContent').innerHTML = `
+    <h3>Личный кабинет</h3>
+    <p class="sub">Привет, ${currentUser.name}! У тебя <b>${currentUser.coins}</b> Тайм-коинов 🪙</p>
+    <div class="tabs">
+      <div class="tab ${cabinetTab==='ads'?'active':''}" onclick="switchTab('ads')">📢 Объявления (${myAds})</div>
+      <div class="tab ${cabinetTab==='notifications'?'active':''}" onclick="switchTab('notifications')">🔔 Уведомления ${unread?`<span class="badge badge-orange">${unread}</span>`:''}</div>
+      <div class="tab ${cabinetTab==='chats'?'active':''}" onclick="switchTab('chats')">💬 Чаты (${myChats})</div>
+      <div class="tab ${cabinetTab==='exchanges'?'active':''}" onclick="switchTab('exchanges')">🎥 Обмены (${myEx})</div>
+      <div class="tab ${cabinetTab==='data'?'active':''}" onclick="switchTab('data')">💾 Данные</div>
+    </div>
+    <div id="tabContent"></div>
+  `;
+  renderTab();
+}
+
+function switchTab(t){ cabinetTab=t; renderCabinet(); }
+
+function renderTab(){
+  const box = $('#tabContent');
+  if(cabinetTab==='ads') renderAdsTab(box);
+  else if(cabinetTab==='notifications') renderNotifTab(box);
+  else if(cabinetTab==='chats') renderChatsTab(box);
+  else if(cabinetTab==='exchanges') renderExTab(box);
+  else if(cabinetTab==='data') renderDataTab(box);
+}
+
+function renderAdsTab(box){
+  const my = appData.ads.filter(a=>a.authorId===currentUser.id);
+  const all = appData.ads.filter(a=>a.authorId!==currentUser.id);
+  box.innerHTML = `
+    <button class="btn btn-primary" style="margin-bottom:14px" onclick="openNewAd()">+ Создать объявление</button>
+    <h4 style="font-size:15px;color:var(--primary);margin-bottom:10px">Мои объявления</h4>
+    ${my.length ? `<div class="ads-grid">${my.map(a=>adCardHTML(a,true)).join('')}</div>` : `<div class="empty"><div class="empty-ic">📭</div>У тебя пока нет объявлений</div>`}
+    <h4 style="font-size:15px;color:var(--primary);margin:20px 0 10px">Все объявления</h4>
+    ${all.length ? `<div class="ads-grid">${all.map(a=>adCardHTML(a,false)).join('')}</div>` : `<div class="empty"><div class="empty-ic">🔍</div>Пока нет чужих объявлений</div>`}
+  `;
+}
+
+function adCardHTML(a, mine){
+  const author = usersData.users.find(u=>u.id===a.authorId);
+  return `
+    <div class="ad-card" onclick="openAd('${a.id}')">
+      ${mine?'<div class="ad-mine">МОЁ</div>':''}
+      <span class="ad-tag">${a.category||'Другое'}</span>
+      <h4>${escapeHtml(a.offer)} ↔ ${escapeHtml(a.want)}</h4>
+      <p>${escapeHtml(a.description||'')}</p>
+      <div class="ad-meta">
+        <div class="ad-author"><div class="avatar" style="width:22px;height:22px;font-size:10px">${author?author.name[0]:'?'}</div>${author?author.name:'?'}</div>
+        <div>${fmtTime(a.createdAt).split(' ')[0]}</div>
+      </div>
+    </div>
+  `;
+}
+
+function openNewAd(){
+  $('#adContent').innerHTML = `
+    <h3>Новое объявление</h3>
+    <p class="sub">Расскажи, чему ты учишь и чему хочешь учиться</p>
+    <div class="form-group"><label>Что ты предлагаешь (чему учишь)</label><input id="adOffer" placeholder="Например: математика 9 класса"></div>
+    <div class="form-group"><label>Что хочешь получить взамен</label><input id="adWant" placeholder="Например: английский разговорный"></div>
+    <div class="form-group"><label>Категория</label>
+      <select id="adCat">
+        <option>Школа</option><option>Языки</option><option>Программирование</option>
+        <option>Музыка</option><option>Спорт</option><option>Дизайн</option><option>Другое</option>
+      </select>
+    </div>
+    <div class="form-group"><label>Описание</label><textarea id="adDesc" placeholder="Опыт, формат, удобное время..."></textarea></div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="saveAd()">Опубликовать</button>
+  `;
+  openModal('adModal');
+}
+
+async function saveAd(){
+  const offer = $('#adOffer').value.trim();
+  const want = $('#adWant').value.trim();
+  if(!offer || !want){ toast('Заполни оба поля','error'); return; }
+  const ad = {
+    id: uid(),
+    authorId: currentUser.id,
+    offer, want,
+    category: $('#adCat').value,
+    description: $('#adDesc').value.trim(),
+    createdAt: now()
+  };
+  appData.ads.push(ad);
+  await saveToFiles();
+  closeModal('adModal');
+  renderCabinet();
+  updateStats();
+  toast('Объявление опубликовано!','success');
+}
+
+function openAd(id){
+  const a = appData.ads.find(x=>x.id===id);
+  if(!a) return;
+  const author = usersData.users.find(u=>u.id===a.authorId);
+  const isMine = a.authorId===currentUser.id;
+  const existingReq = appData.requests.find(r=>r.adId===id && r.fromId===currentUser.id && r.status!=='rejected');
+
+  $('#adContent').innerHTML = `
+    <span class="ad-tag">${a.category||'Другое'}</span>
+    <h3 style="margin-top:10px">${escapeHtml(a.offer)} ↔ ${escapeHtml(a.want)}</h3>
+    <p class="sub">Автор: <b>${author?author.name:'?'}</b> · ${fmtTime(a.createdAt)}</p>
+    <p style="margin:14px 0;color:var(--text);font-size:14px;white-space:pre-wrap">${escapeHtml(a.description||'Описание не указано')}</p>
+    ${isMine
+      ? `<button class="btn btn-secondary" style="width:100%;justify-content:center;color:var(--danger);border-color:#FCA5A5" onclick="deleteAd('${a.id}')">Удалить объявление</button>`
+      : (existingReq
+          ? `<div class="empty" style="padding:16px;background:var(--bg-secondary);border-radius:10px">
+              ${existingReq.status==='pending' ? '⏳ Заявка отправлена — ждём ответа автора' : '✅ Заявка принята — смотри в чатах'}
+            </div>`
+          : `<button class="btn btn-primary" style="width:100%;justify-content:center" onclick="sendRequest('${a.id}')">🤝 Хочу обменяться</button>`
+        )
+    }
+  `;
+  openModal('adModal');
+}
+
+async function deleteAd(id){
+  if(!confirm('Удалить объявление?')) return;
+  appData.ads = appData.ads.filter(a=>a.id!==id);
+  await saveToFiles();
+  closeModal('adModal');
+  renderCabinet();
+  updateStats();
+  toast('Объявление удалено');
+}
+
+async function sendRequest(adId){
+  if(!currentUser){ openAuth('login'); return; }
+  const ad = appData.ads.find(a=>a.id===adId);
+  const from = currentUser;
+  const req = {
+    id: uid(),
+    adId,
+    fromId: from.id,
+    toId: ad.authorId,
+    status: 'pending',
+    createdAt: now()
+  };
+  appData.requests.push(req);
+  appData.notifications.push({
+    id: uid(),
+    userId: ad.authorId,
+    type: 'request',
+    text: `${from.name} хочет обменяться навыками по объявлению «${ad.offer} ↔ ${ad.want}»`,
+    relatedId: req.id,
+    read: false,
+    createdAt: now()
+  });
+  await saveToFiles();
+  closeModal('adModal');
+  toast('Заявка отправлена!','success');
+  renderNav();
+}
+
+function renderNotifTab(box){
+  const list = appData.notifications.filter(n=>n.userId===currentUser.id).sort((a,b)=>b.createdAt-a.createdAt);
+  if(!list.length){ box.innerHTML = `<div class="empty"><div class="empty-ic">🔕</div>Пока нет уведомлений</div>`; return; }
+  list.forEach(n=>n.read=true);
+  saveToFiles();
+  renderNav();
+  box.innerHTML = list.map(n=>{
+    const req = n.type==='request' ? appData.requests.find(r=>r.id===n.relatedId) : null;
+    let actions = '';
+    if(req && req.status==='pending' && n.userId===currentUser.id){
+      actions = `
+        <div class="notif-actions">
+          <button class="btn btn-sm btn-primary" onclick="acceptReq('${req.id}')">✓ Принять</button>
+          <button class="btn btn-sm btn-secondary" onclick="rejectReq('${req.id}')">✕ Отказать</button>
+        </div>`;
+    } else if(req && req.status!=='pending'){
+      actions = `<div class="badge ${req.status==='accepted'?'badge-green':'badge-orange'}">${req.status==='accepted'?'Принято':'Отказано'}</div>`;
+    }
+    return `
+      <div class="notif">
+        <div class="notif-ic">${n.type==='request'?'🤝':'📢'}</div>
+        <div class="notif-body">
+          <div class="notif-text">${escapeHtml(n.text)}</div>
+          ${actions}
+          <div class="notif-time">${fmtTime(n.createdAt)}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+async function acceptReq(reqId){
+  const req = appData.requests.find(r=>r.id===reqId);
+  if(!req) return;
+  req.status = 'accepted';
+  const chatId = uid();
+  appData.chats.push({
+    id: chatId,
+    userA: req.fromId,
+    userB: req.toId,
+    requestId: req.id,
+    messages: [{
+      from: 'system',
+      text: 'Чат создан. Договоритесь об условиях обмена. Грубые слова автоматически заменяются на ***',
+      time: now(),
+      censored: false
+    }],
+    createdAt: now()
+  });
+  appData.exchanges.push({
+    id: uid(),
+    chatId,
+    userAVideo: null,
+    userBVideo: null,
+    userAConfirm: false,
+    userBConfirm: false,
+    status: 'pending',
+    createdAt: now()
+  });
+  const to = usersData.users.find(u=>u.id===req.toId);
+  appData.notifications.push({
+    id: uid(),
+    userId: req.fromId,
+    type: 'accepted',
+    text: `${to.name} принял(а) твой запрос! Откройте чат и загрузите видео-уроки.`,
+    relatedId: req.id,
+    read: false,
+    createdAt: now()
+  });
+  await saveToFiles();
+  renderCabinet();
+  toast('Заявка принята — чат создан!','success');
+}
+
+async function rejectReq(reqId){
+  const req = appData.requests.find(r=>r.id===reqId);
+  if(!req) return;
+  req.status = 'rejected';
+  const to = usersData.users.find(u=>u.id===req.toId);
+  appData.notifications.push({
+    id: uid(),
+    userId: req.fromId,
+    type: 'rejected',
+    text: `${to.name} отклонил(а) запрос. Попробуй другое объявление!`,
+    relatedId: req.id,
+    read: false,
+    createdAt: now()
+  });
+  await saveToFiles();
+  renderCabinet();
+  toast('Заявка отклонена');
+}
+
+let activeChatId = null;
+function renderChatsTab(box){
+  const chats = appData.chats.filter(c=>c.userA===currentUser.id||c.userB===currentUser.id);
+  if(!chats.length){ box.innerHTML = `<div class="empty"><div class="empty-ic">💬</div>У тебя пока нет чатов. Откликнись на объявление — и чат появится!</div>`; return; }
+  box.innerHTML = `
+    <div style="display:grid;grid-template-columns:280px 1fr;gap:14px;height:500px">
+      <div class="chat-list" id="chatList">
+        ${chats.map(c=>{
+          const otherId = c.userA===currentUser.id ? c.userB : c.userA;
+          const other = usersData.users.find(u=>u.id===otherId);
+          const last = c.messages[c.messages.length-1];
+          return `<div class="chat-item ${activeChatId===c.id?'active':''}" onclick="selectChat('${c.id}')">
+            <div class="avatar">${other?other.name[0]:'?'}</div>
+            <div class="chat-info">
+              <div class="chat-name">${other?other.name:'Пользователь'}</div>
+              <div class="chat-last">${last?(last.from==='system'?'🔔 '+last.text:last.text):'Нет сообщений'}</div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div id="chatWindow">${activeChatId ? renderChatWindow() : `<div class="empty" style="height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column"><div class="empty-ic">💭</div>Выбери чат слева</div>`}</div>
+    </div>
+  `;
+  if(activeChatId) attachChatHandlers();
+}
+
+function selectChat(id){ activeChatId = id; renderChatsTab(); }
+
+function renderChatWindow(){
+  const c = appData.chats.find(x=>x.id===activeChatId);
+  if(!c) return '';
+  const otherId = c.userA===currentUser.id ? c.userB : c.userA;
+  const other = usersData.users.find(u=>u.id===otherId);
+  const ex = appData.exchanges.find(e=>e.chatId===c.id);
+  return `
+    <div class="chat-window">
+      <div class="chat-head">
+        <div class="avatar">${other?other.name[0]:'?'}</div>
+        <div>
+          <h4>${other?other.name:'Пользователь'}</h4>
+          <div style="font-size:11px;color:var(--text-secondary)">${ex?'Обмен видео · '+exStatus(ex.status):'Чат'}</div>
+        </div>
+      </div>
+      <div class="chat-msgs" id="chatMsgs">
+        ${c.messages.map(m=>{
+          if(m.from==='system') return `<div style="text-align:center;font-size:11px;color:var(--text-secondary);padding:6px;background:var(--bg-secondary);border-radius:8px">🔔 ${escapeHtml(m.text)}</div>`;
+          const mine = m.from===currentUser.id;
+          return `<div class="msg ${mine?'me':'other'} ${m.censored?'censored':''}">${escapeHtml(m.text)}</div>`;
+        }).join('')}
+      </div>
+      <div class="chat-input">
+        <input id="chatInput" placeholder="Напиши сообщение... (мат будет заменён на ***)" onkeydown="if(event.key==='Enter')sendMsg()">
+        <button class="btn btn-primary" onclick="sendMsg()">→</button>
+      </div>
+    </div>
+  `;
+}
+
+function exStatus(s){ return s==='pending'?'ожидает видео':s==='ready'?'готово к подтверждению':'завершено'; }
+
+function attachChatHandlers(){
+  const msgs = $('#chatMsgs');
+  if(msgs) msgs.scrollTop = msgs.scrollHeight;
+}
+
+async function sendMsg(){
+  const input = $('#chatInput');
+  const text = input.value.trim();
+  if(!text) return;
+  const c = appData.chats.find(x=>x.id===activeChatId);
+  if(!c) return;
+  const censored = isCensored(text);
+  const finalText = censorText(text);
+  c.messages.push({from:currentUser.id, text:finalText, time:now(), censored});
+  if(censored){
+    toast('⚠️ В сообщении был мат — он заменён на ***','error');
+  }
+  await saveToFiles();
+  input.value='';
+  renderChatsTab();
+}
+
+function renderExTab(box){
+  const myChats = appData.chats.filter(c=>c.userA===currentUser.id||c.userB===currentUser.id);
+  const exs = appData.exchanges.filter(e=>myChats.some(c=>c.id===e.chatId));
+  if(!exs.length){ box.innerHTML = `<div class="empty"><div class="empty-ic">🎥</div>Пока нет активных обменов. Загрузи видео-урок, когда договоритесь в чате.</div>`; return; }
+  box.innerHTML = exs.map(e=>{
+    const c = appData.chats.find(x=>x.id===e.chatId);
+    const otherId = c.userA===currentUser.id ? c.userB : c.userA;
+    const other = usersData.users.find(u=>u.id===otherId);
+    const iAmA = c.userA===currentUser.id;
+    const myVideo = iAmA ? e.userAVideo : e.userBVideo;
+    const otherVideo = iAmA ? e.userBVideo : e.userAVideo;
+    const myConfirm = iAmA ? e.userAConfirm : e.userBConfirm;
+    const otherConfirm = iAmA ? e.userBConfirm : e.userAConfirm;
+    const bothUploaded = e.userAVideo && e.userBVideo;
+    return `
+      <div class="ex-card">
+        <div class="ex-head">
+          <div>
+            <div class="ex-title">Обмен с ${other?other.name:'пользователем'}</div>
+            <div class="ex-partner">Чат: ${c.messages.length} сообщений</div>
+          </div>
+          <div class="ex-status ${e.status}">${e.status==='pending'?'Ожидание':e.status==='ready'?'Готово':'Завершено'}</div>
+        </div>
+        <p style="font-size:12px;color:var(--text-secondary);margin-bottom:10px">⚠️ Оба должны загрузить видео-урок. Только тогда обмен засчитается и начислятся Тайм-коины.</p>
+        <div class="ex-upload">
+          <div class="up-box ${myVideo?'uploaded':''}" onclick="${myVideo?'':`uploadVideo('${e.id}','me')`}">
+            <div class="ic">${myVideo?'✅':'📤'}</div>
+            <div class="lbl">${myVideo?'Видео загружено':'Загрузить твоё видео'}</div>
+            <div class="sub">${myVideo?escapeHtml(myVideo.name):'MP4, до 15 МБ'}</div>
+          </div>
+          <div class="up-box ${otherVideo?'uploaded':''}" style="cursor:default">
+            <div class="ic">${otherVideo?'✅':'⏳'}</div>
+            <div class="lbl">${otherVideo?'Видео получено':'Ожидание видео'}</div>
+            <div class="sub">${otherVideo?escapeHtml(otherVideo.name):other.name+' ещё не загрузил(а)'}</div>
+          </div>
+        </div>
+        ${bothUploaded && !myConfirm ? `<button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:12px" onclick="confirmExchange('${e.id}')">✓ Подтвердить обмен и получить 🪙</button>` : ''}
+        ${myConfirm && !otherConfirm ? `<div class="badge badge-blue" style="margin-top:10px">Ты подтвердил · ждём подтверждения ${other.name}</div>` : ''}
+        ${myConfirm && otherConfirm ? `<div class="badge badge-green" style="margin-top:10px">✅ Обмен завершён · +10 Тайм-коинов</div>` : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+function uploadVideo(exId, who){
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'video/*';
+  input.onchange = async e => {
+    const file = e.target.files[0];
+    if(!file) return;
+    if(file.size > 15*1024*1024){ toast('Файл слишком большой (макс 15 МБ)','error'); return; }
+    const ex = appData.exchanges.find(x=>x.id===exId);
+    const c = appData.chats.find(x=>x.id===ex.chatId);
+    const iAmA = c.userA===currentUser.id;
+    const videoInfo = {name:file.name, size:file.size, type:file.type, uploadedAt:now()};
+    if(iAmA) ex.userAVideo = videoInfo;
+    else ex.userBVideo = videoInfo;
+    if(ex.userAVideo && ex.userBVideo) ex.status = 'ready';
+    const otherId = c.userA===currentUser.id ? c.userB : c.userA;
+    appData.notifications.push({
+      id: uid(),
+      userId: otherId,
+      type: 'video',
+      text: `${currentUser.name} загрузил(а) видео-урок. Теперь твоя очередь!`,
+      relatedId: ex.id,
+      read: false,
+      createdAt: now()
+    });
+    await saveToFiles();
+    renderCabinet();
+    toast('Видео загружено!','success');
+  };
+  input.click();
+}
+
+async function confirmExchange(exId){
+  const ex = appData.exchanges.find(x=>x.id===exId);
+  const c = appData.chats.find(x=>x.id===ex.chatId);
+  const iAmA = c.userA===currentUser.id;
+  if(iAmA) ex.userAConfirm = true;
+  else ex.userBConfirm = true;
+  if(ex.userAConfirm && ex.userBConfirm){
+    ex.status = 'done';
+    const uA = usersData.users.find(u=>u.id===c.userA);
+    const uB = usersData.users.find(u=>u.id===c.userB);
+    if(uA) uA.coins += 10;
+    if(uB) uB.coins += 10;
+    if(currentUser.id===uA?.id || currentUser.id===uB?.id) currentUser = usersData.users.find(u=>u.id===currentUser.id);
+    appData.notifications.push({
+      id: uid(), userId: c.userA, type: 'coins',
+      text: 'Обмен завершён! +10 Тайм-коинов на счёт 🪙',
+      relatedId: ex.id, read: false, createdAt: now()
+    });
+    appData.notifications.push({
+      id: uid(), userId: c.userB, type: 'coins',
+      text: 'Обмен завершён! +10 Тайм-коинов на счёт 🪙',
+      relatedId: ex.id, read: false, createdAt: now()
+    });
+    toast('🎉 Обмен завершён! +10 коинов','success');
+  } else {
+    const otherId = c.userA===currentUser.id ? c.userB : c.userA;
+    appData.notifications.push({
+      id: uid(), userId: otherId, type: 'confirm',
+      text: `${currentUser.name} подтвердил(а) обмен. Подтверди и ты!`,
+      relatedId: ex.id, read: false, createdAt: now()
+    });
+    toast('Ты подтвердил обмен','success');
+  }
+  await saveToFiles();
+  renderCabinet();
+  renderNav();
+}
+
+function renderDataTab(box){
+  box.innerHTML = `
+    <div class="coins-box">
+      <div class="coins-num">${currentUser.coins}</div>
+      <div class="coins-lbl">Твои Тайм-коины 🪙</div>
+    </div>
+    <h4 style="font-size:15px;color:var(--primary);margin-bottom:10px">Хранилище данных</h4>
+    <div class="storage-info">
+      <strong>📁 ${dirHandle ? 'Файловая система' : 'localStorage'}</strong>
+      ${dirHandle ? `Данные хранятся в файлах:<br>• users.txt<br>• data.txt<br>Папка: ${dirHandle.name}` : 'Данные хранятся в браузере. Можно экспортировать в файлы.'}
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      ${!dirHandle ? `<button class="btn btn-primary" onclick="chooseStorageFolder()">📁 Выбрать папку для файлов</button>` : ''}
+      <button class="btn btn-secondary" onclick="exportData('txt')">💾 Скачать users.txt</button>
+      <button class="btn btn-secondary" onclick="exportData('json')">💾 Скачать data.txt</button>
+      <button class="btn btn-secondary" style="color:var(--danger);border-color:#FCA5A5" onclick="clearData()">🗑 Очистить всё</button>
+    </div>
+    <h4 style="font-size:15px;color:var(--primary);margin:20px 0 10px">Статистика</h4>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">
+      <div style="padding:12px;background:var(--bg-secondary);border-radius:10px"><div style="font-size:22px;font-weight:800;color:var(--primary)">${usersData.users.length}</div><div style="font-size:12px;color:var(--text-secondary)">Пользователей</div></div>
+      <div style="padding:12px;background:var(--bg-secondary);border-radius:10px"><div style="font-size:22px;font-weight:800;color:var(--primary)">${appData.ads.length}</div><div style="font-size:12px;color:var(--text-secondary)">Объявлений</div></div>
+      <div style="padding:12px;background:var(--bg-secondary);border-radius:10px"><div style="font-size:22px;font-weight:800;color:var(--primary)">${appData.chats.length}</div><div style="font-size:12px;color:var(--text-secondary)">Чатов</div></div>
+      <div style="padding:12px;background:var(--bg-secondary);border-radius:10px"><div style="font-size:22px;font-weight:800;color:var(--primary)">${appData.exchanges.length}</div><div style="font-size:12px;color:var(--text-secondary)">Обменов</div></div>
+    </div>
+  `;
+}
+
+function exportData(type){
+  const data = type==='txt' ? usersData : appData;
+  const filename = type==='txt' ? 'users.txt' : 'data.txt';
+  const content = JSON.stringify(data, null, 2);
+  const blob = new Blob([content], {type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast(`${filename} скачан`,'success');
+}
+
+async function clearData(){
+  if(!confirm('Удалить ВСЕ данные? Это действие необратимо.')) return;
+  usersData = {users:[]};
+  appData = {ads:[],requests:[],chats:[],exchanges:[],notifications:[]};
+  localStorage.removeItem('onn_users');
+  localStorage.removeItem('onn_data');
+  localStorage.removeItem('onn_session');
+  await saveToFiles();
+  currentUser = null;
+  renderNav();
+  closeModal('cabinetModal');
+  updateStats();
+  toast('Все данные удалены');
+}
+
+function updateStats(){
+  $('#statUsers').textContent = usersData.users.length;
+  $('#statAds').textContent = appData.ads.length;
+}
+
+document.querySelectorAll('.modal-bg').forEach(m=>{
+  m.addEventListener('click', e=>{ if(e.target===m && m.id!=='storageModal') m.classList.remove('show'); });
+});
+
+initStorage();
+</script>
+</body>
+</html>
