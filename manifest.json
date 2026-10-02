@@ -1,0 +1,20 @@
+{
+  "name": "Обмен навыками",
+  "short_name": "Обмен",
+  "description": "Сервис взаимного обучения. Учи — учись — меняйся.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F2EFE6",
+  "theme_color": "#F2EFE6",
+  "lang": "ru",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
