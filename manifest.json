@@ -1,0 +1,66 @@
+{
+  "id": "./index.html",
+  "name": "Обмен навыками",
+  "short_name": "Обмен",
+  "description": "Сервис взаимного обучения. Учи — учись — меняйся.",
+  "start_url": "./index.html#/",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "portrait",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "lang": "ru",
+  "dir": "ltr",
+  "categories": [
+    "education",
+    "social"
+  ],
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Объявления",
+      "url": "./index.html#/listings"
+    },
+    {
+      "name": "Обмены",
+      "url": "./index.html#/exchanges"
+    },
+    {
+      "name": "Чаты",
+      "url": "./index.html#/chats"
+    },
+    {
+      "name": "Разместить",
+      "url": "./index.html#/create"
+    }
+  ]
+}
