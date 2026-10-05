@@ -1,0 +1,88 @@
+{
+  "rules": {
+    "usernames": {
+      ".read": "auth != null",
+      "$n": {
+        ".write": "auth != null && !data.exists()"
+      }
+    },
+    "users": {
+      ".read": "auth != null",
+      "$uid": {
+        ".write": "auth != null && auth.uid === $uid",
+        "coins": {
+          ".write": "auth != null && (auth.uid === $uid || newData.val() === data.val() + 1)"
+        },
+        ".validate": "newData.child('plus').val() === data.child('plus').val() || auth.token.email === 'test@gmail.com'",
+        "plus": {
+          ".write": "auth != null && auth.token.email === 'test@gmail.com'"
+        }
+      }
+    },
+    "listings": {
+      ".read": "auth != null",
+      "$id": {
+        ".write": "auth != null && (newData.child('authorId').val() === auth.uid || data.child('authorId').val() === auth.uid || auth.token.email === 'test@gmail.com')",
+        ".validate": "!newData.exists() || (newData.child('title').isString() && newData.child('title').val().length <= 100)"
+      }
+    },
+    "exchanges": {
+      ".read": "auth != null",
+      "$id": {
+        ".write": "auth != null && (!data.exists() || data.child('initiatorId').val() === auth.uid || data.child('ownerId').val() === auth.uid)"
+      }
+    },
+    "messages": {
+      "$ex": {
+        ".read": "auth != null && (root.child('exchanges').child($ex).child('initiatorId').val() === auth.uid || root.child('exchanges').child($ex).child('ownerId').val() === auth.uid)",
+        "$m": {
+          ".write": "auth != null && newData.child('senderId').val() === auth.uid",
+          ".validate": "newData.child('text').isString() && newData.child('text').val().length <= 1000"
+        }
+      }
+    },
+    "notifications": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        "$n": {
+          ".write": "auth != null && (auth.uid === $uid || !data.exists())"
+        }
+      }
+    },
+    "reviews": {
+      ".read": "auth != null",
+      "$uid": {
+        "$r": {
+          ".write": "auth != null && !data.exists() && newData.child('fromUserId').val() === auth.uid && newData.child('rating').val() >= 1 && newData.child('rating').val() <= 5"
+        }
+      }
+    },
+    "videos": {
+      "$ex": {
+        ".read": "auth != null && (root.child('exchanges').child($ex).child('initiatorId').val() === auth.uid || root.child('exchanges').child($ex).child('ownerId').val() === auth.uid)",
+        "$uid": {
+          ".write": "auth != null && auth.uid === $uid"
+        }
+      }
+    },
+    "reports": {
+      ".read": "auth != null && auth.token.email === 'test@gmail.com'",
+      "$r": {
+        ".write": "auth != null && !data.exists()"
+      }
+    },
+    "calls": {
+      "$ex": {
+        ".read": "auth != null && (root.child('exchanges').child($ex).child('initiatorId').val() === auth.uid || root.child('exchanges').child($ex).child('ownerId').val() === auth.uid)",
+        ".write": "auth != null && (root.child('exchanges').child($ex).child('initiatorId').val() === auth.uid || root.child('exchanges').child($ex).child('ownerId').val() === auth.uid)"
+      }
+    },
+    "plusWaitlist": {
+      ".read": "auth != null && auth.token.email === 'test@gmail.com'",
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    }
+  }
+}
