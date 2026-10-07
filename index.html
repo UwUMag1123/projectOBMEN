@@ -1,0 +1,2351 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<link rel="manifest" href="./manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Обмен">
+<meta name="color-scheme" content="dark light">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem("obmen-theme")||"dark"}catch(e){}</script>
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<title>Обмен навыками</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0B1220;--card:#131C2E;--card2:#1A2438;--border:#243049;--border2:#334159;--text:#E8EDF5;--muted:#8B9AB3;--muted2:#5E6C85;--accent:#14B8A6;--accent2:#8B5CF6;--success:#10B981;--danger:#EF4444;--warn:#F59E0B;--sh:0 6px 24px rgba(0,0,0,.35);--shL:0 18px 48px rgba(0,0,0,.55);--r:14px;--rs:10px;--grad:linear-gradient(135deg,#14B8A6 0%,#8B5CF6 100%)}
+html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;font-size:15px;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column;background-image:radial-gradient(ellipse at top,rgba(20,184,166,.08),transparent 60%);background-attachment:fixed}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;font-size:inherit;transition:transform .15s,background .15s}
+button:active{transform:scale(.97)}
+input,textarea,select{font-family:inherit;font-size:inherit;color:inherit}
+.container{max-width:1140px;margin:0 auto;padding:0 20px;width:100%}
+.topbar{position:sticky;top:0;z-index:100;background:rgba(11,18,32,.9);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--border)}
+.topbar-in{display:flex;align-items:center;gap:16px;height:60px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px;flex-shrink:0}
+.logo-mark{width:34px;height:34px;border-radius:10px;background:var(--grad);color:#fff;display:grid;place-items:center;font-size:18px;font-weight:800;box-shadow:0 6px 20px rgba(20,184,166,.35)}
+.logo-text{white-space:nowrap;background:linear-gradient(135deg,#E8EDF5,#93B4FF);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.nav{display:flex;gap:2px;flex:1}
+.nav a{padding:8px 14px;border-radius:var(--rs);font-size:14px;font-weight:500;color:var(--muted);transition:.15s}
+.nav a:hover{background:rgba(20,184,166,.1);color:var(--text)}
+.actions{display:flex;align-items:center;gap:8px;margin-left:auto}
+.btn{padding:9px 18px;border-radius:var(--rs);font-size:14px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:.15s;border:1px solid transparent;white-space:nowrap}
+.btn-primary{background:var(--grad);color:#fff;box-shadow:0 4px 16px rgba(20,184,166,.32)}
+.btn-primary:hover{box-shadow:0 8px 24px rgba(20,184,166,.45)}
+.btn-outline{background:transparent;color:var(--text);border-color:var(--border2)}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);background:rgba(20,184,166,.08)}
+.btn-ghost{background:transparent;color:var(--muted)}
+.btn-ghost:hover{background:rgba(20,184,166,.1);color:var(--text)}
+.btn-danger{background:transparent;color:var(--danger);border-color:rgba(239,68,68,.35)}
+.btn-danger:hover{background:rgba(239,68,68,.1);color:var(--danger)}
+.btn-block{width:100%}
+.btn-lg{padding:14px 24px;font-size:15px}
+.btn-sm{padding:6px 12px;font-size:13px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.icon-btn{width:38px;height:38px;border-radius:var(--rs);border:1px solid var(--border);display:grid;place-items:center;font-size:16px;position:relative;background:rgba(19,28,46,.6);color:var(--text)}
+.icon-btn:hover{border-color:var(--accent);background:rgba(20,184,166,.12)}
+.bell-badge{position:absolute;top:-5px;right:-5px;background:var(--danger);color:#fff;font-size:10px;font-weight:700;border-radius:10px;min-width:18px;height:18px;padding:0 4px;display:grid;place-items:center;border:2px solid var(--bg)}
+.avatar{width:32px;height:32px;border-radius:50%;background:var(--grad);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:800;flex-shrink:0}
+.avatar-md{width:48px;height:48px;border-radius:50%;background:var(--grad);color:#fff;display:grid;place-items:center;font-size:18px;font-weight:800;flex-shrink:0}
+.avatar-lg{width:76px;height:76px;border-radius:20px;background:var(--grad);color:#fff;display:grid;place-items:center;font-size:28px;font-weight:800;margin-bottom:16px;box-shadow:0 10px 30px rgba(20,184,166,.35)}
+.verified-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:100px;background:rgba(16,185,129,.15);color:#6EE7B7;font-size:11px;font-weight:700}
+.main{flex:1;padding:28px 0 60px}
+.view{display:none}
+.view.active{display:block;animation:fade .3s cubic-bezier(.16,1,.3,1)}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.hero{padding:64px 0;text-align:center;border-radius:24px;margin-bottom:44px;overflow:hidden;background:radial-gradient(circle at 20% 20%,rgba(20,184,166,.18),transparent 50%),radial-gradient(circle at 80% 80%,rgba(99,102,241,.14),transparent 50%),rgba(19,28,46,.6);border:1px solid var(--border)}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:7px 16px;border-radius:100px;background:rgba(20,184,166,.15);border:1px solid rgba(20,184,166,.3);color:#93C5FD;font-size:12px;font-weight:600;margin-bottom:24px}
+.hero h1{font-size:clamp(34px,6vw,60px);font-weight:800;letter-spacing:-.035em;line-height:1.05;margin-bottom:20px;background:linear-gradient(135deg,#E8EDF5 30%,#14B8A6 80%,#8B5CF6 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:17px;color:var(--muted);max-width:600px;margin:0 auto 36px;line-height:1.6}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.section{margin-bottom:56px}
+.section-head{margin-bottom:24px;display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
+.section-title{font-size:26px;font-weight:800;letter-spacing:-.025em}
+.section-sub{color:var(--muted);font-size:14px;margin-top:4px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.step{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:24px 20px;position:relative;overflow:hidden}
+.step::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--grad);opacity:0;transition:.25s}
+.step:hover{border-color:var(--border2);transform:translateY(-3px)}
+.step:hover::before{opacity:1}
+.step-num{font-size:13px;font-weight:800;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:.08em;margin-bottom:12px;display:block}
+.step-title{font-size:15px;font-weight:700;margin-bottom:8px}
+.step-text{font-size:13px;color:var(--muted);line-height:1.5}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.feature{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:24px 22px}
+.feature:hover{border-color:var(--border2);transform:translateY(-2px)}
+.feature-icon{width:48px;height:48px;border-radius:14px;background:rgba(20,184,166,.12);color:var(--accent);display:grid;place-items:center;font-size:22px;margin-bottom:16px}
+.feature-title{font-size:16px;font-weight:700;margin-bottom:8px}
+.feature-text{font-size:14px;color:var(--muted);line-height:1.55}
+.faq{display:flex;flex-direction:column;gap:10px}
+.faq-item{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px 22px;cursor:pointer}
+.faq-item:hover{border-color:var(--border2)}
+.faq-q{font-size:15px;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.faq-q::after{content:'+';font-size:22px;color:var(--accent);font-weight:400;transition:.2s}
+.faq-item.open .faq-q::after{transform:rotate(45deg)}
+.faq-a{font-size:14px;color:var(--muted);line-height:1.6;max-height:0;overflow:hidden;transition:.3s;margin-top:0}
+.faq-item.open .faq-a{max-height:400px;margin-top:12px}
+.search-bar{display:flex;gap:10px;margin-bottom:20px}
+.search-bar input{flex:1;padding:12px 16px;border-radius:var(--rs);border:1px solid var(--border);background:var(--card);font-size:14px;outline:none}
+.search-bar input:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(20,184,166,.12)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.chip{padding:7px 14px;border-radius:100px;background:var(--card);border:1px solid var(--border);font-size:13px;font-weight:600;color:var(--muted)}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.chip.active{background:var(--grad);color:#fff;border-color:transparent}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;cursor:pointer;position:relative}
+.card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 16px 40px rgba(20,184,166,.18)}
+.card-img{height:130px;background:var(--grad);display:grid;place-items:center;color:#fff;font-size:38px;font-weight:800;position:relative;overflow:hidden}
+.card-img::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.2),transparent 60%)}
+.card-body{padding:16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card-cat{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em}
+.card-title{font-size:15px;font-weight:700;line-height:1.3;word-break:break-word}
+.card-swap{display:flex;flex-direction:column;gap:5px;font-size:13px;padding-top:10px;border-top:1px solid var(--border)}
+.swap-row{display:flex;gap:8px;align-items:flex-start}
+.swap-lbl{font-weight:700;font-size:12px;min-width:58px;flex-shrink:0}
+.swap-lbl.give{color:var(--success)}
+.swap-lbl.want{color:var(--muted)}
+.swap-text{color:var(--muted);line-height:1.4;word-break:break-word}
+.card-footer{margin-top:auto;padding-top:10px;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.card-footer .avatar{width:22px;height:22px;font-size:11px}
+.card-delete{position:absolute;top:8px;right:8px;width:34px;height:34px;border-radius:50%;background:rgba(239,68,68,.92);color:#fff;display:grid;place-items:center;font-size:15px;border:2px solid rgba(255,255,255,.25);z-index:5;opacity:0;transition:.2s}
+.card:hover .card-delete{opacity:1}
+@media(hover:none){.card-delete{opacity:1}}
+.empty{padding:56px 24px;background:var(--card);border:1px dashed var(--border2);border-radius:var(--r);text-align:center}
+.empty-icon{width:56px;height:56px;border-radius:14px;background:rgba(20,184,166,.12);color:var(--accent);display:grid;place-items:center;font-size:26px;margin:0 auto 16px}
+.empty-title{font-size:17px;font-weight:700;margin-bottom:8px}
+.empty-text{color:var(--muted);font-size:14px;max-width:400px;margin:0 auto 20px;line-height:1.5}
+.form-wrap{max-width:520px;margin:0 auto}
+.form-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:32px 28px}
+.form-title{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+.form-sub{color:var(--muted);font-size:13px;margin-bottom:24px}
+.form{display:flex;flex-direction:column;gap:14px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:13px;font-weight:600}
+.field .hint{font-size:11px;color:var(--muted);font-weight:400}
+.field input,.field select,.field textarea{padding:11px 14px;border-radius:var(--rs);border:1px solid var(--border);background:rgba(11,18,32,.5);font-size:14px;outline:none;transition:.15s;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(20,184,166,.14)}
+.field input::placeholder,.field textarea::placeholder{color:var(--muted2)}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-error{padding:12px 14px;border-radius:var(--rs);background:rgba(239,68,68,.12);color:#FCA5A5;font-size:13px;font-weight:500;display:none;border:1px solid rgba(239,68,68,.25)}
+.form-error.show{display:block}
+.form-alt{text-align:center;margin-top:18px;font-size:13px;color:var(--muted)}
+.form-alt a{color:var(--accent);font-weight:600;cursor:pointer}
+.dash-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:26px;flex-wrap:wrap}
+.dash-title{font-size:26px;font-weight:800;letter-spacing:-.025em;margin-bottom:6px}
+.dash-sub{color:var(--muted);font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:32px}
+.stat{padding:18px 20px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);position:relative;overflow:hidden}
+.stat::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--grad)}
+.stat-value{font-size:24px;font-weight:800;line-height:1;margin-bottom:6px;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.stat-label{font-size:12px;color:var(--muted);font-weight:500}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:24px;overflow-x:auto}
+.tab{padding:12px 16px;font-size:14px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.profile-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:28px}
+.profile-name{font-size:20px;font-weight:800;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.profile-username{color:var(--muted);font-size:14px;margin-top:2px;margin-bottom:18px}
+.rating-display{display:flex;align-items:center;gap:8px;font-size:14px;margin-bottom:16px}
+.stars{color:#FBBF24;font-size:16px;letter-spacing:2px}
+.pi-row{font-size:14px;line-height:1.5;padding-top:12px;margin-top:12px;border-top:1px solid var(--border)}
+.pi-row:first-child{border-top:none;padding-top:0;margin-top:0}
+.pi-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.detail{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.detail-hero{height:220px;background:var(--grad);display:grid;place-items:center;color:#fff;font-size:56px;font-weight:800}
+.detail-body{padding:28px 30px 32px}
+.detail-cat{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.detail-title{font-size:24px;font-weight:800;letter-spacing:-.025em;line-height:1.2;margin-bottom:18px;word-break:break-word}
+.detail-author{display:flex;align-items:center;gap:12px;padding:14px 0 20px;border-bottom:1px solid var(--border);margin-bottom:20px}
+.detail-author-info{flex:1}
+.detail-author-name{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.detail-author-sub{color:var(--muted);font-size:13px;margin-top:3px}
+.detail-swap{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px}
+.detail-swap-block{padding:16px 18px;border-radius:var(--rs);background:rgba(11,18,32,.5);border:1px solid var(--border)}
+.detail-swap-block.want{background:rgba(99,102,241,.08);border-color:rgba(99,102,241,.25)}
+.detail-swap-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px}
+.detail-swap-block.want .detail-swap-lbl{color:#A5B4FC}
+.detail-swap-txt{font-size:14px;font-weight:600;line-height:1.4;word-break:break-word}
+.detail-desc{font-size:15px;line-height:1.7;margin-bottom:24px;white-space:pre-wrap;color:#C9D4E8;word-break:break-word}
+.detail-actions{display:flex;gap:10px;flex-wrap:wrap}
+.exchange{padding:18px 20px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px}
+.exchange:hover{border-color:var(--border2)}
+.ex-head{display:flex;justify-content:space-between;gap:14px;margin-bottom:12px;flex-wrap:wrap;align-items:flex-start}
+.ex-title{font-size:15px;font-weight:700;margin-bottom:4px}
+.ex-sub{color:var(--muted);font-size:13px}
+.ex-status{padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.st-pending{background:rgba(245,158,11,.15);color:#FCD34D}
+.st-accepted{background:rgba(99,102,241,.15);color:#A5B4FC}
+.st-rejected,.st-cancelled{background:rgba(239,68,68,.15);color:#FCA5A5}
+.st-completed{background:rgba(16,185,129,.15);color:#6EE7B7}
+.ex-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.chat{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;height:calc(100vh - 180px);min-height:480px}
+.chat-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:rgba(11,18,32,.4)}
+.chat-head-info{flex:1;min-width:0}
+.chat-head-title{font-weight:700;font-size:15px}
+.chat-head-sub{color:var(--muted);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chat-body{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:10px;background:rgba(11,18,32,.35)}
+.msg{max-width:75%;padding:10px 14px;border-radius:14px;font-size:14px;line-height:1.45;word-wrap:break-word;word-break:break-word}
+.msg-in{background:var(--card2);border:1px solid var(--border);align-self:flex-start;border-bottom-left-radius:4px}
+.msg-out{background:var(--grad);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.msg-time{font-size:10px;opacity:.7;margin-top:4px;display:block}
+.chat-input{padding:14px 16px;border-top:1px solid var(--border);display:flex;gap:10px;background:var(--card)}
+.chat-input input{flex:1;padding:11px 14px;border-radius:var(--rs);border:1px solid var(--border);background:rgba(11,18,32,.5);font-size:14px;outline:none}
+.chat-input input:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(20,184,166,.12)}
+.chat-locked{padding:16px;border-top:1px solid var(--border);text-align:center;color:var(--muted);font-size:13px;background:rgba(11,18,32,.4)}
+.video-zone{padding:16px 20px;border-top:1px solid var(--border);background:rgba(11,18,32,.4);display:flex;flex-direction:column;gap:12px}
+.video-zone-head{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.video-slots{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.video-slot{padding:14px;background:var(--card);border:1px solid var(--border);border-radius:var(--rs);font-size:13px}
+.video-slot.done{border-color:var(--success);background:rgba(16,185,129,.08)}
+.video-slot.done .video-slot-status{color:#6EE7B7;font-weight:700}
+.video-slot.wait .video-slot-status{color:var(--muted)}
+.video-slot-label{font-weight:700;margin-bottom:6px;font-size:12px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.video-slot-status{font-size:12px}
+.video-preview{margin-top:10px;border-radius:var(--rs);overflow:hidden;background:#000}
+.video-preview video{width:100%;display:block;max-height:220px;background:#000}
+.video-upload{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.file-label{padding:10px 18px;border-radius:var(--rs);border:1px dashed var(--border2);font-size:13px;font-weight:600;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:8px;color:var(--text)}
+.file-label:hover{border-color:var(--accent);color:var(--accent);background:rgba(20,184,166,.08)}
+.video-upload input[type=file]{display:none}
+.upload-hint{font-size:11px;color:var(--muted);margin-top:2px}
+.notifications-list{display:flex;flex-direction:column;gap:10px}
+.notif{padding:16px 18px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);display:flex;gap:14px;align-items:flex-start}
+.notif.unread{border-color:var(--accent);background:rgba(20,184,166,.06)}
+.notif-icon{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:18px;flex-shrink:0;background:rgba(20,184,166,.12);color:var(--accent)}
+.notif-icon.exchange_request{background:rgba(245,158,11,.15);color:#FCD34D}
+.notif-icon.exchange_accepted{background:rgba(16,185,129,.15);color:#6EE7B7}
+.notif-icon.exchange_rejected{background:rgba(239,68,68,.12);color:#FCA5A5}
+.notif-icon.exchange_completed{background:rgba(99,102,241,.15);color:#A5B4FC}
+.notif-body{flex:1;min-width:0}
+.notif-text{font-size:14px;line-height:1.45;margin-bottom:6px}
+.notif-meta{font-size:12px;color:var(--muted)}
+.notif-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--card2);color:var(--text);padding:13px 22px;border-radius:100px;font-size:14px;font-weight:600;box-shadow:var(--shL);z-index:999;opacity:0;transition:.35s cubic-bezier(.16,1,.3,1);pointer-events:none;max-width:90vw;text-align:center;border:1px solid var(--border2)}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.modal{position:fixed;inset:0;background:rgba(5,9,17,.75);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
+.modal.show{display:flex}
+.modal-card{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);padding:28px;max-width:480px;width:100%;box-shadow:var(--shL);max-height:90vh;overflow-y:auto}
+.modal-title{font-size:20px;font-weight:800;margin-bottom:8px;letter-spacing:-.02em}
+.modal-sub{color:var(--muted);font-size:13px;margin-bottom:20px;line-height:1.5}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;flex-wrap:wrap}
+.rating-input{display:flex;gap:6px;margin:8px 0;justify-content:center}
+.rating-input .star{cursor:pointer;color:var(--muted2);background:none;border:none;font-size:28px;padding:2px}
+.rating-input .star.active{color:#FBBF24}
+.review{padding:16px;background:rgba(11,18,32,.4);border:1px solid var(--border);border-radius:var(--rs);margin-bottom:10px}
+.review-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:12px;flex-wrap:wrap}
+.review-author{font-weight:700;font-size:14px}
+.review-date{color:var(--muted);font-size:12px}
+.review-text{font-size:14px;color:#C9D4E8;line-height:1.55}
+.review-stars{color:#FBBF24;font-size:14px;letter-spacing:2px}
+.footer{padding:32px 0;border-top:1px solid var(--border);color:var(--muted);font-size:13px;background:rgba(19,28,46,.4);margin-top:auto}
+.footer-in{display:grid;grid-template-columns:2fr 1fr 1fr;gap:32px;margin-bottom:24px}
+.footer-col h4{font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px}
+.footer-col a{display:block;color:var(--muted);font-size:13px;margin-bottom:8px;cursor:pointer}
+.footer-col a:hover{color:var(--accent)}
+.footer-bottom{padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted2)}
+.loading{padding:48px;text-align:center;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:12px}
+.spinner{width:32px;height:32px;border:3px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pwa-prompt{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--card2);border:1px solid var(--border2);padding:14px 18px;border-radius:var(--r);box-shadow:var(--shL);z-index:998;display:none;gap:12px;align-items:center;max-width:92vw;font-size:13px}
+.pwa-prompt.show{display:flex}
+@media(max-width:1000px){.steps{grid-template-columns:repeat(2,1fr)}.nav{display:none}.stats{grid-template-columns:repeat(2,1fr)}.features{grid-template-columns:1fr}.footer-in{grid-template-columns:1fr}}
+html[data-theme="light"]{--bg:#f4f7fb;--card:#ffffff;--card2:#eef3f8;--border:#d9e1ec;--border2:#bcc8d8;--text:#142033;--muted:#64748b;--muted2:#8a98aa;--accent:#0f9f91;--accent2:#6941c6;--success:#079669;--danger:#dc3f3f;--warn:#c78100;--sh:0 6px 24px rgba(15,37,71,.10);--shL:0 18px 48px rgba(15,37,71,.16);--grad:linear-gradient(135deg,#0f9f91 0%,#6941c6 100%)}
+html[data-theme="light"] body{background-image:radial-gradient(ellipse at top,rgba(15,159,145,.07),transparent 60%)}
+html[data-theme="light"] .topbar{background:rgba(255,255,255,.88)}
+html[data-theme="light"] .icon-btn{background:rgba(255,255,255,.75)}
+html[data-theme="light"] .chat-head,html[data-theme="light"] .chat-body,html[data-theme="light"] .chat-locked,html[data-theme="light"] .video-zone{background:rgba(255,255,255,.72)}
+html[data-theme="light"] body{background-color:#f4f7fb;color:var(--text)}
+html[data-theme="light"] .topbar{box-shadow:0 4px 24px rgba(15,37,71,.06)}
+html[data-theme="light"] .logo-text{background:linear-gradient(135deg,#142033,#0f9f91);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+html[data-theme="light"] .hero{background:radial-gradient(circle at 20% 20%,rgba(15,159,145,.10),transparent 50%),radial-gradient(circle at 80% 80%,rgba(105,65,198,.08),transparent 50%),#fff;box-shadow:var(--sh)}
+html[data-theme="light"] .hero-badge{color:#0f766e;background:rgba(15,159,145,.09);border-color:rgba(15,159,145,.22)}
+html[data-theme="light"] .hero h1{background:linear-gradient(135deg,#142033 15%,#0f9f91 65%,#6941c6 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+html[data-theme="light"] .btn-outline{background:#fff}
+html[data-theme="light"] .btn-ghost:hover{background:rgba(15,159,145,.08)}
+html[data-theme="light"] .field input,html[data-theme="light"] .field select,html[data-theme="light"] .field textarea,html[data-theme="light"] .chat-input input{background:#fff;color:var(--text)}
+html[data-theme="light"] .detail-swap-block,html[data-theme="light"] .review{background:#f7f9fc}
+html[data-theme="light"] .detail-swap-block.want{background:rgba(105,65,198,.07)}
+html[data-theme="light"] .detail-desc,html[data-theme="light"] .review-text{color:#334155}
+html[data-theme="light"] .chat-head{background:#fff}
+html[data-theme="light"] .chat-body{background:#f7f9fc}
+html[data-theme="light"] .chat-locked,html[data-theme="light"] .video-zone{background:#fff}
+html[data-theme="light"] .chat-input{background:#fff}
+html[data-theme="light"] .footer{background:#fff}
+html[data-theme="light"] .modal{background:rgba(20,32,51,.42)}
+html[data-theme="light"] .video-preview,html[data-theme="light"] .video-preview video{background:#111}
+html[data-theme="light"] .form-error{color:#b42318;background:rgba(220,63,63,.08)}
+html[data-theme="light"] .verified-badge{color:#047857}
+html[data-theme="light"] .st-pending{color:#a15c00}
+html[data-theme="light"] .st-accepted{color:#5b36b5}
+html[data-theme="light"] .st-rejected,html[data-theme="light"] .st-cancelled{color:#b42318}
+html[data-theme="light"] .st-completed{color:#047857}
+html[data-theme="light"] .notif-icon.exchange_request{color:#a15c00}
+html[data-theme="light"] .notif-icon.exchange_accepted{color:#047857}
+html[data-theme="light"] .notif-icon.exchange_rejected{color:#b42318}
+html[data-theme="light"] .notif-icon.exchange_completed{color:#5b36b5}
+html[data-theme="light"] .detail-swap-block.want .detail-swap-lbl{color:#6941c6}
+html[data-theme="light"] .video-slot.done .video-slot-status{color:#047857}
+html[data-theme="light"] .demo-finished{background:rgba(16,185,129,.07);color:var(--text)}
+.theme-toggle{width:38px;height:38px;border-radius:var(--rs);border:1px solid var(--border);display:grid;place-items:center;background:var(--card);font-size:16px}
+.theme-toggle:hover{border-color:var(--accent);background:rgba(20,184,166,.08)}
+.consent{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1px solid var(--border);background:var(--card2);border-radius:12px;color:var(--muted);font-size:12px;line-height:1.45}
+.consent input{width:18px;height:18px;accent-color:var(--accent);margin-top:1px;flex:0 0 auto}
+.consent a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.demo-flow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+.demo-step{padding:12px;border:1px solid var(--border);border-radius:12px;background:var(--card);font-size:12px;color:var(--muted)}
+.demo-step strong{display:block;color:var(--text);font-size:13px;margin-bottom:4px}
+.demo-finished{padding:14px 16px;border:1px solid rgba(16,185,129,.45);background:rgba(16,185,129,.09);border-radius:14px;color:var(--text)}
+.demo-finished b{color:var(--success)}
+@media(max-width:640px){.demo-flow{grid-template-columns:1fr}}
+@media(max-width:640px){.container{padding:0 16px}.topbar-in{height:56px;gap:10px}.logo-text{display:none}.main{padding:20px 0 40px}.hero{padding:40px 20px;margin-bottom:32px}.hero h1{font-size:34px}.steps{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}.form-card{padding:24px 20px}.field-row{grid-template-columns:1fr}.detail-body{padding:22px 20px 26px}.detail-hero{height:160px}.detail-swap{grid-template-columns:1fr}.chat{height:calc(100vh - 140px);min-height:400px}.video-slots{grid-template-columns:1fr}.actions .btn span.btn-label{display:none}.actions .btn{padding:9px 12px}.dash-title{font-size:22px}.section-title{font-size:20px}}
+
+.card{transition:transform .2s,box-shadow .2s,border-color .2s}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shL);border-color:var(--accent)}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(20,184,166,.18)}
+.btn-primary{box-shadow:0 6px 18px rgba(20,184,166,.28)}
+.btn-primary:hover{filter:brightness(1.08)}
+::selection{background:rgba(20,184,166,.35)}
+
+.hero h1,
+.logo-text,
+.stat-value,
+.step-num{background:none;-webkit-text-fill-color:currentColor}
+/* ===== Redesign v9: блэкаут, стекло, 3D ===== */
+:root{--bg:#000;--card:rgba(255,255,255,.04);--card2:rgba(255,255,255,.06);--border:rgba(255,255,255,.12);--border2:rgba(255,255,255,.22);--text:#F5F6FA;--muted:rgba(245,246,250,.64);--muted2:rgba(245,246,250,.4);--accent:#C6FF4D;--accent2:#8B7CFF;--success:#7BE08A;--danger:#FF6B5B;--warn:#FFC857;--grad:#FFFFFF;--r:22px;--rs:14px;--ease:cubic-bezier(.2,0,0,1);--font-h:'Unbounded','Onest',sans-serif;--pointer-x:-100vw;--pointer-y:-100vh}
+html{background:#000}
+body{font-family:'Onest',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:#000;background-image:none;color:#F5F6FA;font-size:15px;line-height:1.55}
+#bg3d{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0;transition:opacity 1.8s var(--ease)}
+#bg3d.on{opacity:1}
+.lattice-beam{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(circle 420px at var(--pointer-x) var(--pointer-y),rgba(255,255,255,.055),transparent 70%)}
+.lattice-bars{display:none}
+#app,.footer{position:relative;z-index:1}
+#app{transition:opacity .2s var(--ease),transform .2s var(--ease)}
+#app.leaving{opacity:0;transform:translateY(12px) scale(.995)}
+.view.active{animation:viewIn .8s var(--ease)}
+@keyframes viewIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+h1,h2,.section-title,.dash-title,.form-title,.detail-title,.modal-title,.profile-name,.plan-title{font-family:var(--font-h);font-weight:700;letter-spacing:-.03em;line-height:1.08}
+.section-title{font-size:clamp(24px,3.4vw,36px)}
+.topbar{background:rgba(0,0,0,.55);backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);border-bottom:1px solid rgba(255,255,255,.08);z-index:100}
+.logo-mark{background:#fff;color:#000;border-radius:12px}
+.logo-text{font-family:var(--font-h);font-weight:700;font-size:15px;letter-spacing:-.03em;color:#fff}
+.nav a{color:var(--muted);font-weight:500;border-radius:100px;padding:8px 16px;transition:background .3s var(--ease),color .3s}
+.nav a:hover{background:rgba(255,255,255,.09);color:#fff}
+.btn{position:relative;overflow:hidden;border-radius:100px;font-weight:600;font-family:inherit;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;transition:transform .35s var(--ease),background .35s,box-shadow .35s,border-color .35s}
+.btn::after{content:'';position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);transition:left .7s var(--ease);pointer-events:none}
+.btn:hover::after{left:140%}
+.btn:hover{transform:translateY(-2px);background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.35);filter:none}
+.btn:active{transform:translateY(0) scale(.98)}
+.btn-primary{background:#fff;color:#000;border-color:#fff}
+.btn-primary:hover{background:#fff;color:#000;box-shadow:0 0 44px rgba(255,255,255,.4)}
+.btn-primary::after{background:linear-gradient(100deg,transparent,rgba(0,0,0,.12),transparent)}
+.btn-outline{background:rgba(255,255,255,.04)}
+.btn-ghost{background:transparent;border-color:transparent;color:var(--muted)}
+.btn-ghost:hover{background:rgba(255,255,255,.08);color:#fff;border-color:transparent}
+.btn-danger{color:#FF6B5B;border-color:rgba(255,107,91,.5);background:rgba(255,107,91,.08)}
+.btn-danger:hover{background:#FF6B5B;color:#000;border-color:#FF6B5B}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+.icon-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:#fff;border-radius:100px;transition:.3s var(--ease)}
+.icon-btn:hover{background:rgba(255,255,255,.14)}
+.bell-badge{background:var(--accent);color:#000;border:0}
+.avatar,.avatar-md,.avatar-lg{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.22)}
+.verified-badge{background:rgba(198,255,77,.1);color:var(--accent);border:1px solid rgba(198,255,77,.4)}
+.plus-badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#000;background:var(--accent);padding:2px 8px;margin-left:6px;vertical-align:middle;border-radius:100px}
+.hero{text-align:left;padding:110px 0 130px;margin-bottom:40px;min-height:72vh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;background:none;border:none;overflow:visible}
+.hero h1{font-size:clamp(34px,5.6vw,74px);line-height:1.04;color:#fff;max-width:760px;margin-bottom:24px}
+.hero p{margin:0 0 36px;max-width:520px;color:var(--muted);font-size:17px}
+.hero-actions{justify-content:flex-start}
+.hero-badge{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);color:#fff;border-radius:100px;backdrop-filter:blur(10px)}
+@media(max-width:820px){.hero{padding:260px 0 60px;min-height:auto}}
+.card,.feature,.step,.stat,.exchange,.review,.faq-item,.profile-card,.form-card,.detail,.notif,.chat,.plan,.empty{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.1);border-radius:22px;backdrop-filter:blur(22px) saturate(140%);-webkit-backdrop-filter:blur(22px) saturate(140%);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.card{transition:border-color .4s,transform .25s ease-out,box-shadow .4s;will-change:transform}
+.card::after{content:'';position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .4s;background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.13),transparent 60%)}
+.card:hover{border-color:rgba(255,255,255,.34);box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.05)}
+.card:hover::after{opacity:1}
+.step:hover,.feature:hover,.exchange:hover{border-color:rgba(255,255,255,.28);transform:translateY(-4px)}
+.step,.feature,.exchange{transition:transform .5s var(--ease),border-color .4s}
+.step::before{display:none}
+.card-img{background:linear-gradient(135deg,rgba(255,255,255,.1),rgba(255,255,255,.02));color:#fff;font-family:var(--font-h)}
+.card-img::after{display:none}
+.card-delete{background:rgba(0,0,0,.7);color:#FF6B5B;border:1px solid rgba(255,107,91,.5);border-radius:100px;z-index:2}
+.card-cat,.detail-cat{background:rgba(255,255,255,.07);color:#fff;border:1px solid rgba(255,255,255,.14);border-radius:100px;font-size:11px;font-weight:600;letter-spacing:.04em}
+.stat-value{color:#fff;font-family:var(--font-h)}
+.chip{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);color:var(--muted);border-radius:100px;font-family:inherit;transition:.35s var(--ease)}
+.chip:hover{background:rgba(255,255,255,.12);color:#fff}
+.chip.active{background:#fff;color:#000;border-color:#fff}
+.tabs{border-bottom:1px solid rgba(255,255,255,.1)}
+.tab{color:var(--muted);font-weight:600}
+.tab.active{color:#fff;border-bottom:2px solid #fff}
+input,textarea,select,.field input,.field select,.field textarea,.chat-input input,.search-bar input{background:rgba(255,255,255,.05);color:#fff;border:1px solid rgba(255,255,255,.14);border-radius:14px;font-family:inherit;transition:border-color .3s,background .3s,box-shadow .3s}
+.search-bar input{border-radius:100px;padding-left:22px}
+input::placeholder,textarea::placeholder{color:rgba(255,255,255,.35)}
+input:focus,textarea:focus,select:focus,.field input:focus,.field select:focus,.field textarea:focus,.chat-input input:focus,.search-bar input:focus{border-color:rgba(255,255,255,.6);background:rgba(255,255,255,.08);box-shadow:0 0 0 4px rgba(255,255,255,.07);outline:none}
+option{background:#111;color:#fff}
+.form-error{background:rgba(255,107,91,.1);color:#FF8A7D;border:1px solid rgba(255,107,91,.4);border-radius:14px}
+.feature-icon,.step-num,.empty-icon{background:rgba(255,255,255,.08);color:var(--accent);border:1px solid rgba(255,255,255,.14);border-radius:14px}
+.detail-hero{background:linear-gradient(135deg,rgba(255,255,255,.1),rgba(255,255,255,.02));color:#fff}
+.detail-swap-block,.detail-swap-block.want{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:16px}
+.detail-swap-block .detail-swap-lbl,.detail-swap-block.want .detail-swap-lbl{color:var(--accent)}
+.detail-desc,.review-text{color:rgba(255,255,255,.82)}
+.st-pending,.st-accepted,.st-rejected,.st-cancelled,.st-completed{background:transparent;border:1px solid;border-radius:100px;font-size:11px;font-weight:600}
+.st-pending{color:#FFC857}.st-accepted{color:#7FB3FF}.st-rejected,.st-cancelled{color:#FF6B5B}.st-completed{color:var(--accent)}
+.chat{overflow:hidden}
+.chat-head,.chat-body,.chat-locked,.video-zone{background:rgba(0,0,0,.35)}
+.chat-input{background:rgba(255,255,255,.03);border-top:1px solid rgba(255,255,255,.1)}
+.msg{border:1px solid rgba(255,255,255,.12);border-radius:18px;animation:msgIn .5s var(--ease)}
+@keyframes msgIn{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+.msg-out{background:#fff;color:#000;border-color:#fff;border-bottom-right-radius:6px}.msg-out .msg-time{color:rgba(0,0,0,.5)}
+.msg-in{background:rgba(255,255,255,.07);color:#fff;border-bottom-left-radius:6px}
+.notif.unread{border-color:rgba(198,255,77,.6)}
+.notif-icon,.notif-icon.exchange_request,.notif-icon.exchange_accepted,.notif-icon.exchange_rejected,.notif-icon.exchange_completed,.notif-icon.exchange_cancelled,.notif-icon.report,.notif-icon.call{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.18)}
+.modal{background:rgba(0,0,0,.72);backdrop-filter:blur(8px)}
+.modal-card{background:rgba(14,14,18,.9);border:1px solid rgba(255,255,255,.16);border-radius:26px;backdrop-filter:blur(26px);animation:viewIn .5s var(--ease)}
+.footer{background:rgba(0,0,0,.55);backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,.08)}
+.toast{background:#fff;color:#000;border:0;border-radius:100px;font-weight:600}
+.pwa-prompt{background:rgba(14,14,18,.9);border:1px solid rgba(255,255,255,.16);border-radius:20px;backdrop-filter:blur(20px)}
+.stars,.review-stars{color:var(--accent)}
+.upload-hint,.call-hint{font-size:12px;color:var(--muted2);margin-top:6px}
+::selection{background:#fff;color:#000}
+::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.18);border-radius:10px}::-webkit-scrollbar-track{background:#000}
+.step-num{background:none;border:0;padding:0;border-radius:0;color:var(--accent)}
+/* ===== v11: кинематографичный стиль ===== */
+body{overflow-x:hidden}
+.card,.feature,.step,.stat,.exchange,.review,.faq-item,.profile-card,.form-card,.detail,.notif,.chat,.plan,.empty{background:linear-gradient(150deg,rgba(255,255,255,.11),rgba(255,255,255,.025) 45%,rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.11);backdrop-filter:blur(30px) saturate(190%) brightness(1.05);-webkit-backdrop-filter:blur(30px) saturate(190%) brightness(1.05);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1px 0 rgba(255,255,255,.04),0 30px 70px rgba(0,0,0,.5)}
+.hero{min-height:88vh;padding:120px 0 90px}
+.hero h1{font-size:clamp(40px,7.2vw,108px);line-height:1;max-width:900px;text-shadow:0 0 80px rgba(139,124,255,.4)}
+.hero-badge::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent);animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.35;transform:scale(.7)}}
+.hero-stats{display:flex;gap:clamp(24px,5vw,64px);margin-top:64px;flex-wrap:wrap}
+.hero-stats div{display:flex;flex-direction:column;gap:4px}
+.hero-stats b{font-family:var(--font-h);font-size:clamp(28px,4vw,48px);font-weight:700;letter-spacing:-.03em;line-height:1}
+.hero-stats span{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.section-title{font-size:clamp(28px,4.4vw,52px)}
+.marquee{width:100vw;margin:0 0 72px calc(50% - 50vw);overflow:hidden;border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1);background:rgba(0,0,0,.35);backdrop-filter:blur(10px)}
+.mq-track{display:flex;gap:48px;width:max-content;padding:24px 0;animation:mq 42s linear infinite}
+.mq-track span{font-family:var(--font-h);font-size:clamp(28px,5vw,64px);font-weight:700;white-space:nowrap;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:-.02em;transition:color .4s}
+.mq-track span:hover{color:#fff}
+.mq-track i{font-style:normal;color:var(--accent);font-size:clamp(20px,3vw,36px);align-self:center}
+.marquee:hover .mq-track{animation-play-state:paused}
+@keyframes mq{to{transform:translateX(-50%)}}
+.progress{position:fixed;top:0;left:0;height:2px;width:calc(var(--sp,0)*100%);background:linear-gradient(90deg,#8B7CFF,#39D0FF,#C6FF4D);z-index:300;pointer-events:none}
+.cursor{position:fixed;left:0;top:0;width:34px;height:34px;border:1px solid #fff;border-radius:50%;pointer-events:none;z-index:9999;mix-blend-mode:difference;transition:width .3s var(--ease),height .3s var(--ease),background .3s;margin:-17px 0 0 -17px;will-change:transform}
+.cursor.big{width:78px;height:78px;margin:-39px 0 0 -39px;background:#fff}
+.footer-mark{font-family:var(--font-h);font-weight:700;font-size:clamp(36px,10.5vw,170px);line-height:.95;letter-spacing:-.05em;text-transform:uppercase;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.28);text-align:center;padding:28px 0 4px;white-space:nowrap;overflow:hidden;user-select:none;transition:-webkit-text-stroke-color .5s}
+.footer:hover .footer-mark{-webkit-text-stroke-color:rgba(255,255,255,.7)}
+.rv{opacity:0;transform:translateY(34px) scale(.985);filter:blur(8px);transition:opacity 1s var(--ease),transform 1s var(--ease),filter 1s var(--ease)}
+.rv.rv-in{opacity:1;transform:none;filter:none}
+.rv.rv-in.rv-done{transition:transform .25s ease-out,border-color .4s,box-shadow .4s,background .3s}
+.sr .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.12em}
+.sr .w>span{display:inline-block;transform:translateY(115%);transition:transform 1s var(--ease)}
+.sr.sr-in .w>span{transform:none}
+.plan{max-width:880px;margin:0 auto;padding:44px;display:flex;flex-direction:column;gap:24px}
+.plan-tag{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.plan-title{font-size:clamp(44px,9vw,92px)}
+.plan-price{font-family:var(--font-h);font-size:clamp(32px,5.5vw,52px);font-weight:700;letter-spacing:-.03em}.plan-price span{font-family:'Onest',sans-serif;font-size:16px;color:var(--muted);font-weight:400}
+.plan-lead{color:var(--muted);max-width:560px}
+.plan-table{width:100%;border-collapse:collapse}
+.plan-table th,.plan-table td{padding:16px 12px;text-align:left;border-bottom:1px solid rgba(255,255,255,.1);font-size:15px}
+.plan-table th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.plan-table td:first-child{color:var(--muted)}.plan-table .on{color:var(--accent);font-weight:600}
+.plan-actions{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.plan-note{font-size:13px;color:var(--muted);border-left:2px solid var(--warn);padding-left:12px}
+.incoming{display:flex;gap:12px;align-items:center;justify-content:space-between;border:1px solid rgba(198,255,77,.5);background:rgba(198,255,77,.06);border-radius:16px;padding:12px 16px;margin:10px 0;flex-wrap:wrap}
+.call-actions{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.call-state{font-size:13px;color:var(--muted);margin:8px 0}
+#callOverlay{position:fixed;inset:0;z-index:5000;display:none;flex-direction:column;background:#06070c;color:#fff;padding-top:env(safe-area-inset-top,0px);overflow:hidden}
+#callOverlay.on{display:flex;animation:viewIn .5s var(--ease)}
+.co-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(900px 520px at 12% 0%,rgba(80,110,255,.24),transparent 60%),radial-gradient(800px 520px at 100% 100%,rgba(190,255,60,.10),transparent 60%),#06070c}
+.co-top{position:relative;z-index:6;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px}
+.co-who{display:flex;gap:12px;align-items:center;min-width:0}
+.co-ava{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:linear-gradient(135deg,#fff,#cfd6ff);color:#000;flex:0 0 auto}
+.co-name{font-weight:700;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#callStatus{display:block;font-size:12px;letter-spacing:.04em;color:rgba(255,255,255,.65)}
+#callTime{font-size:15px;font-variant-numeric:tabular-nums;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);padding:8px 14px;border-radius:100px;backdrop-filter:blur(12px)}
+.co-stage{position:relative;z-index:1;flex:1;min-height:0;margin:0 14px;border-radius:26px;overflow:hidden;background:#0b0d14;border:1px solid rgba(255,255,255,.1);box-shadow:0 30px 80px -30px rgba(0,0,0,.8)}
+#remoteV{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#0b0d14}
+.co-stage.rs #remoteV{object-fit:contain;background:#05070d}
+#shareV{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#05070d;display:none}
+.co-stage.ls #shareV{display:block}
+.co-stage.ls #remoteV{inset:auto;right:16px;top:16px;width:168px;height:118px;border-radius:16px;object-fit:cover;z-index:4;border:1px solid rgba(255,255,255,.35)}
+.local-wrap{position:absolute;right:16px;top:16px;width:150px;height:110px;border:1px solid rgba(255,255,255,.35);border-radius:16px;overflow:hidden;background:#0b0d14;z-index:4;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.co-stage.ls .local-wrap{top:146px}
+#localV{width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}
+.cam-off{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;padding:10px;background:rgba(10,12,18,.95);color:rgba(255,255,255,.7);font-size:12px}
+.co-off{position:absolute;inset:0;display:none;flex-direction:column;gap:20px;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 40%,#171b2c,#0b0d14);color:rgba(255,255,255,.75);font-size:15px;z-index:2;text-align:center;padding:20px}
+.co-pulse{position:relative;width:112px;height:112px;border-radius:50%;display:grid;place-items:center;font-size:44px;font-weight:800;background:linear-gradient(135deg,#fff,#cfd6ff);color:#000}
+.co-pulse:before,.co-pulse:after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid rgba(255,255,255,.35);animation:coPulse 2.4s ease-out infinite}
+.co-pulse:after{animation-delay:1.2s}
+@keyframes coPulse{from{transform:scale(1);opacity:.8}to{transform:scale(1.9);opacity:0}}
+#remoteTag{position:absolute;left:16px;top:16px;z-index:5;display:none;font-size:13px;background:rgba(0,0,0,.65);border:1px solid rgba(255,107,91,.5);color:#FF9A8D;border-radius:100px;padding:7px 14px;backdrop-filter:blur(8px);max-width:calc(100% - 210px)}
+#drawC{position:absolute;z-index:3;pointer-events:none;display:none;touch-action:none}
+.co-stage.rs #drawC,.co-stage.ls #drawC{display:block}
+#drawC.live{pointer-events:auto;cursor:crosshair}
+#shareBar{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:6;display:none;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;width:max-content;max-width:calc(100% - 24px);padding:8px 10px 8px 16px;border-radius:26px;background:rgba(14,16,26,.8);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(14px);font-size:13px}
+.sb-btn{border:0;border-radius:100px;padding:9px 15px;font-weight:700;font-size:13px;cursor:pointer;background:#fff;color:#000;min-height:36px}
+.sb-btn.ghost{background:rgba(255,255,255,.14);color:#fff}
+.sb-btn.red{background:#ff3b30;color:#fff}
+.sb-ask{color:#ffd60a}.sb-ok{color:#9dff7a}.sb-mut{color:rgba(255,255,255,.6)}
+#drawBar{position:absolute;left:14px;top:50%;transform:translateY(-50%);z-index:6;display:none;flex-direction:column;gap:8px;align-items:stretch;padding:10px;border-radius:22px;background:rgba(14,16,26,.85);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(14px)}
+#drawBar .db-row{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+#drawBar .db-b{border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;border-radius:12px;padding:8px 10px;font-size:12px;font-weight:700;cursor:pointer;min-height:34px}
+#drawBar .db-b.on{background:#fff;color:#000}
+#drawBar .dc{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.45);cursor:pointer;padding:0}
+#drawBar .dc.on{border-color:#fff;transform:scale(1.2)}
+#drawBar .ds{display:grid;place-items:center;width:34px;height:34px}
+#drawBar .ds i{display:block;border-radius:50%;background:currentColor}
+.co-dock{position:relative;z-index:6;display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 14px calc(16px + env(safe-area-inset-bottom,0px))}
+.co-btn{position:relative;width:58px;height:58px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.1);color:#fff;display:grid;place-items:center;cursor:pointer;backdrop-filter:blur(14px);transition:transform .2s,background .2s;padding:0}
+.co-btn:hover{transform:translateY(-3px);background:rgba(255,255,255,.18)}
+.co-btn svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.co-btn.off{background:rgba(255,107,91,.18);border-color:rgba(255,107,91,.7);color:#ff8a7d}
+.co-btn.off:after{content:"";position:absolute;width:30px;height:2px;background:#ff6b5b;transform:rotate(-45deg)}
+.co-btn.act{background:#fff;color:#000}
+.co-btn.end{background:#ff3b30;border-color:#ff3b30;width:76px;border-radius:30px}
+.co-btn.end svg{transform:rotate(135deg)}
+.co-sheet{position:absolute;z-index:8;left:50%;bottom:100px;transform:translate(-50%,20px);width:min(440px,calc(100% - 24px));padding:18px;border-radius:24px;background:rgba(16,18,28,.96);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(20px);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s}
+.co-sheet.show{opacity:1;pointer-events:auto;transform:translate(-50%,0)}
+.co-sheet .sheet-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.co-sheet label{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.6);margin:12px 0 6px}
+.co-sheet select{width:100%;padding:12px;border-radius:12px;background:#0b0d14;color:#fff;border:1px solid rgba(255,255,255,.2);font-size:16px}
+.co-sheet .sheet-note{font-size:12px;color:rgba(255,255,255,.55);margin-top:6px}
+@media(max-width:700px){
+  .co-stage{margin:0 8px;border-radius:20px}
+  .local-wrap{width:104px;height:78px;right:10px;top:10px}
+  .co-stage.ls #remoteV{width:104px;height:78px;right:10px;top:10px}
+  .co-stage.ls .local-wrap{top:96px}
+  #remoteTag{left:10px;top:10px;max-width:calc(100% - 130px)}
+  .co-btn{width:50px;height:50px}.co-btn.end{width:64px}
+  .co-dock{gap:8px}
+  #drawBar{left:50%;top:auto;bottom:64px;transform:translateX(-50%);flex-direction:row;flex-wrap:wrap;justify-content:center;width:calc(100% - 20px)}
+  #shareBar{bottom:10px}
+}
+
+.btn.off{color:#FF6B5B;border-color:#FF6B5B}
+#curtain{position:fixed;inset:0;z-index:9000;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;transition:transform 1s var(--ease);animation:curtainOut .6s 4s forwards}
+#curtain.out{transform:translateY(-100%)}
+.cur-logo{font-family:var(--font-h);font-size:clamp(22px,4vw,40px);font-weight:700;letter-spacing:-.03em}
+.cur-bar{width:min(240px,60vw);height:2px;background:rgba(255,255,255,.15);overflow:hidden}.cur-bar i{display:block;height:100%;width:calc(var(--p,0)*100%);background:#fff}
+#curtainN{position:absolute;left:28px;bottom:24px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+@keyframes curtainOut{to{transform:translateY(-100%);visibility:hidden}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}#curtain{display:none}.rv{opacity:1;transform:none;filter:none}}
+
+/* ---- мобильное приложение: вкладки сверху, безопасные зоны, удобство ---- */
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;overscroll-behavior-x:none}
+a,button,.card,.tab{touch-action:manipulation}
+:focus-visible{outline:2px solid #fff;outline-offset:2px;border-radius:8px}
+.topbar{padding-top:env(safe-area-inset-top,0px)}
+.mtabs{display:none}
+.nav a.active{background:rgba(255,255,255,.12);color:#fff}
+.tabs{scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
+.icon-btn{min-width:44px;min-height:44px}
+.toast{bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+.pwa-prompt{bottom:calc(24px + env(safe-area-inset-bottom,0px));max-width:calc(100vw - 24px)}
+#offline{position:fixed;left:0;right:0;top:0;z-index:500;transform:translateY(-110%);transition:transform .3s;background:#FF6B5B;color:#000;text-align:center;font-weight:700;font-size:13px;padding:calc(6px + env(safe-area-inset-top,0px)) 12px 6px}
+#offline.show{transform:none}
+.footer{padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(max-width:1000px){
+  .mtabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:0 max(12px,env(safe-area-inset-left,0px)) 10px;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity}
+  .mtabs::-webkit-scrollbar{display:none}
+  .mtabs a{flex:0 0 auto;min-height:40px;display:flex;align-items:center;padding:0 16px;border-radius:100px;font-size:14px;font-weight:600;color:var(--muted);border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);scroll-snap-align:center;white-space:nowrap}
+  .mtabs a.active{background:#fff;color:#000;border-color:#fff}
+  .container{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .chat{height:calc(100vh - 210px)}
+  @supports(height:100dvh){.chat{height:calc(100dvh - 210px)}}
+}
+@media(max-width:640px){input,select,textarea{font-size:16px!important}.btn{min-height:44px}}
+@media(display-mode:standalone){body{-webkit-user-select:none;user-select:none}input,textarea{-webkit-user-select:text;user-select:text}.msg{-webkit-user-select:text;user-select:text}}
+
+@media(max-width:640px){
+  .mtabs{gap:5px;padding-left:max(10px,env(safe-area-inset-left,0px));padding-right:max(10px,env(safe-area-inset-right,0px))}
+  .mtabs a{padding:0 10px;font-size:13px}
+  .footer .logo-text{display:block}
+  .footer-mark{font-size:7.4vw;letter-spacing:-.03em;white-space:nowrap;overflow:hidden}
+}
+
+.chat-head-link{display:flex;gap:12px;align-items:center;flex:1;min-width:0;color:inherit;text-decoration:none}
+a.chat-head-link{cursor:pointer;border-radius:14px;transition:background .2s}
+a.chat-head-link:hover{background:rgba(255,255,255,.06)}
+.chat-head-go{margin-left:auto;font-size:12px;font-weight:700;padding:7px 12px;border-radius:100px;border:1px solid rgba(255,255,255,.2);color:var(--muted);white-space:nowrap}
+.plink{color:inherit;text-decoration:underline;text-underline-offset:3px}
+</style>
+<script>
+(function(){
+  var last='';
+  function fix(){
+    try{if(navigator.serviceWorker)navigator.serviceWorker.getRegistrations().then(function(r){r.forEach(function(x){x.unregister()})})}catch(e){}
+    try{if(window.caches)caches.keys().then(function(k){return Promise.all(k.map(function(n){return caches.delete(n)}))}).then(function(){location.reload()},function(){location.reload()});else location.reload()}catch(e){location.reload()}
+    setTimeout(function(){location.reload()},1500);
+  }
+  function show(){
+    if(document.getElementById('bootErr'))return;
+    var d=document.createElement('div');d.id='bootErr';
+    d.style.cssText='position:fixed;left:12px;right:12px;bottom:12px;z-index:99999;background:#fff;color:#000;border-radius:16px;padding:16px;font:14px/1.45 -apple-system,Arial,sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.6)';
+    d.innerHTML='<b>Сайт не запустился.</b><br>Не загрузились файлы приложения. Проверьте, что рядом с index.html лежат db.js и firebase-config.js.'+(last?'<br><small>Сообщение: '+String(last).replace(/</g,'&lt;')+'</small>':'')+'<br><button id="bootFix" style="margin-top:10px;padding:12px 16px;border-radius:12px;border:0;background:#000;color:#fff;font-size:15px">Очистить память и обновить</button>';
+    document.body.appendChild(d);
+    document.getElementById('bootFix').onclick=fix;
+  }
+  window.addEventListener('error',function(e){last=(e&&e.message)||(e&&e.target&&(e.target.src||e.target.href))||last},true);
+  window.addEventListener('unhandledrejection',function(e){last=(e&&e.reason&&(e.reason.message||e.reason))||last});
+  setTimeout(function(){if(!window.__started)show()},7000);
+})();
+</script>
+</head>
+<body>
+<div id="offline" role="status" aria-live="polite">Нет сети. Показаны сохранённые данные.</div><div class="progress"></div><canvas id="bg3d"></canvas><div class="lattice-beam"></div>
+<div id="curtain"><div class="cur-logo">Обмен навыками</div><div class="cur-bar"><i></i></div><span id="curtainN">000</span></div>
+<div id="callOverlay" role="dialog" aria-label="Видеозвонок">
+<div class="co-bg"></div>
+<div class="co-top"><div class="co-who"><span class="co-ava" id="coAva">?</span><div style="min-width:0"><div class="co-name" id="coName">Собеседник</div><span id="callStatus"></span></div></div><div id="callTime">00:00</div></div>
+<div class="co-stage" id="coStage">
+<video id="remoteV" autoplay playsinline></video>
+<video id="shareV" autoplay playsinline muted></video>
+<div id="remoteOff" class="co-off"><div class="co-pulse"><span id="remoteAva">?</span></div><div>Камера собеседника выключена</div></div>
+<canvas id="drawC"></canvas>
+<div id="remoteTag"></div>
+<div class="local-wrap"><video id="localV" autoplay playsinline muted></video><div id="localOff" class="cam-off">Камера выключена</div></div>
+<div id="drawBar"><div class="db-row"><button class="db-b" id="dbPen" onclick="window.__drawTool(false)">Ручка</button><button class="db-b" id="dbMark" onclick="window.__drawTool(true)">Маркер</button></div><div class="db-row"><button class="dc" data-c="#ff3b30" style="background:#ff3b30" aria-label="Цвет" onclick="window.__drawColor('#ff3b30')"></button><button class="dc" data-c="#ffd60a" style="background:#ffd60a" aria-label="Цвет" onclick="window.__drawColor('#ffd60a')"></button><button class="dc" data-c="#34c759" style="background:#34c759" aria-label="Цвет" onclick="window.__drawColor('#34c759')"></button><button class="dc" data-c="#0a84ff" style="background:#0a84ff" aria-label="Цвет" onclick="window.__drawColor('#0a84ff')"></button><button class="dc" data-c="#ffffff" style="background:#ffffff" aria-label="Цвет" onclick="window.__drawColor('#ffffff')"></button></div><div class="db-row"><button class="db-b ds" data-s="0" aria-label="Толщина" onclick="window.__drawSize(0)"><i style="width:4px;height:4px"></i></button><button class="db-b ds" data-s="1" aria-label="Толщина" onclick="window.__drawSize(1)"><i style="width:8px;height:8px"></i></button><button class="db-b ds" data-s="2" aria-label="Толщина" onclick="window.__drawSize(2)"><i style="width:14px;height:14px"></i></button></div><div class="db-row"><button class="db-b" onclick="window.__drawUndo()">Отменить</button><button class="db-b" onclick="window.__drawClear()">Очистить</button><button class="db-b on" onclick="window.__toggleDraw()">Готово</button></div></div>
+<div id="shareBar"></div>
+</div>
+<div class="co-dock">
+<button class="co-btn" id="micBtn" title="Микрофон" aria-label="Микрофон" onclick="window.__toggleMic()"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button>
+<button class="co-btn" id="camBtn" title="Камера" aria-label="Камера" onclick="window.__toggleCam()"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="3"/><path d="m16 10 5-3v10l-5-3"/></svg></button>
+<button class="co-btn" id="shareBtn" title="Показать экран" aria-label="Показать экран" style="display:none" onclick="window.__toggleShare()"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></button>
+<button class="co-btn" id="drawBtn" title="Рисовать на экране" aria-label="Рисовать на экране" style="display:none" onclick="window.__toggleDraw()"><svg viewBox="0 0 24 24"><path d="M4 20l1-4L16 5l3 3L8 19z"/><path d="M14 7l3 3"/></svg></button>
+<button class="co-btn" id="setBtn" title="Настройки звука и камеры" aria-label="Настройки" onclick="window.__openDev()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></button>
+<button class="co-btn end" title="Завершить" aria-label="Завершить звонок" onclick="window.__hangup()"><svg viewBox="0 0 24 24"><path d="M3 15c5-5 13-5 18 0l-2 3-3-1.5v-2.2a10 10 0 0 0-8 0v2.2L5 18z"/></svg></button>
+</div>
+<div id="devPanel" class="co-sheet" role="dialog" aria-label="Настройки звонка">
+<div class="sheet-head"><b>Настройки звонка</b><button class="sb-btn ghost" onclick="window.__closeDev()">Готово</button></div>
+<label for="micSel">Микрофон</label><select id="micSel" onchange="window.__pickMic(this.value)"></select>
+<label for="spkSel">Звук: динамики или наушники</label><select id="spkSel" onchange="window.__pickSpk(this.value)"></select>
+<div class="sheet-note" id="spkNote"></div>
+<label for="camSel">Камера</label><select id="camSel" onchange="window.__pickCam(this.value)"></select>
+</div>
+</div>
+<header class="topbar">
+  <div class="container topbar-in">
+    <a href="#/" class="logo"><span class="logo-mark">⇄</span><span class="logo-text">Обмен навыками</span></a>
+    <nav class="nav">
+      <a href="#/">Главная</a>
+      <a href="#/listings">Объявления</a>
+      <a href="#/exchanges">Обмены</a>
+      <a href="#/chats">Чаты</a>
+      <a href="#/plus">Плюс</a>
+    </nav>
+    <div class="actions" id="headerActions"></div>
+  </div>
+  <nav class="mtabs" id="mtabs" aria-label="Разделы">
+    <a href="#/">Главная</a>
+    <a href="#/listings">Объявления</a>
+    <a href="#/exchanges">Обмены</a>
+    <a href="#/chats">Чаты</a>
+    <a href="#/plus">Плюс</a>
+  </nav>
+</header>
+<main class="container main" id="app"></main>
+<footer class="footer">
+  <div class="container">
+    <div class="footer-in">
+      <div class="footer-col">
+        <div class="logo" style="margin-bottom:14px"><span class="logo-mark">⇄</span><span class="logo-text">Обмен навыками</span></div>
+        <p style="color:var(--muted);font-size:13px;line-height:1.6;max-width:400px">Платформа для взаимного обучения. Учите тому, что умеете, и учитесь тому, что хотите.</p>
+      </div>
+      <div class="footer-col"><h4>Разделы</h4><a href="#/">Главная</a><a href="#/listings">Объявления</a><a href="#/exchanges">Обмены</a><a href="#/chats">Чаты</a></div>
+      <div class="footer-col"><h4>Помощь</h4><a href="#/">Как это работает</a><a href="#/">Правила</a><a href="#/" onclick="window.__openSupport();return false">Поддержка</a></div>
+    </div>
+    <div class="footer-bottom"><div>© 2026 Обмен навыками</div><div>Сделано для обмена знаниями</div></div>
+  </div>
+<div class="footer-mark" aria-hidden="true">Обмен навыками</div>
+</footer>
+<div class="toast" id="toast"></div>
+<div class="modal" id="modal"><div class="modal-card" id="modalCard"></div></div>
+<div class="pwa-prompt" id="pwaPrompt"><span>Установить как приложение?</span><button class="btn-primary" id="pwaInstall">Установить</button><button class="btn-ghost" id="pwaDismiss">✕</button></div>
+
+<script type="module">
+window.__started=1;
+import * as DB from './db.js';
+
+const $=s=>document.querySelector(s);
+const app=$('#app');
+const CATS=['Музыка','Программирование','Языки','Спорт','Дизайн','Кулинария','Учёба','Другое'];
+const maxListings=()=>state.user&&state.user.plus?15:5;
+const vidCache={};
+const LINK_RX=/(https?:\/\/|www\.|\.ru|\.com|\.net|\.org|t\.me|@[a-z0-9_]{3,})/i;
+const state={user:null,listings:[],exchanges:[],notifs:[],allUsers:[],reviews:[],unsubs:{}};
+
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function fmtTime(t){return new Date(t).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}
+function fmtDate(t){return new Date(t).toLocaleDateString('ru-RU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}
+function plural(n,f){const a=Math.abs(n)%100,b=a%10;if(a>10&&a<20)return n+' '+f[2];if(b>1&&b<5)return n+' '+f[1];if(b===1)return n+' '+f[0];return n+' '+f[2]}
+function starsHtml(r){const n=Math.round(r);return '★'.repeat(n)+'☆'.repeat(5-n)}
+function isAdmin(){return !!state.user&&String(state.user.email||'').toLowerCase()==='test@gmail.com'}
+function isVerified(u){return u&&(u.coins||0)>=3}
+
+let toastTimer;
+function toast(m){const el=$('#toast');el.textContent=m;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2800)}
+function openModal(h){$('#modalCard').innerHTML=h;$('#modal').classList.add('show')}
+function closeModal(){$('#modal').classList.remove('show');flushRoute()}
+let pendingRoute=false;
+function isBusy(){
+  const a=document.activeElement;
+  return (a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))||window.__callActive||$('#modal').classList.contains('show')||/^#\/(create|login|register)/.test(location.hash);
+}
+function softRoute(){if(isBusy()){pendingRoute=true;return}route()}
+function flushRoute(){setTimeout(()=>{if(pendingRoute&&!isBusy()){pendingRoute=false;route()}},300)}
+document.addEventListener('focusout',flushRoute);
+$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
+function findUser(id){return state.allUsers.find(u=>u.id===id)}
+
+function updateTitle(){
+  const unread=state.notifs.filter(n=>!n.read).length;
+  document.title=unread>0?`(${unread}) Обмен навыками`:'Обмен навыками';
+}
+
+function currentTheme(){return document.documentElement.dataset.theme||'dark'}
+function applyTheme(theme){document.documentElement.dataset.theme=theme;try{localStorage.setItem('obmen-theme',theme)}catch(e){};const meta=document.querySelector('meta[name=theme-color]');if(meta)meta.content=theme==='light'?'#F4F7FB':'#0B1220';document.querySelectorAll('.theme-toggle').forEach(b=>{b.textContent=theme==='light'?'☀️':'🌙';b.title=theme==='light'?'Тёмная тема':'Светлая тема';b.setAttribute('aria-label',b.title)})}
+function toggleTheme(){applyTheme(currentTheme()==='light'?'dark':'light')}
+window.__toggleTheme=toggleTheme;
+function renderHeader(){
+  const el=$('#headerActions');
+  let h=`<button class="theme-toggle" onclick="window.__toggleTheme()" title="Переключить тему" aria-label="Переключить тему">${currentTheme()==='light'?'☀️':'🌙'}</button>`;
+  if(state.user){
+    const initial=(state.user.firstName||state.user.username||'?')[0].toUpperCase();
+    const unread=state.notifs.filter(n=>!n.read).length;
+    const badge=unread>0?`<span class="bell-badge">${unread>9?'9+':unread}</span>`:'';
+    h+=`<button class="icon-btn" onclick="location.hash='#/notifications'" title="Уведомления" aria-label="Уведомления">🔔${badge}</button>
+      <a href="#/create" class="btn btn-primary btn-sm"><span>+</span><span class="btn-label">Разместить</span></a>
+      <a href="#/cabinet" class="btn btn-ghost btn-sm"><span class="avatar">${esc(initial)}</span></a>
+      <button class="btn btn-ghost btn-sm" onclick="window.__logout()">Выйти</button>`;
+  }else{
+    h+=`<a href="#/login" class="btn btn-ghost">Войти</a><a href="#/register" class="btn btn-primary">Регистрация</a>`;
+  }
+  el.innerHTML=h;
+}
+
+function emptyBlock(icon,title,text,link,btn){
+  return `<div class="empty"><div class="empty-icon">${icon}</div><div class="empty-title">${esc(title)}</div><div class="empty-text">${esc(text)}</div>${link?`<a href="${link}" class="btn btn-primary">${esc(btn)}</a>`:''}</div>`;
+}
+
+function cardHTML(l, mine){
+  const u=findUser(l.authorId);
+  if(!u)return '';
+  const initial=((u.firstName||u.username||'?')[0]).toUpperCase();
+  return `<article class="card" onclick="location.hash='#/listing/${l.id}'">
+    ${mine?`<button class="card-delete" onclick="event.stopPropagation();window.__confirmDelete('${l.id}')" title="Удалить">🗑</button>`:''}
+    <div class="card-img">${esc((l.title||'?')[0].toUpperCase())}</div>
+    <div class="card-body">
+      <div class="card-cat">${esc(l.category)}</div>
+      <div class="card-title">${esc(l.title)}</div>
+      <div class="card-swap">
+        <div class="swap-row"><span class="swap-lbl give">Даю:</span><span class="swap-text">${esc(l.offer)}</span></div>
+        <div class="swap-row"><span class="swap-lbl want">Хочу:</span><span class="swap-text">${esc(l.want)}</span></div>
+      </div>
+      <div class="card-footer"><span class="avatar">${esc(initial)}</span><span>${esc(u.firstName+' '+u.lastName)}</span>${u.plus?'<span class="plus-badge">Плюс</span>':''}${isVerified(u)?'<span class="verified-badge" style="margin-left:auto">✓ Проверен</span>':''}</div>
+    </div></article>`;
+}
+
+function marquee(){
+  const it=CATS.map(c=>`<span>${esc(c)}</span><i>✦</i>`).join('');
+  return `<div class="marquee"><div class="mq-track">${it}${it}${it}${it}</div></div>`;
+}
+function screenHome(){
+  app.innerHTML=`<div class="view active">
+    <div class="hero">
+      <div class="hero-badge">Сервис взаимного обучения</div>
+      <h1>Твои знания — твоя валюта</h1>
+      <p>Обменивайтесь навыками с другими людьми. Учите тому, что умеете сами, и получайте знания, которые давно хотели — без денег и репетиторов.</p>
+      <div class="hero-actions">
+        <a href="#/register" class="btn btn-primary btn-lg">Начать бесплатно</a>
+        <a href="#/listings" class="btn btn-outline btn-lg">Смотреть объявления</a>
+      </div>
+      <div class="hero-stats">
+        <div><b data-count="${state.allUsers.length}">${state.allUsers.length}</b><span>участников</span></div>
+        <div><b data-count="${state.listings.length}">${state.listings.length}</b><span>объявлений</span></div>
+        <div><b data-count="${CATS.length}">${CATS.length}</b><span>категорий</span></div>
+      </div>
+    </div>
+    ${marquee()}
+    <div class="section">
+      <div class="section-head"><div><div class="section-title">Как это работает</div><div class="section-sub">Четыре шага от знакомства до обмена</div></div></div>
+      <div class="steps">
+        <div class="step"><span class="step-num">ШАГ 01</span><div class="step-title">Создайте профиль</div><div class="step-text">Укажите, чему можете научить других и что хотите освоить сами.</div></div>
+        <div class="step"><span class="step-num">ШАГ 02</span><div class="step-title">Разместите объявление</div><div class="step-text">Опишите, какие навыки предлагаете и что хотите получить взамен.</div></div>
+        <div class="step"><span class="step-num">ШАГ 03</span><div class="step-title">Найдите партнёра</div><div class="step-text">Отправляйте запросы авторам объявлений. Автор получит уведомление.</div></div>
+        <div class="step"><span class="step-num">ШАГ 04</span><div class="step-title">Созвонитесь по видео</div><div class="step-text">После подтверждения открывается чат. Проведите занятие и подтвердите его — получите балл.</div></div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-head"><div><div class="section-title">Почему это удобно</div><div class="section-sub">Три причины попробовать</div></div></div>
+      <div class="features">
+        <div class="feature"><div class="feature-icon">◆</div><div class="feature-title">Бесплатно по умолчанию</div><div class="feature-text">Обмен знаниями ничего не стоит. Подписка «Плюс» — по желанию, для тех, кому нужно больше.</div></div>
+        <div class="feature"><div class="feature-icon">◎</div><div class="feature-title">Практика, а не теория</div><div class="feature-text">Живое общение с человеком, который может ответить на вопросы и показать на примере.</div></div>
+        <div class="feature"><div class="feature-icon">⬢</div><div class="feature-title">Проверенные партнёры</div><div class="feature-text">Рейтинги, отзывы после каждого обмена, встроенный фильтр нецензурных выражений.</div></div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-head"><div><div class="section-title">Частые вопросы</div><div class="section-sub">Коротко о главном</div></div></div>
+      <div class="faq">
+        <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">Это правда бесплатно?</div><div class="faq-a">Да, обмен бесплатный. Внутри платформы своя валюта — баллы: один завершённый обмен = один балл. Подписка «Плюс» (299 ₽ в месяц) необязательна: она добавляет объявления и звонки без лимита.</div></div>
+        <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">Как проходит обмен?</div><div class="faq-a">Находите объявление, отправляете запрос. Автор принимает — открывается чат. Договариваетесь о времени, созваниваетесь по видео прямо на сайте и подтверждаете занятие.</div></div>
+        <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">А если я ничего не умею?</div><div class="faq-a">Умеете. Каждый знает что-то, чему может научить другого: школьный предмет, готовка, спорт, игры, рукоделие.</div></div>
+        <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">Как защищаются пользователи?</div><div class="faq-a">Рейтинг и отзывы видны всем. Есть фильтр мата, кнопка «Пожаловаться», запрет на ссылки в описаниях.</div></div>
+        <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">Можно с телефона?</div><div class="faq-a">Да. Сайт адаптирован под мобильные устройства и поддерживает установку как приложение — иконка появится на рабочем столе.</div></div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-head"><div><div class="section-title">Свежие объявления</div><div class="section-sub">Что предлагают пользователи прямо сейчас</div></div><a href="#/listings" class="btn btn-outline btn-sm">Смотреть все</a></div>
+      <div id="homeListings"><div class="loading"><div class="spinner"></div>Загрузка…</div></div>
+    </div>
+  </div>`;
+  const items=state.listings.slice(0,3);
+  const el=$('#homeListings');
+  if(el)el.innerHTML=items.length?'<div class="grid">'+items.map(l=>cardHTML(l,false)).join('')+'</div>':emptyBlock('⇄','Объявлений пока нет','Станьте первым.','#/create','Разместить');
+}
+
+let searchDebounce;
+function screenListings(){
+  app.innerHTML=`<div class="view active">
+    <div class="section-head"><div><div class="section-title">Все объявления</div><div class="section-sub" id="listingsCount">Загрузка…</div></div></div>
+    <div class="search-bar"><input type="text" id="searchInput" placeholder="Поиск по навыку, описанию или человеку…"></div>
+    <div class="filters" id="filters">
+      <button class="chip active" data-cat="all" onclick="window.__filterCat('all',this)">Все</button>
+      ${CATS.map(c=>`<button class="chip" data-cat="${esc(c)}" onclick="window.__filterCat('${esc(c)}',this)">${esc(c)}</button>`).join('')}
+    </div>
+    <div id="listingsWrap"></div>
+  </div>`;
+  const inp=$('#searchInput');
+  if(inp){
+    inp.value=state.searchQuery||'';
+    inp.addEventListener('input',()=>{clearTimeout(searchDebounce);searchDebounce=setTimeout(()=>{state.searchQuery=inp.value;loadListings()},250)});
+  }
+  loadListings();
+}
+function loadListings(){
+  const cat=state.filterCat||'all';
+  const q=(state.searchQuery||'').trim().toLowerCase();
+  let items=state.listings.slice();
+  if(cat!=='all')items=items.filter(l=>l.category===cat);
+  const authorOf=l=>{const u=findUser(l.authorId);return u?(u.username+' '+u.firstName+' '+(u.lastName||'')):''};
+  if(q)items=items.filter(l=>(l.title+' '+l.offer+' '+l.want+' '+l.description+' '+l.category+' '+authorOf(l)).toLowerCase().includes(q));
+  items.sort((x,y)=>((findUser(y.authorId)||{}).plus?1:0)-((findUser(x.authorId)||{}).plus?1:0));
+  const people=q.length>=2?state.allUsers.filter(u=>(u.username+' '+u.firstName+' '+(u.lastName||'')+' '+(u.canTeach||'')+' '+(u.wantsLearn||'')).toLowerCase().includes(q)).slice(0,6):[];
+  const peopleHtml=people.length?'<div style="margin-bottom:16px"><div style="color:var(--muted);font-size:13px;margin-bottom:8px">Люди</div><div style="display:flex;gap:8px;flex-wrap:wrap">'+people.map(u=>`<a class="chip" href="#/user/${esc(u.username)}">${esc(u.firstName+' '+(u.lastName||''))} · @${esc(u.username)}</a>`).join('')+'</div></div>':'';
+  const cnt=$('#listingsCount');
+  if(cnt)cnt.textContent=items.length?plural(items.length,['предложение','предложения','предложений']):'Пока нет предложений';
+  const wrap=$('#listingsWrap');
+  const mineIds=state.user?new Set(state.listings.filter(l=>l.authorId===state.user.id).map(l=>l.id)):new Set();
+  if(wrap)wrap.innerHTML=peopleHtml+(items.length?'<div class="grid">'+items.map(l=>cardHTML(l,mineIds.has(l.id)||isAdmin())).join('')+'</div>':emptyBlock('🔍','Ничего не найдено','Измените запрос или категорию.','#/create','Разместить'));
+}
+
+function screenListing(id){
+  const l=state.listings.find(x=>x.id===id);
+  if(!l){app.innerHTML=`<div class="view active">${emptyBlock('×','Объявление не найдено','Оно было удалено.','#/listings','К списку')}</div>`;return}
+  const u=findUser(l.authorId);
+  if(!u){app.innerHTML=`<div class="view active">${emptyBlock('×','Автор не найден','Аккаунт удалён.','#/listings','К списку')}</div>`;return}
+  const initial=(u.firstName||u.username)[0].toUpperCase();
+  const isMine=state.user&&state.user.id===u.id;
+  app.innerHTML=`<div class="view active">
+    <a href="#/listings" class="btn btn-ghost btn-sm" style="margin-bottom:16px">← К объявлениям</a>
+    <div class="detail">
+      <div class="detail-hero">${esc(l.title[0].toUpperCase())}</div>
+      <div class="detail-body">
+        <div class="detail-cat">${esc(l.category)}</div>
+        <h1 class="detail-title">${esc(l.title)}</h1>
+        <div class="detail-author">
+          <span class="avatar-md">${esc(initial)}</span>
+          <div class="detail-author-info">
+            <div class="detail-author-name">${esc(u.firstName+' '+u.lastName)} ${isVerified(u)?'<span class="verified-badge">✓ Проверен</span>':''}${u.plus?'<span class="plus-badge">Плюс</span>':''}</div>
+            <div class="detail-author-sub">@${esc(u.username)} <span class="stars">${starsHtml(u.rating?.avg||0)}</span></div>
+          </div>
+        </div>
+        <div class="detail-swap">
+          <div class="detail-swap-block"><div class="detail-swap-lbl">Даю</div><div class="detail-swap-txt">${esc(l.offer)}</div></div>
+          <div class="detail-swap-block want"><div class="detail-swap-lbl">Хочу взамен</div><div class="detail-swap-txt">${esc(l.want)}</div></div>
+        </div>
+        <div class="detail-desc">${esc(l.description)}</div>
+        <div class="detail-actions">
+          ${isMine?`<button class="btn btn-outline btn-lg" onclick="window.__openEditListing('${l.id}')">✏️ Изменить</button><button class="btn btn-danger btn-lg" onclick="window.__confirmDelete('${l.id}')">🗑 Удалить</button>`:`<button class="btn btn-primary btn-lg" onclick="window.__openExchange('${l.id}')">Хочу обменяться</button>`}
+          <a href="#/listings" class="btn btn-outline btn-lg">Вернуться</a>
+          ${!isMine?`<button class="btn btn-ghost btn-sm" onclick="window.__openReport('${l.id}')">⚠ Пожаловаться</button>`:''}
+          ${!isMine&&isAdmin()?`<button class="btn btn-danger btn-lg" onclick="window.__confirmDelete('${l.id}')">🗑 Удалить как админ</button>`:''}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function openExchange(lid){
+  if(!state.user){toast('Войдите');location.hash='#/login';return}
+  openModal(`<div class="modal-title">Запрос на обмен</div>
+    <div class="modal-sub">Автор получит уведомление и сможет принять или отклонить запрос.</div>
+    <div class="field"><label>Сообщение <span class="hint">— по желанию</span></label>
+      <textarea id="exchangeMsg" rows="3" placeholder="Расскажите, почему вам интересен обмен" maxlength="500"></textarea></div>
+    <div class="form-error" id="exchangeErr"></div>
+    <div class="modal-actions"><button class="btn btn-outline" onclick="window.__closeModal()">Отмена</button><button class="btn btn-primary" onclick="window.__sendExchange('${lid}')">Отправить</button></div>`);
+}
+async function sendExchange(lid){
+  const err=$('#exchangeErr');
+  const msg=$('#exchangeMsg').value.trim();
+  try{
+    const l=state.listings.find(x=>x.id===lid);
+    if(!l)throw new Error('Объявление не найдено');
+    const existing=await DB.checkExistingExchange(lid,state.user.id);
+    if(existing){err.textContent='Запрос уже отправлен';err.classList.add('show');return}
+    await DB.createExchange(lid,state.user.id,l.authorId,msg);
+    closeModal();toast('Запрос отправлен');location.hash='#/exchanges';
+  }catch(e){err.textContent=e.message;err.classList.add('show')}
+}
+
+function openReport(lid){
+  openModal(`<div class="modal-title">Пожаловаться</div>
+    <div class="modal-sub">Опишите проблему. Мы рассмотрим жалобу в течение 24 часов.</div>
+    <div class="field"><label>Причина</label><textarea id="reportReason" rows="4" placeholder="Например: спам, оскорбления, запрещённый контент" maxlength="500"></textarea></div>
+    <div class="form-error" id="reportErr"></div>
+    <div class="modal-actions"><button class="btn btn-outline" onclick="window.__closeModal()">Отмена</button><button class="btn btn-primary" onclick="window.__sendReport('${lid}')">Отправить</button></div>`);
+}
+async function sendReport(lid){
+  const err=$('#reportErr');
+  const reason=$('#reportReason').value.trim();
+  if(reason.length<5){err.textContent='Опишите подробнее';err.classList.add('show');return}
+  try{await DB.createReport(state.user.id,lid,reason);closeModal();toast('Жалоба отправлена')}
+  catch(e){err.textContent=e.message;err.classList.add('show')}
+}
+
+function confirmDelete(lid){
+  const l=state.listings.find(x=>x.id===lid);
+  if(!l)return;
+  openModal(`<div class="modal-title">Удалить объявление?</div>
+    <div class="modal-sub">«${esc(l.title)}» будет удалено без возможности восстановления.</div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="window.__closeModal()">Отмена</button>
+      <button class="btn btn-danger" onclick="window.__doDelete('${lid}')">🗑 Удалить</button>
+    </div>`);
+}
+async function doDelete(lid){
+  try{
+    await DB.deleteListing(lid, state.user.id);
+    closeModal();
+    toast('Объявление удалено');
+    if(location.hash==='#/listing/'+lid) location.hash='#/cabinet';
+  }catch(e){toast(e.message)}
+}
+
+function screenLogin(){
+  app.innerHTML=`<div class="view active"><div class="form-wrap"><div class="form-card">
+    <div class="form-title">Вход</div><div class="form-sub">Введите почту и пароль</div>
+    <form class="form" onsubmit="window.__doLogin(event)">
+      <div class="form-error" id="loginError"></div>
+      <div class="field"><label>Почта</label><input type="email" id="loginEmail" placeholder="ivan@example.ru" autofocus></div>
+      <div class="field"><label>Пароль</label><input type="password" id="loginPassword" placeholder="Пароль"></div>
+      <button type="submit" class="btn btn-primary btn-lg btn-block">Войти</button>
+    </form>
+    <div class="form-alt"><a onclick="window.__forgotPassword()">Забыли пароль?</a></div>
+    <div class="form-alt">Нет аккаунта? <a href="#/register">Зарегистрироваться</a></div>
+  </div></div></div>`;
+}
+async function doLogin(e){
+  e.preventDefault();
+  const err=$('#loginError');
+  try{
+    const user=await DB.login($('#loginEmail').value.trim(),$('#loginPassword').value);
+    state.user=user;renderHeader();toast('Вы вошли');location.hash='#/cabinet';
+  }catch(ex){
+    let m=ex.message||'Ошибка входа';
+    if(m.includes('invalid-credential')||m.includes('wrong-password'))m='Неверная почта или пароль';
+    if(m.includes('user-not-found'))m='Пользователь не найден';
+    if(m.includes('too-many-requests'))m='Слишком много попыток. Попробуйте позже';
+    err.textContent=m;err.classList.add('show');
+  }
+}
+function forgotPassword(){
+  openModal(`<div class="modal-title">Сброс пароля</div><div class="modal-sub">Введите почту — придёт ссылка.</div>
+    <div class="field"><label>Почта</label><input type="email" id="resetEmail" placeholder="ivan@example.ru"></div>
+    <div class="form-error" id="resetErr"></div>
+    <div class="modal-actions"><button class="btn btn-outline" onclick="window.__closeModal()">Отмена</button><button class="btn btn-primary" onclick="window.__sendReset()">Отправить</button></div>`);
+}
+async function sendReset(){
+  const err=$('#resetErr');
+  try{await DB.resetPassword($('#resetEmail').value.trim());closeModal();toast('Письмо отправлено')}
+  catch(e){err.textContent='Не удалось отправить. Проверьте почту.';err.classList.add('show')}
+}
+
+function screenRegister(){
+  app.innerHTML=`<div class="view active"><div class="form-wrap"><div class="form-card">
+    <div class="form-title">Регистрация</div><div class="form-sub">Заполните профиль — это займёт минуту</div>
+    <form class="form" onsubmit="window.__doRegister(event)">
+      <div class="form-error" id="regError"></div>
+      <div class="field-row">
+        <div class="field"><label>Имя</label><input type="text" id="regFirstName" placeholder="Иван" maxlength="40"></div>
+        <div class="field"><label>Фамилия</label><input type="text" id="regLastName" placeholder="Петров" maxlength="40"></div>
+      </div>
+      <div class="field"><label>Логин <span class="hint">— латиница, 3-20</span></label><input type="text" id="regUsername" placeholder="ivan_petrov" maxlength="20"></div>
+      <div class="field"><label>Почта</label><input type="email" id="regEmail" placeholder="ivan@example.ru"></div>
+      <div class="field"><label>Пароль <span class="hint">— минимум 6</span></label><input type="password" id="regPassword" placeholder="Пароль"></div>
+      <div class="field"><label>Чему могу научить</label><textarea id="regCanTeach" rows="2" placeholder="Например: игра на гитаре, шахматы" maxlength="300"></textarea></div>
+      <div class="field"><label>Чему хочу научиться</label><textarea id="regWantsLearn" rows="2" placeholder="Например: рисование, шахматы" maxlength="300"></textarea></div>
+      <div class="field"><label>О себе <span class="hint">— по желанию</span></label><textarea id="regBio" rows="2" placeholder="Коротко о вас" maxlength="500"></textarea></div>
+      <label class="consent"><input type="checkbox" id="regConsent" required><span>Я согласен(на) на обработку персональных данных для работы сервиса и принимаю правила платформы.</span></label>
+      <button type="submit" class="btn btn-primary btn-lg btn-block">Зарегистрироваться</button>
+    </form>
+    <div class="form-alt">Уже есть аккаунт? <a href="#/login">Войти</a></div>
+  </div></div></div>`;
+}
+async function doRegister(e){
+  e.preventDefault();
+  const err=$('#regError');
+  const fn=$('#regFirstName').value.trim();
+  const ln=$('#regLastName').value.trim();
+  const un=$('#regUsername').value.trim();
+  const em=$('#regEmail').value.trim();
+  const pw=$('#regPassword').value;
+  const ct=$('#regCanTeach').value.trim();
+  const wl=$('#regWantsLearn').value.trim();
+  const bio=$('#regBio').value.trim();
+  const consent=$('#regConsent').checked;
+  if(!consent){err.textContent='Подтвердите согласие на обработку данных';err.classList.add('show');return}
+  if(!/^[a-z0-9_]{3,20}$/i.test(un)){err.textContent='Логин: 3-20 символов, латиница, цифры, _';err.classList.add('show');return}
+  if(!/^\S+@\S+\.\S+$/.test(em)){err.textContent='Некорректная почта';err.classList.add('show');return}
+  if(pw.length<6){err.textContent='Пароль — минимум 6 символов';err.classList.add('show');return}
+  if(!fn||!ln){err.textContent='Укажите имя и фамилию';err.classList.add('show');return}
+  if(!ct||!wl){err.textContent='Заполните навыки';err.classList.add('show');return}
+  try{
+    const user=await DB.register(em,pw,{username:un,firstName:fn,lastName:ln,canTeach:ct,wantsLearn:wl,bio,consentAt:Date.now()});
+    state.user=user;renderHeader();toast('Добро пожаловать!');location.hash='#/cabinet';
+  }catch(ex){
+    let m=ex.message||'Ошибка регистрации';
+    if(m.includes('email-already-in-use'))m='Эта почта уже используется';
+    if(m.includes('weak-password'))m='Слабый пароль';
+    if(m.includes('invalid-email'))m='Некорректная почта';
+    if(m.includes('operation-not-allowed'))m='Вход по почте и паролю отключён в настройках базы данных';
+    err.textContent=m;err.classList.add('show');
+  }
+}
+
+function screenCabinet(){
+  if(!state.user)return location.hash='#/login';
+  const u=state.user;
+  const mine=state.listings.filter(l=>l.authorId===u.id);
+  const exCount=state.exchanges.filter(x=>x.status==='accepted').length;
+  const doneCount=state.exchanges.filter(x=>x.status==='completed'&&x.kind!=='support').length;
+  const initial=(u.firstName||u.username||'?')[0].toUpperCase();
+  const rating=u.rating||{avg:0,count:0};
+  app.innerHTML=`<div class="view active">
+    <div class="dash-head"><div><div class="dash-title">Личный кабинет</div><div class="dash-sub">Добро пожаловать, ${esc(u.firstName||u.username)}</div></div><a href="#/create" class="btn btn-primary">+ Новое объявление</a></div>
+    <div class="stats">
+      <div class="stat"><div class="stat-value">${mine.length}</div><div class="stat-label">Объявлений</div></div>
+      <div class="stat"><div class="stat-value">${exCount}</div><div class="stat-label">Активных обменов</div></div>
+      <div class="stat"><div class="stat-value">${u.coins||0}</div><div class="stat-label">Баллов</div></div>
+      <div class="stat"><div class="stat-value">${doneCount}</div><div class="stat-label">Завершено</div></div>
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="window.__switchTab('l',this)">Мои объявления</button>
+      <button class="tab" onclick="window.__switchTab('p',this)">Профиль</button>
+      <button class="tab" onclick="window.__switchTab('r',this)">Отзывы (${rating.count||0})</button>
+    </div>
+    <div id="tab-l">${mine.length?'<div class="grid">'+mine.map(l=>cardHTML(l,true)).join('')+'</div>':emptyBlock('+','У вас пока нет объявлений','Разместите первое предложение.','#/create','Создать')}</div>
+    <div id="tab-p" style="display:none">
+      <div class="profile-card" style="max-width:640px">
+        <div class="avatar-lg">${esc(initial)}</div>
+        <div class="profile-name">${esc(u.firstName+' '+u.lastName)} ${isVerified(u)?'<span class="verified-badge">✓ Проверен</span>':''}${u.plus?'<span class="plus-badge">Плюс</span>':''}</div>
+        <div class="profile-username">@${esc(u.username)}</div>
+        <div class="rating-display"><span class="stars">${starsHtml(rating.avg)}</span><span style="color:var(--muted)">${rating.avg?rating.avg.toFixed(1):'Нет отзывов'}</span></div>
+        <div class="pi-row"><div class="pi-label">Почта</div><div>${esc(u.email)}</div></div>
+        <div class="pi-row"><div class="pi-label">Могу научить</div><div>${esc(u.canTeach||'—')}</div></div>
+        <div class="pi-row"><div class="pi-label">Хочу научиться</div><div>${esc(u.wantsLearn||'—')}</div></div>
+        <div class="pi-row"><div class="pi-label">О себе</div><div>${esc(u.bio||'—')}</div></div>
+        <div class="pi-row"><div class="pi-label">Баллы</div><div>${u.coins||0}</div></div>
+        <div class="pi-row"><div class="pi-label">Подписка</div><div>${u.plus?'Плюс':'Бесплатная · <a href="#/plus" style="text-decoration:underline">Плюс 299 ₽ в месяц</a>'}</div></div>
+        <button class="btn btn-primary" style="margin-top:16px" onclick="window.__openEditProfile()">✏️ Редактировать профиль</button>
+      </div>
+    </div>
+    <div id="tab-r" style="display:none">${state.reviews.length?state.reviews.map(reviewCard).join(''):emptyBlock('★','Отзывов пока нет','Завершите обмен.','#/listings','К объявлениям')}</div>
+  </div>`;
+  DB.watchReviews(u.id,list=>{
+    state.reviews=list;
+    if(location.hash==='#/cabinet'){
+      const el=$('#tab-r');
+      if(el)el.innerHTML=list.length?list.map(reviewCard).join(''):emptyBlock('★','Отзывов пока нет','Завершите обмен.','#/listings','К объявлениям');
+    }
+  });
+}
+function reviewCard(r){
+  const author=findUser(r.fromUserId);
+  const name=author?(author.firstName+' '+author.lastName):'Пользователь';
+  return `<div class="review">
+    <div class="review-head"><div><div class="review-author">${esc(name)}</div><div class="review-date">${fmtDate(r.createdAt)}</div></div><div class="review-stars">${starsHtml(r.rating)}</div></div>
+    <div class="review-text">${esc(r.text||'Без комментария')}</div>
+  </div>`;
+}
+
+function screenCreate(){
+  if(!state.user)return location.hash='#/login';
+  const mine=state.listings.filter(l=>l.authorId===state.user.id).length;
+  if(mine>=maxListings()){
+    app.innerHTML=`<div class="view active">${emptyBlock('⚠','Достигнут лимит','У вас уже '+maxListings()+' объявлений. Удалите старые или оформите подписку «Плюс» (до 15).','#/cabinet','К моим объявлениям')}</div>`;
+    return;
+  }
+  app.innerHTML=`<div class="view active"><div class="form-wrap"><div class="form-card">
+    <div class="form-title">Новое объявление</div><div class="form-sub">Опишите, что предлагаете и что хотите взамен</div>
+    <form class="form" onsubmit="window.__doCreate(event)">
+      <div class="form-error" id="createError"></div>
+      <div class="field"><label>Название</label><input type="text" id="createTitle" placeholder="Например: Научу играть на гитаре" maxlength="80"></div>
+      <div class="field"><label>Категория</label><select id="createCategory"><option value="">Выберите категорию</option>${CATS.map(c=>`<option>${esc(c)}</option>`).join('')}</select></div>
+      <div class="field"><label>Что предлагаю</label><input type="text" id="createOffer" placeholder="Например: основы игры на гитаре" maxlength="100"></div>
+      <div class="field"><label>Что хочу взамен</label><input type="text" id="createWant" placeholder="Например: программирование" maxlength="100"></div>
+      <div class="field"><label>Подробное описание</label><textarea id="createDesc" rows="4" placeholder="Опыт, формат занятий, что сможете дать (минимум 20 символов)" maxlength="2000"></textarea></div>
+      <button type="submit" class="btn btn-primary btn-lg btn-block">Опубликовать</button>
+    </form>
+    <div class="form-alt" style="font-size:11px">Запрещены ссылки на сторонние сайты и контакты. Объявления с нарушениями удаляются.</div>
+  </div></div></div>`;
+}
+async function doCreate(e){
+  e.preventDefault();
+  const err=$('#createError');
+  const title=$('#createTitle').value.trim();
+  const cat=$('#createCategory').value;
+  const offer=$('#createOffer').value.trim();
+  const want=$('#createWant').value.trim();
+  const desc=$('#createDesc').value.trim();
+  if(title.length<5||title.length>80){err.textContent='Название: 5-80 символов';err.classList.add('show');return}
+  if(!cat){err.textContent='Выберите категорию';err.classList.add('show');return}
+  if(!offer||!want){err.textContent='Заполните «даю» и «хочу»';err.classList.add('show');return}
+  if(desc.length<20){err.textContent='Описание — минимум 20 символов';err.classList.add('show');return}
+  const urlRx=/(https?:\/\/|www\.|\.ru|\.com|\.net|\.org|t\.me|@[a-z0-9_]{3,})/gi;
+  if(urlRx.test(desc)||urlRx.test(offer)||urlRx.test(want)){err.textContent='Ссылки и контакты запрещены в объявлении';err.classList.add('show');return}
+  const dup=state.listings.some(l=>l.authorId===state.user.id&&l.title.toLowerCase()===title.toLowerCase());
+  if(dup){err.textContent='У вас уже есть объявление с таким названием';err.classList.add('show');return}
+  try{
+    await DB.createListing({authorId:state.user.id,title,category:cat,offer,want,description:desc});
+    toast('Объявление опубликовано');location.hash='#/cabinet';
+  }catch(ex){err.textContent=ex.message;err.classList.add('show')}
+}
+
+function screenExchanges(){
+  if(!state.user)return location.hash='#/login';
+  const items=state.exchanges;
+  if(!items.length){
+    app.innerHTML=`<div class="view active"><div class="section-head"><div><div class="section-title">Обмены</div><div class="section-sub">Ваши запросы и входящие</div></div></div>${emptyBlock('⇄','Обменов пока нет','Найдите объявление и отправьте запрос.','#/listings','К объявлениям')}</div>`;return;
+  }
+  app.innerHTML=`<div class="view active"><div class="section-head"><div><div class="section-title">Обмены</div><div class="section-sub">${plural(items.length,['запрос','запроса','запросов'])}</div></div></div>${items.map(exCard).join('')}</div>`;
+}
+function exCard(ex){
+  if(ex.kind==='support')return supportCard(ex);
+  const isOwner=state.user.id===ex.ownerId;
+  const other=findUser(isOwner?ex.initiatorId:ex.ownerId);
+  const otherName=other?(other.firstName+' '+other.lastName):'—';
+  const l=state.listings.find(x=>x.id===ex.listingId);
+  const stMap={pending:'Ожидает',accepted:'Активен',rejected:'Отклонён',cancelled:'Отменён',completed:'Завершён'};
+  const roleLabel=isOwner?'Входящий':'Исходящий';
+  let actions='';
+  if(ex.status==='pending'&&isOwner){actions=`<div class="ex-actions"><button class="btn btn-primary" onclick="window.__acceptEx('${ex.id}')">Принять</button><button class="btn btn-outline" onclick="window.__rejectEx('${ex.id}')">Отклонить</button></div>`}
+  else if(ex.status==='pending'&&!isOwner){actions=`<div class="ex-actions"><span style="color:var(--muted);font-size:13px">Ожидает ответа автора</span><button class="btn btn-outline btn-sm" onclick="window.__cancelEx('${ex.id}')">Отозвать</button></div>`}
+  else if(ex.status==='accepted'){actions=`<div class="ex-actions"><a href="#/chat/${ex.id}" class="btn btn-primary">Открыть чат</a><button class="btn btn-outline" onclick="window.__cancelEx('${ex.id}')">Отменить обмен</button></div>`}
+  else if(ex.status==='completed'){
+    const myReview=isOwner?ex.ownerReview:ex.initiatorReview;
+    actions=`<div class="ex-actions"><a href="#/chat/${ex.id}" class="btn btn-ghost">История чата</a>${!myReview?`<button class="btn btn-primary" onclick="window.__openReview('${ex.id}')">Оставить отзыв</button>`:'<span style="color:var(--success);font-size:13px">✓ Отзыв оставлен</span>'}</div>`;
+  }
+  return `<div class="exchange"><div class="ex-head"><div style="flex:1;min-width:200px"><div class="ex-title">${esc(l?l.title:'Объявление удалено')}</div><div class="ex-sub">${roleLabel} · ${other?`<a href="#/user/${encodeURIComponent(other.username)}" class="plink">${esc(otherName)}</a>`:esc(otherName)} · ${fmtDate(ex.createdAt)}</div></div><span class="ex-status st-${ex.status}">${stMap[ex.status]}</span></div>${actions}</div>`;
+}
+async function acceptEx(id){try{await DB.acceptExchange(id,state.user.id);toast('Запрос принят')}catch(e){toast(e.message)}}
+async function cancelEx(id){
+  const sx=state.exchanges.find(e=>e.id===id);
+  if(!confirm(sx&&sx.kind==='support'?'Отозвать обращение в поддержку?':'Отменить обмен? Это действие нельзя вернуть.'))return;
+  try{await DB.cancelExchange(id,state.user.id);toast('Обмен отменён')}catch(e){toast(e.message)}
+}
+async function rejectEx(id){try{await DB.rejectExchange(id,state.user.id);toast('Запрос отклонён')}catch(e){toast(e.message)}}
+
+function openReview(exId){
+  window.__ratingValue=5;
+  openModal(`<div class="modal-title">Отзыв о партнёре</div><div class="modal-sub">Оцените опыт обмена</div>
+    <div class="rating-input" id="ratingInput">${[1,2,3,4,5].map(n=>`<button class="star active" data-r="${n}" onclick="window.__setRating(${n})">★</button>`).join('')}</div>
+    <div class="field"><label>Комментарий <span class="hint">— по желанию</span></label><textarea id="reviewText" rows="3" placeholder="Как прошёл обмен" maxlength="500"></textarea></div>
+    <div class="form-error" id="reviewErr"></div>
+    <div class="modal-actions"><button class="btn btn-outline" onclick="window.__closeModal()">Отмена</button><button class="btn btn-primary" onclick="window.__sendReview('${exId}')">Отправить</button></div>`);
+}
+function setRating(n){
+  window.__ratingValue=n;
+  document.querySelectorAll('#ratingInput .star').forEach(s=>s.classList.toggle('active',+s.dataset.r<=n));
+}
+async function sendReview(exId){
+  const err=$('#reviewErr');
+  const ex=state.exchanges.find(e=>e.id===exId);
+  if(!ex){err.textContent='Обмен не найден';err.classList.add('show');return}
+  const isOwner=ex.ownerId===state.user.id;
+  const toUserId=isOwner?ex.initiatorId:ex.ownerId;
+  try{await DB.createReview(exId,state.user.id,toUserId,window.__ratingValue||5,$('#reviewText').value.trim());closeModal();toast('Отзыв отправлен')}
+  catch(e){err.textContent=e.message;err.classList.add('show')}
+}
+
+function screenNotifications(){
+  if(!state.user)return location.hash='#/login';
+  const items=state.notifs;
+  const iconMap={exchange_request:'📨',exchange_accepted:'✓',exchange_rejected:'×',exchange_completed:'★',exchange_cancelled:'×',report:'⚠',call:'☎',support:'🛟'};
+  if(!items.length){
+    app.innerHTML=`<div class="view active"><div class="section-head"><div><div class="section-title">Уведомления</div><div class="section-sub">Здесь появятся запросы и ответы</div></div></div>${emptyBlock('🔔','Уведомлений нет','Когда кто-то захочет с вами обменяться, вы увидите это здесь.','#/listings','К объявлениям')}</div>`;
+  }else{
+    app.innerHTML=`<div class="view active"><div class="section-head"><div><div class="section-title">Уведомления</div><div class="section-sub">${plural(items.length,['уведомление','уведомления','уведомлений'])}</div></div></div><div class="notifications-list">${items.map(n=>notifCard(n,iconMap)).join('')}</div></div>`;
+  }
+  DB.markNotificationsRead(state.user.id).catch(()=>{});
+}
+function notifCard(n,iconMap){
+  const ex=n.exchangeId?state.exchanges.find(e=>e.id===n.exchangeId):null;
+  const isOwner=ex&&state.user&&state.user.id===ex.ownerId;
+  let actions='';
+  if(n.type==='exchange_request'&&ex&&ex.status==='pending'&&isOwner){actions=`<div class="notif-actions"><button class="btn btn-primary btn-sm" onclick="window.__acceptEx('${ex.id}')">Принять</button><button class="btn btn-outline btn-sm" onclick="window.__rejectEx('${ex.id}')">Отклонить</button></div>`}
+  else if((n.type==='exchange_accepted'||n.type==='exchange_completed')&&ex){actions=`<div class="notif-actions"><a href="#/chat/${ex.id}" class="btn btn-outline btn-sm">Открыть чат</a></div>`}
+  if(n.type==='support'&&ex){actions=`<div class="notif-actions">${ex.status==='pending'?(isOwner?`<button class="btn btn-primary btn-sm" onclick="window.__acceptEx('${ex.id}')">Принять</button>`:''):`<a href="#/chat/${ex.id}" class="btn btn-outline btn-sm">Открыть чат</a>`}</div>`}
+  if(n.type==='call'&&n.exchangeId){actions=`<div class="notif-actions"><a href="#/chat/${esc(n.exchangeId)}" class="btn btn-primary btn-sm">Открыть чат</a></div>`}
+  if(n.type==='report'&&n.exchangeId){actions=`<div class="notif-actions"><a href="#/listing/${esc(n.exchangeId)}" class="btn btn-outline btn-sm">Открыть объявление</a></div>`}
+  return `<div class="notif ${n.read?'':'unread'}"><div class="notif-icon ${n.type}">${iconMap[n.type]||'•'}</div><div class="notif-body"><div class="notif-text">${esc(n.text)}</div><div class="notif-meta">${fmtDate(n.createdAt)}</div>${actions}</div></div>`;
+}
+
+function screenChats(){
+  if(!state.user)return location.hash='#/login';
+  const demoLink=isAdmin()?'<a href="#/demo" class="exchange" style="display:block"><div class="ex-head"><div><div class="ex-title">Тестовый чат</div><div class="ex-sub">Для проверки вида чата и видеозвонка. Виден только администратору.</div></div></div></a>':'';
+  const chats=state.exchanges.filter(x=>x.status==='accepted'||x.status==='completed');
+  if(!chats.length){
+    app.innerHTML=`<div class="view active"><div class="section-head"><div><div class="section-title">Чаты</div><div class="section-sub">Общение с партнёрами</div></div></div>${demoLink}${emptyBlock('💬','Чатов пока нет','Чат откроется после принятия запроса.','#/listings','К объявлениям')}</div>`;return;
+  }
+  app.innerHTML=`<div class="view active"><div class="section-head"><div><div class="section-title">Чаты</div><div class="section-sub">${plural(chats.length,['активный чат','активных чата','активных чатов'])}</div></div></div><div>${demoLink}${chats.map(chatListItem).join('')}</div></div>`;
+}
+function chatListItem(ex){
+  if(ex.kind==='support')return supportChatItem(ex);
+  const isOwner=state.user.id===ex.ownerId;
+  const other=findUser(isOwner?ex.initiatorId:ex.ownerId);
+  const name=other?(other.firstName+' '+other.lastName):'Пользователь';
+  const initial=name[0].toUpperCase();
+  const l=state.listings.find(x=>x.id===ex.listingId);
+  return `<a href="#/chat/${ex.id}" class="exchange" style="display:block"><div class="ex-head"><div style="display:flex;gap:12px;align-items:center;flex:1;min-width:200px"><span class="avatar-md">${esc(initial)}</span><div style="min-width:0"><div class="ex-title">${esc(name)}</div><div class="ex-sub">${esc(l?l.title:'Объявление')}</div></div></div><span class="ex-status st-${ex.status}">${ex.status==='accepted'?'Активен':'Завершён'}</span></div></a>`;
+}
+
+async function screenChat(id){
+  if(!state.user)return location.hash='#/login';
+  const ex=state.exchanges.find(e=>e.id===id);
+  if(!ex){app.innerHTML=`<div class="view active">${emptyBlock('×','Обмен не найден','Возможно, удалён.','#/chats','К чатам')}</div>`;return}
+  if(ex.initiatorId!==state.user.id&&ex.ownerId!==state.user.id){app.innerHTML=`<div class="view active">${emptyBlock('×','Нет доступа','Вы не участник.','#/chats','К чатам')}</div>`;return}
+
+  const otherId=ex.initiatorId===state.user.id?ex.ownerId:ex.initiatorId;
+  const other=findUser(otherId);
+  const isSupport=ex.kind==='support',iAmOwner=ex.ownerId===state.user.id;
+  const otherName=(isSupport&&!iAmOwner)?'Поддержка':(other?(other.firstName+' '+(other.lastName||'')):'Пользователь');
+  const otherInitial=otherName[0].toUpperCase();
+  const l=state.listings.find(x=>x.id===ex.listingId);
+  const listTitle=isSupport?(ex.subject||'Обращение в поддержку'):(l?l.title:'Обмен');
+  const profHref=(other&&other.username&&(!isSupport||iAmOwner))?`#/user/${encodeURIComponent(other.username)}`:'';
+  const locked=ex.status!=='accepted'&&ex.status!=='completed';
+  const isCompleted=ex.status==='completed';
+  const myUploaded=ex.initiatorId===state.user.id?!!ex.initiatorVideo:!!ex.ownerVideo;
+  const otherUploaded=ex.initiatorId===state.user.id?!!ex.ownerVideo:!!ex.initiatorVideo;
+  const myVideo=ex.initiatorId===state.user.id?ex.initiatorVideo:ex.ownerVideo;
+  const otherVideo=ex.initiatorId===state.user.id?ex.ownerVideo:ex.initiatorVideo;
+
+  const iDone=ex.initiatorId===state.user.id?!!(ex.initiatorDone||ex.initiatorVideo):!!(ex.ownerDone||ex.ownerVideo);
+  const theyDone=ex.initiatorId===state.user.id?!!(ex.ownerDone||ex.ownerVideo):!!(ex.initiatorDone||ex.initiatorVideo);
+  let videoBlock='';
+  if(isSupport){
+    videoBlock=(iAmOwner&&ex.status==='accepted')?`<div class="video-zone"><div class="video-zone-head">Управление обращением</div><div class="call-actions"><button class="btn btn-danger" onclick="window.__closeSupport('${ex.id}')">Завершить чат</button></div><div class="upload-hint">После завершения чат закроется для обоих.</div></div>`:'';
+  }else if(!locked){
+    videoBlock=`<div class="video-zone">
+      <div class="video-zone-head">Видеозвонок</div>
+      <div id="incomingCall" class="incoming" style="display:none"><span>Входящий видеозвонок</span><span style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-primary btn-sm" onclick="window.__acceptCall('${ex.id}',true)">Принять</button><button class="btn btn-outline btn-sm" onclick="window.__acceptCall('${ex.id}',false)">Без камеры</button><button class="btn btn-outline btn-sm" onclick="window.__declineCall('${ex.id}')">Отклонить</button></span></div>
+      <div class="call-actions"><button class="btn btn-primary" onclick="window.__startCall('${ex.id}',true)">Позвонить по видео</button><button class="btn btn-outline" onclick="window.__startCall('${ex.id}',false)">Позвонить без камеры</button></div>
+      <div class="call-state">Занятие подтвердили: вы ${iDone||isCompleted?'✓':'—'} · собеседник ${theyDone||isCompleted?'✓':'—'}</div>
+      ${isCompleted?'<div style="color:var(--success);font-weight:600;font-size:13px">Обмен завершён. Начислен балл.</div>'
+        :(iDone?'<div class="call-hint">Ждём подтверждения собеседника</div>'
+          :`<button class="btn btn-outline" ${ex.calledAt?'':'disabled'} onclick="window.__confirmDone('${ex.id}')">Занятие состоялось</button><div class="upload-hint">${ex.calledAt?'Нажмите, когда занятие закончится. Балл получат оба, когда подтвердят оба.':'Станет доступно после первого видеозвонка'}</div>`)}
+    </div>`;
+  }
+
+  app.innerHTML=`<div class="view active">
+    <a href="#/chats" class="btn btn-ghost btn-sm" style="margin-bottom:12px">← К чатам</a>
+    <div class="chat">
+      <div class="chat-head">${profHref?`<a href="${profHref}" class="chat-head-link" title="Открыть профиль">`:'<div class="chat-head-link">'}<span class="avatar-md">${esc(otherInitial)}</span><div class="chat-head-info"><div class="chat-head-title">${esc(otherName)}</div><div class="chat-head-sub">${esc(listTitle)}</div></div>${profHref?'<span class="chat-head-go">Профиль ›</span></a>':'</div>'}</div>
+      <div class="chat-body" id="chatBody"><div class="loading"><div class="spinner"></div></div></div>
+      ${locked?'<div class="chat-locked">'+(isSupport?'Чат откроется, когда поддержка примет обращение':'Чат откроется после принятия запроса')+'</div>':(isSupport&&isCompleted)?'<div class="chat-locked">Обращение закрыто</div>':`<form class="chat-input" onsubmit="window.__sendMsg(event,'${ex.id}')"><input type="text" id="chatInput" placeholder="Написать сообщение…" autocomplete="off" maxlength="1000"><button type="submit" class="btn btn-primary">→</button></form>`}
+      ${videoBlock}
+    </div>
+  </div>`;
+
+  if(state.unsubs.call){state.unsubs.call();state.unsubs.call=null}
+  if(!locked)state.unsubs.call=DB.watchCall(ex.id,c=>{
+    const box=$('#incomingCall');if(!box)return;
+    const ring=c&&c.state==='ringing'&&c.caller!==state.user.id&&Date.now()-(c.createdAt||0)<90000&&!window.__callActive;
+    box.style.display=ring?'flex':'none';
+  });
+  if(state.unsubs.messages){state.unsubs.messages();state.unsubs.messages=null}
+  state.unsubs.messages=DB.watchMessages(ex.id,msgs=>{
+    const body=$('#chatBody');
+    if(!body)return;
+    const atBottom=body.scrollHeight-body.scrollTop-body.clientHeight<80;
+    body.innerHTML=msgs.length?msgs.map(m=>{const mine=m.senderId===state.user.id;return `<div class="msg ${mine?'msg-out':'msg-in'}">${esc(m.text)}<span class="msg-time">${fmtTime(m.createdAt)}</span></div>`}).join(''):'<div style="text-align:center;color:var(--muted);font-size:13px;padding:16px">Сообщений пока нет</div>';
+    if(atBottom)body.scrollTop=body.scrollHeight;
+  });
+  setTimeout(()=>{const b=$('#chatBody');if(b)b.scrollTop=b.scrollHeight},150);
+}
+
+async function sendMsg(e,id){
+  e.preventDefault();
+  const input=$('#chatInput');
+  const text=input.value.trim();
+  if(!text)return;
+  try{await DB.sendMessage(id,state.user.id,text);input.value=''}
+  catch(ex){toast(ex.message)}
+}
+
+async function confirmDone(id){
+  try{
+    const r=await DB.confirmDone(id,state.user.id);
+    toast(r.completed?'Обмен завершён! Начислен балл':'Подтверждено. Ждём собеседника.');
+    const fresh=await DB.getUser(state.user.id);
+    if(fresh)state.user={...fresh,rating:state.user.rating};
+  }catch(e){toast(e.message)}
+}
+
+function screenUser(username){
+  try{username=decodeURIComponent(username)}catch(e){}
+  const u=(state.allUsers||[]).find(x=>x.username===username);
+  if(!u){app.innerHTML=`<div class="view active">${emptyBlock('×','Пользователь не найден','Такого аккаунта нет.','#/listings','К объявлениям')}</div>`;return}
+  const items=state.listings.filter(l=>l.authorId===u.id);
+  const initial=((u.firstName||u.username||'?')[0]).toUpperCase();
+  app.innerHTML=`<div class="view active">
+    <div class="profile-card" style="max-width:640px;margin:0 auto 20px">
+      <div class="avatar-lg">${esc(initial)}</div>
+      <div class="profile-name">${esc(u.firstName+' '+u.lastName)} ${isVerified(u)?'<span class="verified-badge">✓ Проверен</span>':''}${u.plus?'<span class="plus-badge">Плюс</span>':''}</div>
+      <div class="profile-username">@${esc(u.username)}</div>
+      <div class="rating-display"><span class="stars">${starsHtml(u.rating?.avg||0)}</span><span style="color:var(--muted)">${u.rating?.avg?u.rating.avg.toFixed(1)+' ('+u.rating.count+')':'Нет отзывов'}</span></div>
+      <div class="pi-row"><div class="pi-label">Могу научить</div><div>${esc(u.canTeach||'—')}</div></div>
+      <div class="pi-row"><div class="pi-label">Хочу научиться</div><div>${esc(u.wantsLearn||'—')}</div></div>
+      <div class="pi-row"><div class="pi-label">О себе</div><div>${esc(u.bio||'—')}</div></div>
+      <div class="pi-row"><div class="pi-label">Баллы</div><div>${u.coins||0}</div></div>
+      ${isAdmin()?`<button class="btn btn-outline btn-sm" style="margin-top:12px" onclick="window.__togglePlus('${u.id}',${!u.plus})">${u.plus?'Снять подписку Плюс':'Выдать подписку Плюс'}</button>`:''}
+    </div>
+    <div class="section-head"><div><div class="section-title">Объявления</div><div class="section-sub">${items.length?'Активные предложения':'Нет активных'}</div></div></div>
+    ${items.length?'<div class="grid">'+items.map(l=>cardHTML(l,false)).join('')+'</div>':''}
+  </div>`;
+}
+
+function markTabs(){
+  const h=location.hash.replace(/^#/,'')||'/';
+  document.querySelectorAll('.mtabs a,.nav a').forEach(a=>{
+    const p=a.getAttribute('href').replace(/^#/,'');
+    const on=p==='/'?h==='/':(h===p||h.startsWith(p+'/')||(p==='/chats'&&h.startsWith('/chat/'))||(p==='/listings'&&h.startsWith('/listing/')));
+    a.classList.toggle('active',on);
+    if(on){a.setAttribute('aria-current','page');if(a.closest('.mtabs')&&a.scrollIntoView){try{a.scrollIntoView({inline:'center',block:'nearest'})}catch(e){}}}else a.removeAttribute('aria-current');
+  });
+}
+async function route(){
+  markTabs();
+  if(state.unsubs.messages){state.unsubs.messages();state.unsubs.messages=null}
+  if(state.unsubs.call){state.unsubs.call();state.unsubs.call=null}
+  if(window.__callActive&&!/^#\/chat\//.test(location.hash))hangup(true);
+  const hash=location.hash.replace(/^#/,'')||'/';
+  const parts=hash.split('/').filter(Boolean);
+  if(!parts.length)return screenHome();
+  if(parts[0]==='listings')return screenListings();
+  if(parts[0]==='listing'&&parts[1])return screenListing(parts[1]);
+  if(parts[0]==='login')return screenLogin();
+  if(parts[0]==='register')return screenRegister();
+  if(parts[0]==='cabinet')return screenCabinet();
+  if(parts[0]==='create')return screenCreate();
+  if(parts[0]==='exchanges')return screenExchanges();
+  if(parts[0]==='chats')return screenChats();
+  if(parts[0]==='chat'&&parts[1])return screenChat(parts[1]);
+  if(parts[0]==='notifications')return screenNotifications();
+  if(parts[0]==='plus')return screenPlus();
+  if(parts[0]==='demo')return screenDemoChat();
+  if(parts[0]==='user'&&parts[1])return screenUser(parts[1]);
+  return screenHome();
+}
+
+window.__confirmDelete=confirmDelete;
+
+function openEditProfile(){
+  const u=state.user;
+  openModal(`<div class="modal-title">Редактировать профиль</div>
+    <div class="form-error" id="epError"></div>
+    <div class="field"><label>Имя</label><input type="text" id="epFirst" maxlength="40" value="${esc(u.firstName||'')}"></div>
+    <div class="field"><label>Фамилия</label><input type="text" id="epLast" maxlength="40" value="${esc(u.lastName||'')}"></div>
+    <div class="field"><label>Могу научить</label><input type="text" id="epTeach" maxlength="200" value="${esc(u.canTeach||'')}"></div>
+    <div class="field"><label>Хочу научиться</label><input type="text" id="epLearn" maxlength="200" value="${esc(u.wantsLearn||'')}"></div>
+    <div class="field"><label>О себе</label><textarea id="epBio" rows="3" maxlength="500">${esc(u.bio||'')}</textarea></div>
+    <div class="modal-actions"><button class="btn btn-outline" onclick="window.__closeModal()">Отмена</button><button class="btn btn-primary" onclick="window.__saveProfile()">Сохранить</button></div>`);
+}
+async function saveProfile(){
+  const err=$('#epError');
+  const d={firstName:$('#epFirst').value,lastName:$('#epLast').value,canTeach:$('#epTeach').value,wantsLearn:$('#epLearn').value,bio:$('#epBio').value};
+  if(LINK_RX.test(d.bio+' '+d.canTeach+' '+d.wantsLearn)){err.textContent='Ссылки и контакты запрещены';err.classList.add('show');return}
+  try{
+    const p=await DB.updateProfile(state.user.id,d);
+    Object.assign(state.user,p);
+    const au=state.allUsers.find(x=>x.id===state.user.id);if(au)Object.assign(au,p);
+    closeModal();toast('Профиль обновлён');route();
+  }catch(e){err.textContent=e.message;err.classList.add('show')}
+}
+function openEditListing(id){
+  const l=state.listings.find(x=>x.id===id);
+  if(!l||l.authorId!==state.user.id)return;
+  openModal(`<div class="modal-title">Изменить объявление</div>
+    <div class="form-error" id="elError"></div>
+    <div class="field"><label>Название</label><input type="text" id="elTitle" maxlength="80" value="${esc(l.title)}"></div>
+    <div class="field"><label>Категория</label><select id="elCat">${CATS.map(c=>`<option${c===l.category?' selected':''}>${esc(c)}</option>`).join('')}</select></div>
+    <div class="field"><label>Что предлагаю</label><input type="text" id="elOffer" maxlength="100" value="${esc(l.offer)}"></div>
+    <div class="field"><label>Что хочу взамен</label><input type="text" id="elWant" maxlength="100" value="${esc(l.want)}"></div>
+    <div class="field"><label>Описание</label><textarea id="elDesc" rows="4" maxlength="2000">${esc(l.description)}</textarea></div>
+    <div class="modal-actions"><button class="btn btn-outline" onclick="window.__closeModal()">Отмена</button><button class="btn btn-primary" onclick="window.__saveListing('${esc(id)}')">Сохранить</button></div>`);
+}
+async function saveListing(id){
+  const err=$('#elError');
+  const d={title:$('#elTitle').value.trim(),category:$('#elCat').value,offer:$('#elOffer').value.trim(),want:$('#elWant').value.trim(),description:$('#elDesc').value.trim()};
+  const bad=m=>{err.textContent=m;err.classList.add('show')};
+  if(d.title.length<5)return bad('Название: минимум 5 символов');
+  if(!d.offer||!d.want)return bad('Заполните «даю» и «хочу»');
+  if(d.description.length<20)return bad('Описание — минимум 20 символов');
+  if(LINK_RX.test(d.title+' '+d.offer+' '+d.want+' '+d.description))return bad('Ссылки и контакты запрещены');
+  try{
+    const item=await DB.updateListing(id,state.user.id,d);
+    const i=state.listings.findIndex(x=>x.id===id);if(i>=0)state.listings[i]=item;
+    closeModal();toast('Объявление обновлено');route();
+  }catch(e){bad(e.message)}
+}
+window.__openEditProfile=openEditProfile;window.__saveProfile=saveProfile;
+window.__openEditListing=openEditListing;window.__saveListing=saveListing;
+window.__doDelete=doDelete;
+window.__closeModal=closeModal;
+window.__logout=async()=>{await DB.logout();state.user=null;state.notifs=[];state.exchanges=[];updateTitle();renderHeader();toast('Вы вышли');location.hash='#/'};
+window.__filterCat=(cat,el)=>{state.filterCat=cat;document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');loadListings()};
+window.__openExchange=openExchange;
+window.__sendExchange=sendExchange;
+window.__openReport=openReport;
+window.__sendReport=sendReport;
+window.__doLogin=doLogin;
+window.__doRegister=doRegister;
+window.__forgotPassword=forgotPassword;
+window.__sendReset=sendReset;
+window.__switchTab=(id,el)=>{document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');document.querySelectorAll('[id^="tab-"]').forEach(t=>t.style.display='none');const e=document.getElementById('tab-'+id);if(e)e.style.display='block'};
+window.__doCreate=doCreate;
+window.__acceptEx=acceptEx;
+/* ---- поддержка ---- */
+function supportName(ex){
+  const isOwner=state.user.id===ex.ownerId;
+  if(!isOwner)return 'Поддержка';
+  const u=findUser(ex.initiatorId);
+  return u?(((u.firstName||'')+' '+(u.lastName||'')).trim()||u.username):'Пользователь';
+}
+function supportCard(ex){
+  const isOwner=state.user.id===ex.ownerId;
+  const stm={pending:'Ожидает',accepted:'В работе',completed:'Закрыто',cancelled:'Отозвано',rejected:'Закрыто'};
+  let a='';
+  if(ex.status==='pending'&&isOwner)a=`<div class="ex-actions"><button class="btn btn-primary" onclick="window.__acceptEx('${ex.id}')">Принять</button></div>`;
+  else if(ex.status==='pending')a=`<div class="ex-actions"><span style="color:var(--muted);font-size:13px">Поддержка скоро ответит</span><button class="btn btn-outline btn-sm" onclick="window.__cancelEx('${ex.id}')">Отозвать</button></div>`;
+  else if(ex.status==='accepted'||ex.status==='completed')a=`<div class="ex-actions"><a href="#/chat/${ex.id}" class="btn btn-primary">${ex.status==='accepted'?'Открыть чат':'История чата'}</a></div>`;
+  return `<div class="exchange"><div class="ex-head"><div style="flex:1;min-width:200px"><div class="ex-title">Поддержка${isOwner?': '+esc(supportName(ex)):''}</div><div class="ex-sub">${esc(ex.subject||'Обращение')} · ${fmtDate(ex.createdAt)}</div></div><span class="ex-status st-${ex.status}">${stm[ex.status]||ex.status}</span></div>${a}</div>`;
+}
+function supportChatItem(ex){
+  const isOwner=state.user.id===ex.ownerId,name=supportName(ex),ini=(name[0]||'П').toUpperCase();
+  return `<a href="#/chat/${ex.id}" class="exchange" style="display:block"><div class="ex-head"><div style="display:flex;gap:12px;align-items:center;flex:1;min-width:200px"><span class="avatar-md">${esc(ini)}</span><div style="min-width:0"><div class="ex-title">${esc(name)}</div><div class="ex-sub">${isOwner?'Обращение в поддержку':'Служба поддержки'} · ${esc(ex.subject||'')}</div></div></div><span class="ex-status st-${ex.status}">${ex.status==='completed'?'Закрыто':'В работе'}</span></div></a>`;
+}
+function openSupport(){
+  if(!state.user){toast('Войдите, чтобы написать в поддержку');location.hash='#/login';return}
+  if(isAdmin()){toast('Обращения пользователей приходят вам в раздел «Обмены»');location.hash='#/exchanges';return}
+  openModal(`<div class="modal-title">Поддержка</div><div class="modal-sub">Опишите вопрос или проблему. Ответ придёт в чат.</div>
+    <div class="form-error" id="supErr"></div>
+    <div class="field"><label>Ваш запрос</label><textarea id="supText" rows="5" maxlength="1000" placeholder="Что случилось?"></textarea></div>
+    <div class="modal-actions"><button class="btn btn-outline" onclick="window.__closeModal()">Отмена</button><button class="btn btn-primary" id="supBtn" onclick="window.__sendSupport()">Отправить</button></div>`);
+  setTimeout(()=>{const x=$('#supText');if(x)x.focus()},60);
+}
+async function sendSupport(){
+  const x=$('#supText'),err=$('#supErr'),btn=$('#supBtn');if(!x)return;
+  const text=x.value.trim();
+  if(text.length<5){err.textContent='Опишите вопрос подробнее, хотя бы парой слов';err.classList.add('show');return}
+  btn.disabled=true;
+  try{
+    const ex=await DB.createSupport(state.user.id,text);
+    closeModal();toast('Обращение отправлено. Ответ придёт в чат.');
+    location.hash=ex.status==='accepted'?'#/chat/'+ex.id:'#/exchanges';
+  }catch(e){err.textContent=e.message||'Не удалось отправить';err.classList.add('show');btn.disabled=false}
+}
+async function closeSupport(id){
+  if(!confirm('Завершить чат поддержки? Пользователь больше не сможет в нём писать.'))return;
+  try{await DB.closeSupport(id,state.user.id);toast('Чат завершён')}catch(e){toast(e.message||'Не удалось завершить')}
+}
+window.__openSupport=openSupport;window.__sendSupport=sendSupport;window.__closeSupport=closeSupport;
+
+window.__rejectEx=rejectEx;window.__cancelEx=cancelEx;
+window.__openReview=openReview;
+window.__setRating=setRating;
+window.__sendReview=sendReview;
+window.__sendMsg=sendMsg;
+window.__confirmDone=confirmDone;
+
+
+function screenPlus(){
+  const u=state.user,plus=!!(u&&u.plus);
+  const row=(a,b,c)=>`<tr><td>${a}</td><td>${b}</td><td class="on">${c}</td></tr>`;
+  let actions;
+  if(plus)actions='<div class="plan-note" style="border-color:var(--accent)">Подписка «Плюс» у вас активна.</div>';
+  else actions=`<button class="btn btn-primary btn-lg" disabled>Оформить за 299 ₽ в месяц</button>
+    <div class="plan-note">Оплата временно недоступна. Мы откроем её, как только подключим приём платежей.</div>
+    ${u?'<button class="btn btn-outline" id="wlBtn" onclick="window.__joinWaitlist()">Сообщить, когда откроется оплата</button>':'<a class="btn btn-outline" href="#/login">Войти, чтобы встать в очередь</a>'}`;
+  app.innerHTML=`<div class="view active"><div class="plan">
+    <div class="plan-tag">Подписка</div>
+    <h1 class="plan-title">Плюс</h1>
+    <div class="plan-price">299 ₽<span> / месяц</span></div>
+    <p class="plan-lead">Больше места для обменов и видеозвонки без ограничения по времени.</p>
+    <table class="plan-table"><thead><tr><th></th><th>Бесплатно</th><th>Плюс</th></tr></thead><tbody>
+      ${row('Объявления','до 5','до 15')}
+      ${row('Видеозвонок','20 минут','без ограничения')}
+      ${row('Место в ленте','по дате','выше остальных')}
+      ${row('Значок у имени','нет','«Плюс»')}
+    </tbody></table>
+    <div class="plan-actions">${actions}</div>
+  </div></div>`;
+  if(u&&!plus)DB.inPlusWaitlist(u.id).then(v=>{const b=$('#wlBtn');if(b&&v){b.disabled=true;b.textContent='Вы в списке ✓'}}).catch(()=>{});
+}
+async function joinWaitlist(){
+  try{await DB.joinPlusWaitlist(state.user.id);const b=$('#wlBtn');if(b){b.disabled=true;b.textContent='Вы в списке ✓'}toast('Готово. Сообщим, когда оплата откроется.')}
+  catch(e){toast('Не удалось. Попробуйте позже.')}
+}
+async function togglePlus(uid,val){
+  try{
+    await DB.setPlus(uid,val);
+    const au=state.allUsers.find(x=>x.id===uid);if(au)au.plus=val;
+    toast(val?'Подписка выдана':'Подписка снята');route();
+  }catch(e){toast(e.message)}
+}
+
+/* ---- видеозвонок (WebRTC, сигналы через базу) ---- */
+const ICE_BASE=[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'},{urls:'stun:stun.cloudflare.com:3478'}];
+const iceServers=()=>[...ICE_BASE,...(DB.turnServers||[])];
+const VIDEO_C={width:{ideal:1280},height:{ideal:720},facingMode:'user'};
+let call=null;
+const callErr=(e,d)=>/PERMISSION_DENIED|permission[_ ]denied/i.test((e&&(e.code||e.message))||'')?'Нет доступа к звонкам: в базе данных не опубликованы актуальные правила (раздел «calls»).':((e&&e.message)||d);
+const fmtT=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+const setStatus=t=>{const e=$('#callStatus');if(e)e.textContent=t};
+const pref=(k,v)=>{try{if(v===undefined)return localStorage.getItem('call_'+k)||'';if(v)localStorage.setItem('call_'+k,v);else localStorage.removeItem('call_'+k)}catch(e){return ''}};
+const AUDIO_C=()=>{const id=pref('mic');const c={echoCancellation:true,noiseSuppression:true,autoGainControl:true};if(id)c.deviceId={ideal:id};return c};
+const videoC=()=>{const id=pref('cam');const c={...VIDEO_C};if(id){c.deviceId={ideal:id};delete c.facingMode}return c};
+async function getLocal(wantVideo){
+  if(!navigator.mediaDevices||!window.RTCPeerConnection)throw new Error('Ваш браузер не поддерживает видеозвонки. Откройте сайт в Chrome, Safari или Firefox.');
+  const tryGet=async c=>{try{return await navigator.mediaDevices.getUserMedia(c)}catch(e){return null}};
+  let s=wantVideo?await tryGet({audio:AUDIO_C(),video:videoC()}):null;
+  if(!s)s=await tryGet({audio:AUDIO_C()});
+  if(!s)s=await tryGet({audio:true});
+  if(!s&&wantVideo)s=await tryGet({video:videoC()});
+  return s||new MediaStream();
+}
+function noteLocal(local,wantVideo){
+  const a=local.getAudioTracks().length,v=local.getVideoTracks().length;
+  if(!a&&!v)toast('Нет доступа к микрофону и камере. Вы слышите собеседника, включить устройства можно кнопками внизу.');
+  else if(wantVideo&&!v)toast('Вы вошли без камеры. Включить её можно кнопкой «Камера».');
+  else if(!a)toast('Микрофон недоступен: собеседник вас не слышит.');
+}
+let wl=null;
+function openOverlay(local,status){
+  try{if(navigator.wakeLock)navigator.wakeLock.request('screen').then(l=>{wl=l}).catch(()=>{})}catch(e){}
+  $('#localV').srcObject=local;$('#callTime').textContent='00:00';
+  $('#callOverlay').classList.add('on');window.__callActive=true;setStatus(status);
+}
+function closeOverlay(){
+  try{if(wl){wl.release();wl=null}}catch(e){}
+  $('#callOverlay').classList.remove('on');window.__callActive=false;
+  $('#localV').srcObject=null;$('#remoteV').srcObject=null;$('#shareV').srcObject=null;
+  $('#remoteOff').style.display='none';$('#remoteTag').style.display='none';
+  const st=$('#coStage');if(st)st.classList.remove('rs','ls');
+  $('#devPanel').classList.remove('show');
+  $('#drawBar').style.display='none';$('#shareBar').style.display='none';$('#shareBar').innerHTML='';
+  $('#drawC').classList.remove('live');$('#drawBtn').style.display='none';$('#shareBtn').classList.remove('act');$('#drawBtn').classList.remove('act');
+  drawResetLocal();
+}
+function fillWho(id){
+  const u=id?findUser(id):null;
+  const n=u?(((u.firstName||'')+' '+(u.lastName||'')).trim()||u.username||'Собеседник'):(id?'Собеседник':'Тестовый собеседник');
+  const ini=(n[0]||'?').toUpperCase();
+  $('#coName').textContent=n;$('#coAva').textContent=ini;$('#remoteAva').textContent=ini;
+}
+function syncUI(){
+  if(!call)return;
+  const hasCam=call.local.getVideoTracks().length>0;
+  const a=call.local.getAudioTracks()[0],micOn=!!(a&&a.enabled);
+  const mb=$('#micBtn'),cb=$('#camBtn');
+  mb.classList.toggle('off',!micOn);mb.title=micOn?'Выключить микрофон':'Включить микрофон';mb.setAttribute('aria-pressed',String(!micOn));
+  cb.classList.toggle('off',!hasCam);cb.title=hasCam?'Выключить камеру':'Включить камеру';cb.setAttribute('aria-pressed',String(!hasCam));
+  $('#localOff').style.display=hasCam?'none':'flex';
+  $('#remoteOff').style.display=(call.remoteCam===false&&!call.remoteSharing)?'flex':'none';
+  const tag=$('#remoteTag'),muted=call.remoteMic===false;
+  tag.textContent=muted?'Собеседник выключил микрофон':'';tag.style.display=muted?'block':'none';
+}
+function pushMedia(){
+  if(!call||call.demo||!call.exId)return;
+  const a=call.local.getAudioTracks()[0];
+  DB.callMedia(call.exId,state.user.id,{mic:!!(a&&a.enabled),cam:call.local.getVideoTracks().length>0}).catch(()=>{});
+}
+function makePc(exId,role){
+  const pc=new RTCPeerConnection({iceServers:iceServers()}),remote=new MediaStream(),rv=$('#remoteV');
+  rv.srcObject=remote;
+  pc.ontrack=e=>{remote.addTrack(e.track);const p=rv.play();if(p&&p.catch)p.catch(()=>setStatus('Нажмите на экран, чтобы включить звук'))};
+  pc.onicecandidate=e=>{if(e.candidate)DB.pushCandidate(exId,role,JSON.parse(JSON.stringify(e.candidate))).catch(()=>{})};
+  pc.onconnectionstatechange=()=>{
+    if(!call||call.pc!==pc)return;
+    const st=pc.connectionState;
+    if(st==='connected'){clearTimeout(call.dropTimer);onConnected()}
+    else if(st==='disconnected'){setStatus('Связь прервана…');clearTimeout(call.dropTimer);call.dropTimer=setTimeout(()=>{toast('Связь потеряна');hangup(true)},12000)}
+    else if(st==='failed'){toast('Не удалось соединиться. Возможно, сеть закрыта: попробуйте другой Wi-Fi или мобильную сеть.');hangup(true)}
+  };
+  return pc;
+}
+async function setSenders(aTx,vTx,local){
+  const a=local.getAudioTracks()[0],v=local.getVideoTracks()[0];
+  if(a&&aTx)await aTx.sender.replaceTrack(a);
+  if(v&&vTx)await vTx.sender.replaceTrack(v);
+}
+function addCand(c){
+  if(!call)return;
+  if(call.pc.remoteDescription)call.pc.addIceCandidate(c).catch(()=>{});else call.pending.push(c);
+}
+function flushCand(){if(!call)return;call.pending.splice(0).forEach(c=>call.pc.addIceCandidate(c).catch(()=>{}))}
+function armConnectTimeout(){
+  clearTimeout(call.connTimer);
+  call.connTimer=setTimeout(()=>{if(call&&!call.connected){toast('Не удалось соединиться. Попробуйте другую сеть.');hangup(true)}},25000);
+}
+function onConnected(){
+  if(!call||call.connected)return;
+  call.connected=true;clearTimeout(call.ringTimer);clearTimeout(call.connTimer);setStatus('Соединено');
+  const t0=Date.now();
+  call.timer=setInterval(()=>{$('#callTime').textContent=fmtT(Math.floor((Date.now()-t0)/1000))},1000);
+  DB.markCalled(call.exId).catch(()=>{});
+  const other=findUser(call.otherId);
+  if(!(state.user.plus||(other&&other.plus)))
+    call.limit=setTimeout(()=>{toast('Лимит бесплатного звонка — 20 минут. Подписка «Плюс» снимает его.');hangup(true)},20*60000);
+}
+function onCallData(c){
+  if(!call||!c)return;
+  const m=c.media&&c.media[call.otherId];
+  if(m){call.remoteCam=!!m.cam;call.remoteMic=!!m.mic;syncUI()}
+  if(call.role==='caller'&&c.answer&&!call.answered){
+    call.answered=true;clearTimeout(call.ringTimer);setStatus('Соединяем…');armConnectTimeout();
+    call.pc.setRemoteDescription(c.answer).then(flushCand).catch(()=>{toast('Ошибка соединения');hangup(true)});
+  }
+  handleShareData(c);
+  if(c.state==='ended')hangup(false);
+}
+function otherOf(exId){
+  const ex=state.exchanges.find(e=>e.id===exId);
+  if(!ex||ex.status!=='accepted')return null;
+  return ex.initiatorId===state.user.id?ex.ownerId:ex.initiatorId;
+}
+async function startCall(exId,withVideo=true){
+  if(call)return;
+  const otherId=otherOf(exId);if(!otherId)return toast('Обмен не активен');
+  try{
+    const local=await getLocal(withVideo);
+    noteLocal(local,withVideo);
+    openOverlay(local,'Вызываем собеседника…');
+    call={pc:null,local,exId,otherId,role:'caller',pending:[],unsubs:[]};callUiInit();
+    const pc=makePc(exId,'caller');call.pc=pc;
+    call.aTx=pc.addTransceiver('audio',{direction:'sendrecv'});
+    call.vTx=pc.addTransceiver('video',{direction:'sendrecv'});
+    await setSenders(call.aTx,call.vTx,local);
+    const offer=await pc.createOffer();
+    await DB.callStart(exId,{caller:state.user.id,offer:{type:offer.type,sdp:offer.sdp}});
+    if(!call)return;
+    await pc.setLocalDescription(offer);
+    pushMedia();syncUI();
+    call.unsubs.push(DB.watchCandidates(exId,'callee',addCand));
+    call.unsubs.push(DB.watchCall(exId,onCallData));
+    call.ringTimer=setTimeout(()=>{if(call&&!call.connected&&!call.answered){toast('Собеседник не ответил');hangup(true)}},60000);
+    DB.createNotification(otherId,'call','Входящий видеозвонок',exId).catch(()=>{});
+  }catch(e){toast(callErr(e,'Не удалось начать звонок'));hangup(true)}
+}
+async function acceptCall(exId,withVideo=true){
+  if(call)return;
+  const otherId=otherOf(exId);if(!otherId)return;
+  try{
+    const c=await DB.getCall(exId);
+    if(!c||c.state!=='ringing')return toast('Звонок уже завершён');
+    const local=await getLocal(withVideo);
+    noteLocal(local,withVideo);
+    openOverlay(local,'Соединяем…');
+    call={pc:null,local,exId,otherId,role:'callee',pending:[],unsubs:[]};callUiInit();
+    const pc=makePc(exId,'callee');call.pc=pc;
+    await pc.setRemoteDescription(c.offer);
+    const txs=pc.getTransceivers();
+    call.aTx=txs.find(t=>t.receiver.track.kind==='audio');
+    call.vTx=txs.find(t=>t.receiver.track.kind==='video');
+    [call.aTx,call.vTx].forEach(t=>{if(t)t.direction='sendrecv'});
+    await setSenders(call.aTx,call.vTx,local);
+    flushCand();
+    const ans=await pc.createAnswer();
+    await pc.setLocalDescription(ans);
+    await DB.callAnswer(exId,{type:ans.type,sdp:ans.sdp});
+    pushMedia();syncUI();armConnectTimeout();
+    call.unsubs.push(DB.watchCandidates(exId,'caller',addCand));
+    call.unsubs.push(DB.watchCall(exId,onCallData));
+  }catch(e){toast(callErr(e,'Не удалось принять звонок'));hangup(true)}
+}
+function declineCall(exId){DB.callEnd(exId)}
+function hangup(send){
+  const c=call;call=null;
+  if(!c){closeOverlay();return}
+  [c.timer].forEach(clearInterval);
+  [c.limit,c.ringTimer,c.connTimer,c.dropTimer].forEach(clearTimeout);
+  c.unsubs.forEach(u=>{try{u()}catch(e){}});
+  try{c.pc&&c.pc.close()}catch(e){}
+  c.local.getTracks().forEach(t=>t.stop());
+  if(c.screen)c.screen.getTracks().forEach(t=>{t.onended=null;t.stop()});
+  if(c.demo){localStorage.setItem('obmen-demo-done','1');toast('Демо-звонок завершён — теперь можно подтвердить занятие');}
+  closeOverlay();
+  if(send&&!c.demo&&c.exId)DB.callEnd(c.exId);
+  if(c.demo){setTimeout(()=>{if(location.hash==='#/demo')screenDemoChat()},120)}
+  flushRoute();
+}
+async function toggleMic(){
+  const c=call;if(!c)return;
+  let t=c.local.getAudioTracks()[0];
+  if(!t){
+    try{
+      const s=await navigator.mediaDevices.getUserMedia({audio:AUDIO_C()});
+      t=s.getAudioTracks()[0];c.local.addTrack(t);
+      if(c.aTx)await c.aTx.sender.replaceTrack(t);
+    }catch(e){return toast('Нет доступа к микрофону. Проверьте разрешение в настройках браузера.')}
+  }else t.enabled=!t.enabled;
+  syncUI();pushMedia();
+}
+async function toggleCam(){
+  const c=call;if(!c)return;
+  const t=c.local.getVideoTracks()[0];
+  if(t){
+    t.stop();c.local.removeTrack(t);
+    if(c.vTx&&!c.sharing)await c.vTx.sender.replaceTrack(null);
+  }else{
+    try{
+      const s=await navigator.mediaDevices.getUserMedia({video:videoC()});
+      const nt=s.getVideoTracks()[0];c.local.addTrack(nt);
+      if(c.vTx&&!c.sharing)await c.vTx.sender.replaceTrack(nt);
+    }catch(e){return toast('Нет доступа к камере. Проверьте разрешение в настройках браузера.')}
+  }
+  const lv=$('#localV');lv.srcObject=null;lv.srcObject=c.local;
+  syncUI();pushMedia();
+}
+
+/* ---- настройки устройств: микрофон, звук, камера ---- */
+async function refreshDevices(){
+  const md=navigator.mediaDevices;if(!md||!md.enumerateDevices)return;
+  let list=[];try{list=await md.enumerateDevices()}catch(e){return}
+  const c=call;
+  const at=c&&c.local.getAudioTracks()[0],vt=c&&c.local.getVideoTracks()[0];
+  const curA=at&&at.getSettings?at.getSettings().deviceId:'',curV=vt&&vt.getSettings?vt.getSettings().deviceId:'';
+  const fill=(id,kind,cur,name)=>{
+    const sel=$(id),items=list.filter(d=>d.kind===kind);
+    sel.innerHTML=items.length?items.map((d,i)=>`<option value="${esc(d.deviceId)}">${esc(d.label||(name+' '+(i+1)))}</option>`).join(''):'<option value="">Не найдено</option>';
+    if(cur&&items.some(d=>d.deviceId===cur))sel.value=cur;
+    sel.disabled=!items.length;
+  };
+  fill('#micSel','audioinput',curA||pref('mic'),'Микрофон');
+  fill('#camSel','videoinput',curV||pref('cam'),'Камера');
+  const rv=$('#remoteV'),can=typeof rv.setSinkId==='function';
+  fill('#spkSel','audiooutput',rv.sinkId||pref('spk'),'Динамик');
+  if(!can)$('#spkSel').disabled=true;
+  $('#spkNote').textContent=can?'':'В этом браузере выбор динамиков недоступен. Звук идёт на устройство по умолчанию.';
+}
+async function openDev(){if(!call)return;$('#devPanel').classList.add('show');await refreshDevices()}
+function closeDev(){$('#devPanel').classList.remove('show')}
+async function pickMic(id){
+  const c=call;if(!c||!id)return;
+  try{
+    const s=await navigator.mediaDevices.getUserMedia({audio:{deviceId:{exact:id},echoCancellation:true,noiseSuppression:true,autoGainControl:true}});
+    const nt=s.getAudioTracks()[0];if(!nt)return;
+    if(call!==c){nt.stop();return}
+    const old=c.local.getAudioTracks()[0];
+    nt.enabled=old?old.enabled:true;
+    if(old){c.local.removeTrack(old);old.stop()}
+    c.local.addTrack(nt);
+    if(c.aTx)await c.aTx.sender.replaceTrack(nt);
+    pref('mic',id);syncUI();pushMedia();toast('Микрофон выбран');
+  }catch(e){toast('Не удалось переключить микрофон');refreshDevices()}
+}
+async function pickCam(id){
+  const c=call;if(!c||!id)return;
+  try{
+    const s=await navigator.mediaDevices.getUserMedia({video:{deviceId:{exact:id},width:{ideal:1280},height:{ideal:720}}});
+    const nt=s.getVideoTracks()[0];if(!nt)return;
+    if(call!==c){nt.stop();return}
+    const old=c.local.getVideoTracks()[0];
+    if(old){c.local.removeTrack(old);old.stop()}
+    c.local.addTrack(nt);
+    if(c.vTx&&!c.sharing)await c.vTx.sender.replaceTrack(nt);
+    const lv=$('#localV');lv.srcObject=null;lv.srcObject=c.local;
+    pref('cam',id);syncUI();pushMedia();toast('Камера выбрана');
+  }catch(e){toast('Не удалось переключить камеру');refreshDevices()}
+}
+async function pickSpk(id){
+  const rv=$('#remoteV');
+  if(typeof rv.setSinkId!=='function')return;
+  try{await rv.setSinkId(id);pref('spk',id);toast('Звук переключён')}catch(e){toast('Не удалось выбрать устройство вывода звука')}
+}
+function applySpeakerPref(){const id=pref('spk'),rv=$('#remoteV');if(id&&typeof rv.setSinkId==='function')rv.setSinkId(id).catch(()=>{})}
+if(navigator.mediaDevices&&navigator.mediaDevices.addEventListener)navigator.mediaDevices.addEventListener('devicechange',()=>{if($('#devPanel').classList.contains('show'))refreshDevices()});
+
+/* ---- показ экрана ---- */
+const DR={strokes:new Map(),order:[],color:'#ff3b30',size:1,marker:false,cur:null,sendSt:null,sent:0,timer:null,rect:null};
+const DR_SIZES=[0.003,0.006,0.012];
+const shareActive=()=>!!(call&&(call.sharing||call.remoteSharing));
+const canDraw=()=>!!(call&&(call.sharing||(call.remoteSharing&&call.drawOk)));
+function sendDraw(ev){if(call&&call.exId&&!call.demo)DB.pushDraw(call.exId,ev).catch(()=>{})}
+async function startShare(){
+  const c=call;if(!c)return;
+  if(c.sharing)return stopShare();
+  if(!c.connected)return toast('Дождитесь, пока звонок соединится');
+  if(c.remoteSharing)return toast('Собеседник уже показывает экран');
+  if(!(navigator.mediaDevices&&navigator.mediaDevices.getDisplayMedia))return toast('Показ экрана работает на компьютере в Chrome, Edge или Firefox. На телефоне он недоступен.');
+  if(c.shareBusy)return;
+  c.shareBusy=true;
+  let stream=null;
+  try{stream=await navigator.mediaDevices.getDisplayMedia({video:{frameRate:{ideal:15,max:30}},audio:false})}
+  catch(e){c.shareBusy=false;if(!e||e.name!=='NotAllowedError')toast('Не удалось начать показ экрана');return}
+  const t=stream.getVideoTracks()[0];
+  const fail=m=>{try{stream.getTracks().forEach(x=>x.stop())}catch(e){}c.shareBusy=false;if(m)toast(m)};
+  if(call!==c||!t)return fail();
+  if(c.exId&&!c.demo){
+    let ok=false;
+    try{ok=await DB.callShareStart(c.exId,state.user.id)}catch(e){return fail('Не удалось начать показ экрана')}
+    if(!ok)return fail('Собеседник уже показывает экран');
+    if(call!==c){DB.callShareStop(c.exId,state.user.id).catch(()=>{});return fail()}
+    DB.callResetDraw(c.exId).catch(()=>{});
+  }
+  try{try{t.contentHint='detail'}catch(e){}if(c.vTx)await c.vTx.sender.replaceTrack(t)}
+  catch(e){if(c.exId&&!c.demo)DB.callShareStop(c.exId,state.user.id).catch(()=>{});return fail('Не удалось передать экран')}
+  c.screen=stream;c.sharing=true;c.shareBusy=false;c.drawOk=false;c.drawReq=0;c.drawing=false;
+  t.onended=()=>{if(call===c&&c.sharing)stopShare()};
+  const sv=$('#shareV');sv.srcObject=stream;const p=sv.play();if(p&&p.catch)p.catch(()=>{});
+  drawResetLocal();syncUI();applyShareUI();
+  toast('Вы показываете экран');
+}
+async function stopShare(){
+  const c=call;if(!c||!c.sharing)return;
+  c.sharing=false;c.drawing=false;
+  const s=c.screen;c.screen=null;
+  if(s)s.getTracks().forEach(t=>{t.onended=null;t.stop()});
+  $('#shareV').srcObject=null;
+  const cam=c.local.getVideoTracks()[0]||null;
+  try{if(c.vTx)await c.vTx.sender.replaceTrack(cam)}catch(e){}
+  if(c.exId&&!c.demo)DB.callShareStop(c.exId,state.user.id).catch(()=>{});
+  drawResetLocal();syncUI();applyShareUI();
+}
+function toggleShare(){if(!call)return;if(call.sharing)stopShare();else startShare()}
+function handleShareData(d){
+  const k=call;if(!k||!d)return;
+  const sh=d.share;let changed=false;
+  const rs=!!(sh&&sh.on&&sh.by===k.otherId);
+  if(k.sharing&&rs){stopShare();return}
+  if(rs!==!!k.remoteSharing){k.remoteSharing=rs;changed=true;drawResetLocal();if(!rs)k.drawing=false;toast(rs?'Собеседник показывает экран':'Показ экрана остановлен')}
+  const ok=!!d.drawOk;
+  if(ok!==!!k.drawOk){k.drawOk=ok;changed=true;if(k.remoteSharing)toast(ok?'Вам разрешили рисовать на экране':'Рисование выключено')}
+  const req=(d.drawReq&&d.drawReq.by===k.otherId)?d.drawReq.ts:0;
+  if(req!==(k.drawReq||0)){k.drawReq=req;changed=true;if(req&&k.sharing&&!k.drawOk)toast('Собеседник просит разрешение рисовать')}
+  if(changed){syncUI();applyShareUI()}
+}
+function applyShareUI(){
+  const c=call,st=$('#coStage');if(!st)return;
+  const rs=!!(c&&c.remoteSharing),ls=!!(c&&c.sharing);
+  st.classList.toggle('rs',rs);st.classList.toggle('ls',ls);
+  if(c&&(!(rs||ls)||!canDraw()))c.drawing=false;
+  const drawing=!!(c&&c.drawing);
+  const sb=$('#shareBtn'),db=$('#drawBtn');
+  sb.classList.toggle('act',ls);sb.title=ls?'Остановить показ экрана':'Показать экран';
+  db.style.display=(rs||ls)?'':'none';db.classList.toggle('act',drawing);
+  db.title=canDraw()?'Рисовать на экране':'Попросить разрешение рисовать';
+  $('#drawC').classList.toggle('live',drawing);
+  $('#drawBar').style.display=drawing?'flex':'none';
+  const bar=$('#shareBar');
+  if(!(rs||ls)){bar.style.display='none';bar.innerHTML=''}
+  else{
+    bar.style.display='flex';
+    if(ls){
+      let h='<span>Вы показываете экран</span><button class="sb-btn ghost" onclick="window.__toggleDrawPerm()">Собеседник рисует: '+(c.drawOk?'да':'нет')+'</button>';
+      if(c.drawReq&&!c.drawOk)h+='<span class="sb-ask">Просит рисовать</span><button class="sb-btn" onclick="window.__answerDraw(true)">Разрешить</button><button class="sb-btn ghost" onclick="window.__answerDraw(false)">Отклонить</button>';
+      h+='<button class="sb-btn red" onclick="window.__toggleShare()">Остановить</button>';
+      bar.innerHTML=h;
+    }else bar.innerHTML='<span>Собеседник показывает экран</span>'+(c.drawOk?'<span class="sb-ok">Вам можно рисовать</span>':'<span class="sb-mut">Рисовать можно с разрешения</span>');
+  }
+  updateDrawBar();layoutDraw();
+}
+function toggleDrawPerm(){
+  const c=call;if(!c||!c.sharing)return;
+  const v=!c.drawOk;c.drawOk=v;
+  if(v)c.drawReq=0;
+  if(c.exId&&!c.demo)DB.callDrawAllow(c.exId,v).catch(()=>{});
+  toast(v?'Собеседнику разрешено рисовать':'Рисование для собеседника выключено');
+  applyShareUI();
+}
+function answerDraw(ok){
+  const c=call;if(!c||!c.sharing)return;
+  if(ok){c.drawOk=true;c.drawReq=0;if(c.exId&&!c.demo)DB.callDrawAllow(c.exId,true).catch(()=>{})}
+  else{c.drawReq=0;if(c.exId&&!c.demo)DB.callDrawReq(c.exId,null).catch(()=>{})}
+  applyShareUI();
+}
+function toggleDrawing(){
+  const c=call;if(!c||!shareActive())return;
+  if(!canDraw()){
+    if(c.remoteSharing&&c.exId&&!c.demo){DB.callDrawReq(c.exId,{by:state.user.id,ts:Date.now()}).catch(()=>{});toast('Просьба отправлена. Ждём разрешения собеседника.')}
+    return;
+  }
+  c.drawing=!c.drawing;applyShareUI();
+}
+
+/* ---- рисование поверх экрана ---- */
+function drawVideoEl(){return call&&call.sharing?$('#shareV'):$('#remoteV')}
+function layoutDraw(){
+  const cv=$('#drawC'),st=$('#coStage');if(!cv||!st)return;
+  if(!shareActive()){DR.rect=null;return}
+  const v=drawVideoEl(),vw=v.videoWidth,vh=v.videoHeight;
+  if(!vw||!vh||!st.clientWidth||!st.clientHeight){DR.rect=null;return}
+  const bw=st.clientWidth,bh=st.clientHeight,s=Math.min(bw/vw,bh/vh);
+  const w=Math.max(1,Math.round(vw*s)),h=Math.max(1,Math.round(vh*s));
+  const x=Math.round((bw-w)/2),y=Math.round((bh-h)/2),dpr=Math.min(window.devicePixelRatio||1,2);
+  cv.style.left=x+'px';cv.style.top=y+'px';cv.style.width=w+'px';cv.style.height=h+'px';
+  const pw=Math.round(w*dpr),ph=Math.round(h*dpr);
+  if(cv.width!==pw)cv.width=pw;
+  if(cv.height!==ph)cv.height=ph;
+  DR.rect={w,h,dpr};redrawAll();
+}
+function paintStroke(g,st,from){
+  const r=DR.rect,p=st.pts;if(!r||!p.length)return;
+  g.save();g.scale(r.dpr,r.dpr);
+  g.lineCap='round';g.lineJoin='round';g.strokeStyle=st.c;g.lineWidth=Math.max(1,st.w*r.w*(st.m?3:1));g.globalAlpha=st.m?0.38:1;
+  g.beginPath();
+  g.moveTo(p[from][0]*r.w,p[from][1]*r.h);
+  if(p.length-from===1)g.lineTo(p[from][0]*r.w+0.01,p[from][1]*r.h);
+  for(let i=from+1;i<p.length;i++)g.lineTo(p[i][0]*r.w,p[i][1]*r.h);
+  g.stroke();g.restore();
+}
+function redrawAll(){
+  const cv=$('#drawC');if(!cv||!DR.rect)return;
+  const g=cv.getContext('2d');g.clearRect(0,0,cv.width,cv.height);
+  DR.order.forEach(id=>{const st=DR.strokes.get(id);if(st){paintStroke(g,st,0);st.n=st.pts.length}});
+}
+function paintNew(st){
+  const cv=$('#drawC');if(!cv||!DR.rect)return;
+  if(st.m){redrawAll();return}
+  const g=cv.getContext('2d');paintStroke(g,st,Math.max(0,(st.n||1)-1));st.n=st.pts.length;
+}
+function drawResetLocal(){
+  DR.strokes.clear();DR.order=[];DR.cur=null;DR.sendSt=null;DR.sent=0;clearTimeout(DR.timer);DR.timer=null;
+  const cv=$('#drawC');if(cv&&cv.width){const g=cv.getContext('2d');g.clearRect(0,0,cv.width,cv.height)}
+}
+function authorized(u){
+  const k=call;if(!k)return false;
+  const sh=k.sharing?state.user.id:(k.remoteSharing?k.otherId:null);
+  if(!sh)return false;
+  return u===sh||!!k.drawOk;
+}
+function onDrawEv(ev){
+  if(!call||!ev||ev.u===state.user.id||!authorized(ev.u))return;
+  if(ev.k==='x'){DR.strokes.clear();DR.order=[];redrawAll();return}
+  if(ev.k==='u'){if(DR.strokes.delete(ev.s)){DR.order=DR.order.filter(i=>i!==ev.s);redrawAll()}return}
+  if(ev.k==='p'&&ev.s&&Array.isArray(ev.p)){
+    let st=DR.strokes.get(ev.s);
+    if(!st){st={id:ev.s,u:ev.u,c:String(ev.c||'#ff3b30').slice(0,9),w:Math.min(0.05,Math.max(0.001,+ev.w||0.006)),m:!!ev.m,pts:[],n:0};DR.strokes.set(ev.s,st);DR.order.push(ev.s)}
+    if(st.pts.length>4000)return;
+    for(let i=0;i+1<ev.p.length;i+=2)st.pts.push([Math.min(1,Math.max(0,ev.p[i]/10000)),Math.min(1,Math.max(0,ev.p[i+1]/10000))]);
+    paintNew(st);
+  }
+}
+function evPoint(e){const b=$('#drawC').getBoundingClientRect();return[Math.min(1,Math.max(0,(e.clientX-b.left)/(b.width||1))),Math.min(1,Math.max(0,(e.clientY-b.top)/(b.height||1)))]}
+function flushDraw(){
+  clearTimeout(DR.timer);DR.timer=null;
+  const st=DR.sendSt;if(!st||st.pts.length<=DR.sent)return;
+  const arr=[];st.pts.slice(DR.sent).forEach(p=>arr.push(Math.round(p[0]*10000),Math.round(p[1]*10000)));
+  DR.sent=st.pts.length;
+  sendDraw({k:'p',s:st.id,u:st.u,c:st.c,w:st.w,m:st.m?1:0,p:arr});
+}
+function drawDown(e){
+  if(!call||!DR.rect||!call.drawing||!canDraw())return;
+  if(e.pointerType==='mouse'&&e.button!==0)return;
+  e.preventDefault();
+  try{$('#drawC').setPointerCapture(e.pointerId)}catch(x){}
+  const id=state.user.id.slice(0,5)+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  const st={id,u:state.user.id,c:DR.color,w:DR_SIZES[DR.size],m:DR.marker,pts:[evPoint(e)],n:0};
+  DR.strokes.set(id,st);DR.order.push(id);DR.cur=st;DR.sendSt=st;DR.sent=0;
+  paintNew(st);
+  DR.timer=setTimeout(flushDraw,70);
+}
+function drawMove(e){
+  const st=DR.cur;if(!st)return;
+  e.preventDefault();
+  const list=(e.getCoalescedEvents&&e.getCoalescedEvents().length)?e.getCoalescedEvents():[e];
+  let added=false;
+  for(const ev of list){
+    const p=evPoint(ev),q=st.pts[st.pts.length-1];
+    if(Math.abs(p[0]-q[0])+Math.abs(p[1]-q[1])<0.0012)continue;
+    if(st.pts.length<4000){st.pts.push(p);added=true}
+  }
+  if(added){paintNew(st);if(!DR.timer)DR.timer=setTimeout(flushDraw,70)}
+}
+function drawUp(e){
+  if(!DR.cur)return;
+  try{$('#drawC').releasePointerCapture(e.pointerId)}catch(x){}
+  flushDraw();DR.cur=null;DR.sendSt=null;
+}
+function drawUndo(){
+  if(!call||!canDraw())return;
+  for(let i=DR.order.length-1;i>=0;i--){
+    const id=DR.order[i],st=DR.strokes.get(id);
+    if(st&&st.u===state.user.id){DR.strokes.delete(id);DR.order.splice(i,1);redrawAll();sendDraw({k:'u',s:id,u:state.user.id});return}
+  }
+}
+function drawClear(){
+  if(!call||!canDraw())return;
+  DR.strokes.clear();DR.order=[];redrawAll();sendDraw({k:'x',u:state.user.id});
+}
+function updateDrawBar(){
+  $('#dbPen').classList.toggle('on',!DR.marker);$('#dbMark').classList.toggle('on',DR.marker);
+  document.querySelectorAll('#drawBar .dc').forEach(b=>b.classList.toggle('on',b.dataset.c===DR.color));
+  document.querySelectorAll('#drawBar .ds').forEach(b=>b.classList.toggle('on',+b.dataset.s===DR.size));
+}
+function callUiInit(){
+  const c=call;if(!c)return;
+  c.drawing=false;c.drawOk=false;c.drawReq=0;c.remoteSharing=false;c.sharing=false;
+  drawResetLocal();fillWho(c.otherId);applySpeakerPref();
+  $('#shareBtn').style.display=(navigator.mediaDevices&&navigator.mediaDevices.getDisplayMedia)?'':'none';
+  if(c.exId&&!c.demo)c.unsubs.push(DB.watchDraw(c.exId,onDrawEv));
+  applyShareUI();
+}
+(function(){
+  const st=$('#coStage'),cv=$('#drawC');
+  if(window.ResizeObserver&&st)new ResizeObserver(()=>{if(call)layoutDraw()}).observe(st);
+  ['#remoteV','#shareV'].forEach(s=>{const v=$(s);if(v){v.addEventListener('resize',()=>{if(call)layoutDraw()});v.addEventListener('loadedmetadata',()=>{if(call)layoutDraw()})}});
+  cv.addEventListener('pointerdown',drawDown);cv.addEventListener('pointermove',drawMove);
+  cv.addEventListener('pointerup',drawUp);cv.addEventListener('pointercancel',drawUp);
+  window.addEventListener('orientationchange',()=>setTimeout(()=>{if(call)layoutDraw()},350));
+})();
+window.__openDev=openDev;window.__closeDev=closeDev;window.__pickMic=pickMic;window.__pickCam=pickCam;window.__pickSpk=pickSpk;
+window.__toggleShare=toggleShare;window.__toggleDraw=toggleDrawing;window.__toggleDrawPerm=toggleDrawPerm;window.__answerDraw=answerDraw;
+window.__drawTool=m=>{DR.marker=!!m;updateDrawBar()};window.__drawColor=c=>{DR.color=c;updateDrawBar()};window.__drawSize=i=>{DR.size=i;updateDrawBar()};
+window.__drawUndo=drawUndo;window.__drawClear=drawClear;
+
+window.__startCall=startCall;window.__acceptCall=acceptCall;window.__declineCall=declineCall;
+window.__hangup=()=>hangup(true);
+window.__toggleMic=toggleMic;window.__toggleCam=toggleCam;
+window.__joinWaitlist=joinWaitlist;window.__togglePlus=togglePlus;
+
+/* ---- поле курсора, расшифровка текста, наклон карточек, заставка ---- */
+const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const coarse=matchMedia('(hover: none) and (pointer: coarse)').matches;
+if(!coarse&&!reducedMotion){
+  let tx=0,ty=0,x=0,y=0,lx=0,ly=0,seen=false,last=performance.now();
+  const rs=document.documentElement.style;
+  addEventListener('pointermove',e=>{tx=e.clientX;ty=e.clientY;if(!seen){x=lx=tx;y=ly=ty;seen=true}});
+  const tick=now=>{
+    const dt=now-last;last=now;
+    if(seen){
+      const k=1-Math.pow(1-.12,dt/16.67),k2=1-Math.pow(1-.045,dt/16.67);
+      x+=(tx-x)*k;y+=(ty-y)*k;lx+=(tx-lx)*k2;ly+=(ty-ly)*k2;
+      rs.setProperty('--pointer-x',x.toFixed(1)+'px');rs.setProperty('--pointer-y',y.toFixed(1)+'px');
+      rs.setProperty('--pointer-lag-x',lx.toFixed(1)+'px');rs.setProperty('--pointer-lag-y',ly.toFixed(1)+'px');
+    }
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+  app.addEventListener('pointermove',e=>{
+    const c=e.target.closest('.card');if(!c)return;
+    const r=c.getBoundingClientRect(),px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;
+    c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px');c.style.transform=`perspective(900px) rotateX(${(-py*6).toFixed(2)}deg) rotateY(${(px*8).toFixed(2)}deg)`;
+  });
+  app.addEventListener('pointerout',e=>{const c=e.target.closest('.card');if(c&&!c.contains(e.relatedTarget))c.style.transform=''});
+}
+function screenDemoChat(){
+  if(!isAdmin()){location.hash='#/chats';return}
+  const done=localStorage.getItem('obmen-demo-done')==='1';
+  const msgs=[['in','Привет! Я по объявлению про гитару. Когда удобно созвониться?','19:02'],['out','Привет! Давай сегодня в 20:00, я как раз освобожусь.','19:04'],['in','Отлично, в 20:00 жми «Позвонить по видео».','19:05'],...(done?[['out','Спасибо за занятие! Всё получилось 👍','19:42'],['in','Взаимно! Было понятно и удобно. До встречи!','19:43']]:[])];
+  app.innerHTML=`<div class="view active">
+    <a href="#/chats" class="btn btn-ghost btn-sm" style="margin-bottom:12px">← К чатам</a>
+    <div class="chat">
+      <div class="chat-head"><span class="avatar-md">Т</span><div class="chat-head-info"><div class="chat-head-title">Тестовый партнёр <span class="verified-badge">✓ демо</span></div><div class="chat-head-sub">Уроки гитары за уроки английского</div></div></div>
+      <div class="chat-body" id="chatBody">${msgs.map(m=>`<div class="msg msg-${m[0]}">${esc(m[1])}<span class="msg-time">${m[2]}</span></div>`).join('')}</div>
+      <form class="chat-input" onsubmit="window.__demoSend(event)"><input type="text" id="chatInput" placeholder="Написать сообщение…" maxlength="300" autocomplete="off"><button class="btn btn-primary" type="submit">Отправить</button></form>
+      <div class="video-zone">
+        <div class="video-zone-head">Демонстрация видеозвонка</div>
+        <div class="demo-flow"><div class="demo-step"><strong>1. Договорились</strong>Чат → время → видеозвонок</div><div class="demo-step"><strong>2. Провели занятие</strong>Камера, микрофон и показ экрана</div><div class="demo-step"><strong>3. Завершили</strong>Оба подтверждают результат</div><div class="demo-step"><strong>4. Получили балл</strong>Обмен закрывается дружелюбным итогом</div></div>
+        ${done?`<div class="demo-finished"><b>✓ Обмен завершён</b><div style="margin-top:4px;color:var(--muted);font-size:13px">Оба участника подтвердили занятие. Начислено по 1 баллу.</div></div>`:`<div class="call-actions"><button class="btn btn-primary" onclick="window.__demoCall(true)">Позвонить по видео</button><button class="btn btn-outline" onclick="window.__demoCall(false)">Без камеры</button></div><div class="call-state">Демонстрационный режим: второй участник имитируется интерфейсом, реальные WebRTC-возможности сайта остаются доступны в обычном обмене.</div>`}
+      </div>
+    </div></div>`;
+}
+function demoSend(e){
+  e.preventDefault();
+  const inp=$('#chatInput'),t=inp.value.trim();if(!t)return;
+  const body=$('#chatBody'),now=new Date().toTimeString().slice(0,5);
+  body.insertAdjacentHTML('beforeend',`<div class="msg msg-out">${esc(t)}<span class="msg-time">${now}</span></div>`);
+  inp.value='';body.scrollTop=body.scrollHeight;
+  setTimeout(()=>{body.insertAdjacentHTML('beforeend',`<div class="msg msg-in">Принято! Это тестовый ответ.<span class="msg-time">${new Date().toTimeString().slice(0,5)}</span></div>`);body.scrollTop=body.scrollHeight},900);
+}
+async function demoCall(withVideo=true){
+  if(call)return;
+  try{
+    const local=await getLocal(withVideo);
+    noteLocal(local,withVideo);
+    openOverlay(local,'Демонстрация · соединение установлено');
+    $('#remoteV').srcObject=local;
+    const t0=Date.now(),fake={sender:{replaceTrack:async()=>{}}};
+    call={pc:{close(){}},local,exId:null,otherId:null,pending:[],unsubs:[],demo:true,connected:true,aTx:fake,vTx:fake,
+      timer:setInterval(()=>{$('#callTime').textContent=fmtT(Math.floor((Date.now()-t0)/1000))},1000)};
+    callUiInit();syncUI();
+  }catch(e){toast(e.message);hangup(false)}
+}
+window.__demoSend=demoSend;window.__demoCall=demoCall;
+
+/* ---- 3D-сцена: два сцепленных кольца (символ обмена) ---- */
+let sceneMode='hero';
+const setSceneMode=()=>{const s=location.hash.replace(/^#/,'');sceneMode=(s===''||s==='/')?'hero':'ambient'};
+setSceneMode();
+const FRAG=`varying vec2 vUv;uniform float uTime;uniform vec2 uMouse;uniform float uScroll;uniform float uAspect;
+float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+float noise(vec2 p){vec2 i=floor(p),f=fract(p);vec2 u=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1.,0.)),u.x),mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.,1.)),u.x),u.y);}
+float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*noise(p);p*=2.03;a*=.5;}return v;}
+void main(){
+  vec2 uv=vUv;vec2 p=(uv-.5)*vec2(uAspect,1.)*2.2+uMouse*.18;
+  float t=uTime*.05;
+  vec2 q=vec2(fbm(p+t),fbm(p+vec2(5.2,1.3)-t));
+  float f=fbm(p+3.*q+vec2(1.7,9.2)+uScroll*.25);
+  vec3 c1=vec3(.30,.18,1.),c2=vec3(0.,.76,1.),c3=vec3(.95,.2,.6);
+  vec3 col=mix(c1,c2,smoothstep(.3,.8,f));
+  col=mix(col,c3,smoothstep(.55,.95,q.x)*.5);
+  float vig=smoothstep(1.3,.15,length(uv-.5)*1.5);
+  float a=pow(f,2.3)*.6*vig;
+  gl_FragColor=vec4(col*a,a);
+}`;
+async function initScene(){
+  const cv=$('#bg3d');
+  if(!cv||reducedMotion||coarse||(navigator.connection&&navigator.connection.saveData))return;
+  try{
+    const THREE=await import('three');
+    const {RoomEnvironment}=await import('three/addons/environments/RoomEnvironment.js');
+    const weak=(navigator.hardwareConcurrency||4)<=4||coarse;
+    const renderer=new THREE.WebGLRenderer({canvas:cv,antialias:!weak,alpha:true,powerPreference:'high-performance'});
+    renderer.setPixelRatio(Math.min(devicePixelRatio,weak?1:1.6));
+    renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.1;
+    const scene=new THREE.Scene();
+    const cam=new THREE.PerspectiveCamera(40,1,.1,80);cam.position.z=6;
+    scene.environment=new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(),.04).texture;
+    const bgMat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,
+      uniforms:{uTime:{value:0},uMouse:{value:new THREE.Vector2()},uScroll:{value:0},uAspect:{value:1}},
+      vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
+      fragmentShader:FRAG});
+    const bg=new THREE.Mesh(new THREE.PlaneGeometry(1,1),bgMat);bg.position.z=-9;scene.add(bg);
+    const mat=new THREE.MeshPhysicalMaterial({color:0x0a0a0c,metalness:1,roughness:.16,clearcoat:1,clearcoatRoughness:.08,iridescence:1,iridescenceIOR:1.4,envMapIntensity:1.7});
+    const orbMat=new THREE.MeshPhysicalMaterial({color:0xffffff,metalness:1,roughness:.06,envMapIntensity:1.6});
+    const g=new THREE.Group();scene.add(g);
+    const geo=new THREE.TorusGeometry(1,.2,96,220);
+    const a=new THREE.Mesh(geo,mat);a.position.x=-.62;
+    const b=new THREE.Mesh(geo,mat);b.position.x=.62;b.rotation.x=Math.PI/2;
+    g.add(a,b);
+    const orbs=[],orbGeo=new THREE.SphereGeometry(.075,32,32);
+    for(let i=0;i<7;i++){const o=new THREE.Mesh(orbGeo,orbMat);o.userData={r:1.9+i*.26,sp:.22+i*.06,ph:i*1.3};g.add(o);orbs.push(o)}
+    const l1=new THREE.PointLight(0x7c5cff,50,22);l1.position.set(-3,2,3);
+    const l2=new THREE.PointLight(0x39d0ff,40,22);l2.position.set(3,-2,2);
+    scene.add(l1,l2);
+    const N=weak?300:600,pos=new Float32Array(N*3);
+    for(let i=0;i<N;i++){pos[i*3]=(Math.random()-.5)*28;pos[i*3+1]=(Math.random()-.5)*16;pos[i*3+2]=-Math.random()*8}
+    const pg=new THREE.BufferGeometry();pg.setAttribute('position',new THREE.BufferAttribute(pos,3));
+    const pts=new THREE.Points(pg,new THREE.PointsMaterial({color:0xffffff,size:.026,transparent:true,opacity:.6,depthWrite:false}));
+    scene.add(pts);
+    const resize=()=>{
+      renderer.setSize(innerWidth,innerHeight,false);cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();
+      const hh=2*Math.tan(THREE.MathUtils.degToRad(20))*(cam.position.z+9);
+      bg.scale.set(hh*cam.aspect*1.08,hh*1.08,1);bgMat.uniforms.uAspect.value=cam.aspect;
+    };
+    resize();addEventListener('resize',resize);
+    let mx=0,my=0;addEventListener('pointermove',e=>{mx=e.clientX/innerWidth*2-1;my=e.clientY/innerHeight*2-1});
+    const cur={x:0,y:0,s:1,rx:0,ry:0,mx:0,my:0};let last=performance.now();
+    const loop=now=>{
+      requestAnimationFrame(loop);
+      if(document.hidden||window.__callActive)return;
+      const dt=Math.min(.05,(now-last)/1000);last=now;
+      const hh=Math.tan(THREE.MathUtils.degToRad(20))*cam.position.z,hw=hh*cam.aspect,narrow=cam.aspect<1;
+      let tx,ty,ts;
+      if(sceneMode==='hero'){tx=narrow?0:hw*.5;ty=narrow?hh*.52:0;ts=narrow?.75:1.2}
+      else{tx=hw*.82;ty=hh*.64;ts=.3}
+      const k=1-Math.exp(-dt*3.2);
+      cur.x+=(tx-cur.x)*k;cur.y+=(ty-cur.y)*k;cur.s+=(ts-cur.s)*k;
+      cur.ry+=(mx*.7-cur.ry)*k;cur.rx+=(my*.45-cur.rx)*k;cur.mx+=(mx-cur.mx)*k;cur.my+=(my-cur.my)*k;
+      const sc=scrollY/innerHeight;
+      g.position.set(cur.x,cur.y+scrollY*.0009,0);
+      g.scale.setScalar(cur.s*(1+Math.sin(now/1800)*.015));
+      g.rotation.y+=dt*.35+sc*.002;
+      g.rotation.x=cur.rx+Math.sin(now/3000)*.15;
+      g.rotation.z=cur.ry*.4+scrollY*.0012;
+      const t=now/1000;
+      orbs.forEach(o=>{const u=o.userData;o.position.set(Math.cos(t*u.sp+u.ph)*u.r,Math.sin(t*u.sp*1.3+u.ph)*u.r*.35,Math.sin(t*u.sp+u.ph)*u.r*.8)});
+      pts.rotation.y=now/70000+cur.mx*.05;
+      bgMat.uniforms.uTime.value=t;bgMat.uniforms.uMouse.value.set(cur.mx,-cur.my);bgMat.uniforms.uScroll.value=sc;
+      renderer.render(scene,cam);
+    };
+    requestAnimationFrame(loop);
+    cv.classList.add('on');
+  }catch(e){}
+}
+initScene();
+/* курсор, магнитные кнопки, прогресс, счётчики */
+if(!coarse&&!reducedMotion){
+  const cur=document.createElement('div');cur.className='cursor';document.body.appendChild(cur);
+  let cx=-100,cy=-100,px=-100,py=-100;
+  addEventListener('pointermove',e=>{px=e.clientX;py=e.clientY;
+    cur.classList.toggle('big',!!e.target.closest('a,button,.card,.chip,.faq-item,.exchange'));});
+  const ct=()=>{cx+=(px-cx)*.2;cy+=(py-cy)*.2;cur.style.transform=`translate(${cx}px,${cy}px)`;requestAnimationFrame(ct)};
+  requestAnimationFrame(ct);
+  let mag=null;
+  document.addEventListener('pointermove',e=>{
+    const b=e.target.closest&&e.target.closest('.hero-actions .btn,.btn-lg');
+    if(mag&&mag!==b){mag.style.transform='';mag=null}
+    if(!b)return;mag=b;const r=b.getBoundingClientRect();
+    b.style.transform=`translate(${((e.clientX-r.left-r.width/2)*.22).toFixed(1)}px,${((e.clientY-r.top-r.height/2)*.3).toFixed(1)}px)`;
+  });
+}
+addEventListener('scroll',()=>{document.documentElement.style.setProperty('--sp',(scrollY/Math.max(1,document.documentElement.scrollHeight-innerHeight)).toFixed(4))},{passive:true});
+function countUp(el){
+  const to=+el.dataset.count||0,t0=performance.now(),d=1500;
+  const step=n=>{const p=Math.min(1,(n-t0)/d),e=1-Math.pow(1-p,4);el.textContent=Math.round(to*e).toLocaleString('ru-RU');if(p<1)requestAnimationFrame(step)};
+  requestAnimationFrame(step);
+}
+const cio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){cio.unobserve(e.target);countUp(e.target)}}),{threshold:.4});
+if(!reducedMotion&&!coarse)(async()=>{
+  try{
+    const m=await import('https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.mjs');
+    window.__lenis=new m.default({lerp:.09,smoothWheel:true});
+    const raf=t=>{window.__lenis.raf(t);requestAnimationFrame(raf)};
+    requestAnimationFrame(raf);
+  }catch(e){}
+})();
+
+/* ---- появление блоков и заголовков ---- */
+let armed=false,armTimer;
+const RV_SEL='.card,.feature,.step,.stat,.faq-item,.exchange,.review,.notif,.plan,.profile-card,.form-card,.detail,.section-head,.chip,.hero p,.hero-actions,.hero-badge,.empty';
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(!e.isIntersecting)return;
+  const el=e.target;io.unobserve(el);
+  el.style.transitionDelay=(el.__d||0)+'ms';el.classList.add('rv-in');
+  setTimeout(()=>{el.style.transitionDelay='';el.classList.add('rv-done')},1100+(el.__d||0));
+}),{threshold:.06,rootMargin:'0px 0px -5% 0px'});
+function splitWords(el){
+  if(el.__sw||el.children.length)return;
+  const words=el.textContent.trim().split(/\s+/).filter(Boolean);
+  if(!words.length)return;
+  el.__sw=1;el.setAttribute('aria-label',words.join(' '));el.textContent='';el.classList.add('sr');
+  words.forEach((w,i)=>{
+    const o=document.createElement('span');o.className='w';
+    const n=document.createElement('span');n.textContent=w;n.style.transitionDelay=(i*70)+'ms';
+    o.appendChild(n);el.appendChild(o);el.appendChild(document.createTextNode(' '));
+  });
+  requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('sr-in')));
+}
+function armReveal(){
+  if(reducedMotion)return;
+  armed=true;clearTimeout(armTimer);armTimer=setTimeout(()=>{armed=false},1400);
+  requestAnimationFrame(()=>{
+    let i=0;
+    app.querySelectorAll(RV_SEL).forEach(el=>{
+      if(el.__rv)return;el.__rv=1;el.classList.add('rv');el.__d=Math.min(i++,10)*70;io.observe(el);
+    });
+    app.querySelectorAll('.hero h1,.section-title,.dash-title,.form-title,.detail-title,.plan-title').forEach(splitWords);
+    app.querySelectorAll('[data-count]').forEach(el=>{if(!el.__cn){el.__cn=1;cio.observe(el)}});
+  });
+}
+new MutationObserver(()=>{if(armed)armReveal()}).observe(app,{childList:true});
+(()=>{
+  const n=$('#curtainN'),cur=$('#curtain'),t0=performance.now(),dur=reducedMotion?0:1100;
+  const finish=()=>{cur.classList.add('out');armReveal();setTimeout(()=>cur.remove(),1100)};
+  const tick=now=>{
+    const p=dur?Math.min(1,(now-t0)/dur):1;
+    n.textContent=String(Math.round(p*100)).padStart(3,'0');cur.style.setProperty('--p',p);
+    if(p<1)requestAnimationFrame(tick);
+    else Promise.resolve(document.fonts&&document.fonts.ready).then(finish);
+  };
+  requestAnimationFrame(tick);
+})();
+
+window.addEventListener('hashchange',()=>{
+  if(reducedMotion){route();setSceneMode();return}
+  app.classList.add('leaving');
+  setTimeout(()=>{
+    route();setSceneMode();
+    if(window.__lenis)window.__lenis.scrollTo(0,{immediate:true});else window.scrollTo(0,0);
+    app.classList.remove('leaving');
+    setTimeout(armReveal,40);
+  },200);
+});
+
+
+window.addEventListener('DOMContentLoaded',async()=>{
+  if('serviceWorker' in navigator){
+    const had=!!navigator.serviceWorker.controller;let rl=false;
+    navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!had||rl||window.__callActive)return;rl=true;location.reload()});
+    navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  }
+  let deferredPrompt=null;
+  window.addEventListener('beforeinstallprompt',e=>{
+    e.preventDefault();deferredPrompt=e;
+    $('#pwaPrompt').classList.add('show');
+  });
+  const pi=$('#pwaInstall');const pd=$('#pwaDismiss');
+  if(pi)pi.addEventListener('click',async()=>{
+    if(deferredPrompt){deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null}
+    $('#pwaPrompt').classList.remove('show');
+  });
+  if(pd)pd.addEventListener('click',()=>{$('#pwaPrompt').classList.remove('show');try{localStorage.setItem('iosHint','1')}catch(e){}});
+  try{
+    const ios=/iphone|ipad|ipod/i.test(navigator.userAgent),sta=navigator.standalone||matchMedia('(display-mode: standalone)').matches;
+    if(ios&&!sta&&!localStorage.getItem('iosHint')){
+      const pp=$('#pwaPrompt');pp.querySelector('span').textContent='Чтобы установить: нажмите «Поделиться», затем «На экран Домой»';
+      if(pi)pi.style.display='none';pp.classList.add('show');
+    }
+  }catch(e){}
+  const off=$('#offline'),net=()=>off.classList.toggle('show',!navigator.onLine);
+  addEventListener('online',net);addEventListener('offline',net);net();
+
+  DB.onAuthChange(async user=>{
+    if(user){
+      state.user=user;
+      try{
+        const rating=await new Promise(res=>{let done=false;const f=r=>{if(!done){done=true;res(r)}};const z={avg:0,count:0};setTimeout(()=>f(z),3000);try{DB.watchUserRating(user.id,f,()=>f(z))}catch(e){f(z)}});
+        user.rating=rating;
+        state.user=user;
+      }catch(e){}
+      if(state.unsubs.exchanges)state.unsubs.exchanges();
+      if(state.unsubs.notifs)state.unsubs.notifs();
+      state.unsubs.exchanges=DB.watchExchanges(user.id,list=>{state.exchanges=list;softRoute()});
+      state.unsubs.notifs=DB.watchNotifications(user.id,list=>{state.notifs=list;updateTitle();renderHeader()});
+    }else{
+      if(state.unsubs.exchanges){state.unsubs.exchanges();state.unsubs.exchanges=null}
+      if(state.unsubs.notifs){state.unsubs.notifs();state.unsubs.notifs=null}
+      state.exchanges=[];state.notifs=[];
+    }
+    updateTitle();
+    renderHeader();
+    route();
+  });
+
+  DB.watchListings(list=>{state.listings=list;softRoute()});
+
+  const refreshUsers=async()=>{
+    try{
+      const users=await DB.getAllUsers();
+      let rt={};try{rt=await DB.getAllRatings()}catch(e){}
+      users.forEach(u=>{u.rating=rt[u.id]||{avg:0,count:0}});
+      state.allUsers=users;
+      const me=state.user&&users.find(x=>x.id===state.user.id);if(me)state.user.plus=!!me.plus;
+    }catch(e){}
+  };
+  refreshUsers().then(()=>softRoute());
+  setInterval(()=>{if(!document.hidden)refreshUsers()},60000);document.addEventListener("visibilitychange",()=>{if(!document.hidden)refreshUsers()});
+
+  route();
+  setTimeout(()=>{if(!app.children.length){try{route()}catch(e){}}},4000);
+  setTimeout(()=>{if(!app.children.length)app.innerHTML=emptyBlock('!','Не удалось загрузить','Проверьте сеть и обновите страницу.','','')+'<div style="text-align:center"><button class="btn btn-primary" onclick="location.reload()">Обновить</button></div>'},9000);
+});
+</script>
+</body>
+</html>
